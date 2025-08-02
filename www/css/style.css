@@ -1,0 +1,227 @@
+/* =================== Hero Section =================== */
+.hero-section {
+    height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-image: url('../images/football-stadium-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    transform: translateZ(0);
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 2rem;
+}
+
+/* .hero-title-nuclear-minimal {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: minimalBlast 2s ease-out forwards;
+    transform: scale3d(0, 0, 1);
+    opacity: 0;
+    position: relative;
+    will-change: transform, opacity;
+} */
+
+.hero-title-nuclear-minimal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    position: relative;
+    opacity: 0;
+    animation: minimalBlast 1.5s ease-out forwards;
+}
+
+.word {
+    opacity: 0;
+    transform: scale(0.95);
+    animation: fadeInUp 1s ease-out forwards;
+}
+
+.word.nuclear {
+    color: #0fa0ce;
+    animation-delay: 0.5s;
+}
+
+.word.ff {
+    color: #ce0fa0;
+    animation-delay: 0.6s;
+}
+
+/* Animation to fade text into the page text reveal from below */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for text to appear with fade + zoom effect */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.hero-title-nuclear-minimal::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #0fa0ce 20%, #ce0fa0 50%, transparent 100%);
+    border-radius: 50%;
+    transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1);
+    animation: minimalWave 2s ease-out forwards;
+    z-index: -1;
+    will-change: transform, opacity;
+}
+
+@keyframes minimalBlast {
+    0% { transform: scale3d(0, 0, 1); opacity: 0; }
+    60% { transform: scale3d(1.10, 1.10, 1); opacity: 1; }
+    100% { transform: scale3d(1, 1, 1); opacity: 1; }
+}
+
+@keyframes minimalWave {
+    0% { transform: translate3d(-50%, -50%, 0) scale3d(0, 0, 1); opacity: 0.8; }
+    100% { transform: translate3d(-50%, -50%, 0) scale3d(1, 1, 1); opacity: 0; }
+}
+
+/* =================== Countdown Section =================== */
+.countdown-display {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 3rem;
+    margin: 2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateZ(0);
+    isolation: isolate;
+    opacity: 0.01;
+    animation: countdownAppear 1.2s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+@keyframes countdownAppear {
+    0% { opacity: 0.01; transform: translateY(20px) translateZ(0); }
+    100% { opacity: 1; transform: translateY(0) translateZ(0); }
+}
+
+.countdown-text {
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    animation: isolatedPulse 2.5s infinite;
+    transform-origin: center center;
+    display: inline-block;
+    padding: 0.5rem;
+}
+
+@keyframes isolatedPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@media (max-width: 768px) {
+    .countdown-text { font-size: 2rem; }
+    .countdown-display { padding: 2rem; min-height: 180px; }
+}
+
+@media (max-width: 480px) {
+    .countdown-text { font-size: 1.5rem; white-space: nowrap; }
+    .countdown-display { padding: 1.5rem; margin: 1rem 0; min-height: 150px; }
+}
+
+@media (max-width: 320px) {
+    .countdown-text { font-size: 1.2rem; }
+    .countdown-display { min-height: 130px; }
+}
+
+/* =================== Navbar =================== */
+.navbar-custom {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    padding: 2px 5px !important;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav,
+.navbar-custom .container-fluid {
+    padding: 0 !important;
+}
+
+/* =================== Social Icons =================== */
+.social-links a {
+    color: white !important;
+    margin: 0 0.5rem;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.social-links a:hover {
+    transform: translateY(-2px) scale(1.1);
+    color: #ce0fa0 !important;
+    text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3);
+}
+
+.social-links a:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* =================== Utility =================== */
+.fade-in {
+    animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
