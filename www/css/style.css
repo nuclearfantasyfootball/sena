@@ -196,7 +196,7 @@
 
 /* =================== Social Icons =================== */
 .social-links a {
-    color: white !important;
+    color: white;
     margin: 0 0.5rem;
     font-size: 1.5rem;
     text-decoration: none;
@@ -204,11 +204,24 @@
     display: inline-block;
 }
 
+/* Keep the motion the same for both */
 .social-links a:hover {
-    transform: translateY(-2px) scale(1.1);
-    color: #ce0fa0 !important;
-    text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3);
+  transform: translateY(-2px) scale(1.1);
 }
+
+/* Theme-specific hover color */
+.nff-dark .social-links a:hover {
+  color: #ce0fa0; /* magenta in dark */
+  text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3);
+  transform: translateY(-2px) scale(1.1);
+}
+
+.nff-light .social-links a:hover {
+  color: #0fa0ce; /* cyan in light */
+  text-shadow: 0 4px 8px rgba(15, 160, 206, 0.3);
+  transform: translateY(-2px) scale(1.1);
+}
+
 
 .social-links a:focus {
     outline: 2px solid rgba(255, 255, 255, 0.5);

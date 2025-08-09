@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     initCountdown("2025-08-15T09:00:00-04:00"); // Set countdown target date
     initNavbarBehavior();
-    console.log("NuclearFF frontend ready 🚀");
+    console.log("NuclearFF Frontend Launched 🚀");
 });
 
 /**
