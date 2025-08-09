@@ -238,3 +238,30 @@
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
 }
+/* --- Light theme: solid black navbar & readable tab hovers --- */
+.nff-light .navbar {
+  background-color: #000 !important;   /* full black */
+  backdrop-filter: none;                /* remove blur so it looks solid */
+  /* Make Bootstrap's navbar vars light-on-dark */
+  --bs-navbar-color: #fff;
+  --bs-navbar-hover-color: #fff;
+  --bs-navbar-active-color: #0fa0ce;    /* keep your cyan active in light */
+}
+
+/* Ensure links use white by default and on hover in light theme */
+.nff-light .navbar .nav-link {
+  color: #fff !important;
+}
+.nff-light .navbar .nav-link:hover,
+.nff-light .navbar .nav-link:focus {
+  color: #fff !important;
+}
+
+/* Keep your existing active colors:
+   light = cyan, dark = magenta (already defined in app.R) */
+.nff-light .navbar .nav-link.active { color: #0fa0ce !important; }
+.nff-dark  .navbar .nav-link.active { color: #ce0fa0 !important; }
+
+/* (Optional) make the mobile toggler visible on black */
+.nff-light .navbar .navbar-toggler { border-color: rgba(255,255,255,.25); }
+.nff-light .navbar .navbar-toggler-icon { filter: invert(1); }
