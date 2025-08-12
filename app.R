@@ -283,6 +283,56 @@ ui <- tagList(
         opacity: 0.8;
         margin-top: 0.25rem;
       }
+
+      /* Force the list item to be a horizontal flex row */
+      .list-group .list-group-item.league-item {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 0.75rem !important;
+        padding: 0.5rem 0.75rem !important;
+      }
+
+      /* Make the logo a fixed-height inline graphic, ignoring any global img rules */
+      /* 1st-line 1.25rem + 2nd-line 1.15rem + small gap 0.15rem */
+      .list-group .list-group-item.league-item .league-logo {
+        height: calc(1.25rem + 1.15rem + 0.15rem) !important;
+        width: auto !important;
+        max-width: none !important;
+        display: inline-block !important;
+        flex: 0 0 auto !important;
+        object-fit: contain;
+      }
+
+
+      /* Text block stays compact and drives total height (≈ two lines) */
+      .list-group .list-group-item.league-item .league-copy {
+        flex: 1 1 auto;
+        min-width: 0;
+      }
+
+      .list-group .list-group-item.league-item .league-title {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.25rem;
+      }
+
+      .list-group .list-group-item.league-item .league-sub {
+        font-size: 0.9rem;
+        line-height: 1.15rem;
+        opacity: 0.85;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+
+
+
+      /* Preserve your theme colors on hover/active */
+      .nff-dark .league-item:hover { background-color: rgba(206, 15, 160, 0.08); }
+      .nff-light .league-item:hover { background-color: rgba(15, 160, 206, 0.08); }
+
     ")),
     tags$script(src = "js/main.js", defer = NA),
     # Remember theme preference across reloads
@@ -540,22 +590,22 @@ server <- function(input, output, session) {
               ),
               accordion_panel(
                 "Roster",
-                icon = bs_icon("gear"),
+                icon = bs_icon("person-fill-gear"),
                 md_file("www/md/redraft/redraft_roster.md")
               ),
               accordion_panel(
                 "Draft",
-                icon = bs_icon("gear"),
+                icon = bs_icon("table"),
                 md_file("www/md/redraft/redraft_draft.md")
               ),
               accordion_panel(
                 "Scoring",
-                icon = bs_icon("gear"),
+                icon = bs_icon("clipboard2-data"),
                 md_file("www/md/redraft/redraft_scoring.md")
               ),
               accordion_panel(
                 "Transactions",
-                icon = bs_icon("gear"),
+                icon = bs_icon("wallet2"),
                 md_file("www/md/redraft/redraft_transactions.md")
               )
             )
@@ -570,14 +620,23 @@ server <- function(input, output, session) {
               class = "list-group",
               tags$a(
                 href = "https://sleeper.com/leagues/1240509989819273216",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("Nuclear Football", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/redraft-logo.png",
+                  alt = "Nuclear Football",
+                  class = "league-logo"
                 ),
-                tags$p("$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025",
-                  class = "mb-1"
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("Nuclear Football", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025", class = "league-sub mb-0")
                 )
               )
             )
@@ -629,22 +688,22 @@ server <- function(input, output, session) {
               ),
               accordion_panel(
                 "Roster",
-                icon = bs_icon("gear"),
+                icon = bs_icon("person-fill-gear"),
                 md_file("www/md/dynasty/dynasty_roster.md")
               ),
               accordion_panel(
                 "Draft",
-                icon = bs_icon("gear"),
+                icon = bs_icon("table"),
                 md_file("www/md/dynasty/dynasty_draft.md")
               ),
               accordion_panel(
                 "Scoring",
-                icon = bs_icon("gear"),
+                icon = bs_icon("clipboard2-data"),
                 md_file("www/md/dynasty/dynasty_scoring.md")
               ),
               accordion_panel(
                 "Transactions",
-                icon = bs_icon("gear"),
+                icon = bs_icon("wallet2"),
                 md_file("www/md/dynasty/dynasty_transactions.md")
               )
             )
@@ -659,36 +718,71 @@ server <- function(input, output, session) {
               class = "list-group",
               tags$a(
                 href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF DYNASTY", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/dynasty-logo.png",
+                  alt = "NUCLEARFF DYNASTY",
+                  class = "league-logo"
                 ),
-                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
-                  class = "mb-1"
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("NUCLEAR DYNASTY", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX",
+                    class = "league-sub mb-0"
+                  )
                 )
               ),
               tags$a(
                 href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF DYNASTY 02", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-success", "STARTUP"))
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/dynasty-logo-2.png",
+                  alt = "NUCLEARFF DYNASTY 02",
+                  class = "league-logo"
                 ),
-                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX", class = "mb-1")
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("NUCLEAR DYNASTY 02", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-success", "STARTUP"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
+                    class = "league-sub mb-0"
+                  )
+                )
               ),
               tags$a(
                 href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF DYNASTY 03", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-warning", "ORPHAN"))
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/dynasty-logo-3.png",
+                  alt = "NUCLEARFF DYNASTY 03",
+                  class = "league-logo"
                 ),
-                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
-                  class = "mb-1"
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("NUCLEAR DYNASTY 03", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-warning", "ORPHAN"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX",
+                    class = "league-sub mb-0"
+                  )
                 )
               )
             )
@@ -707,12 +801,12 @@ server <- function(input, output, session) {
           class = "league-stats-grid",
           tags$div(
             class = "stat-card",
-            tags$div(class = "stat-value", "4"),
+            tags$div(class = "stat-value", "3"),
             tags$div(class = "stat-label", "Active Leagues")
           ),
           tags$div(
             class = "stat-card",
-            tags$div(class = "stat-value", "17"),
+            tags$div(class = "stat-value", "16"),
             tags$div(class = "stat-label", "Teams per League")
           ),
           tags$div(
@@ -720,11 +814,11 @@ server <- function(input, output, session) {
             tags$div(class = "stat-value", "Week 9"),
             tags$div(class = "stat-label", "Avg Elimination")
           ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "$40"),
-            tags$div(class = "stat-label", "Avg Buy-in")
-          )
+          # tags$div(
+          #   class = "stat-card",
+          #   tags$div(class = "stat-value", "$40"),
+          #   tags$div(class = "stat-label", "Avg Buy-in")
+          # )
         ),
         tags$hr(class = "my-4"),
         card(
@@ -740,22 +834,22 @@ server <- function(input, output, session) {
               ),
               accordion_panel(
                 "Roster",
-                icon = bs_icon("gear"),
+                icon = bs_icon("person-fill-gear"),
                 md_file("www/md/guillotine/guillotine_roster.md")
               ),
               accordion_panel(
                 "Draft",
-                icon = bs_icon("gear"),
+                icon = bs_icon("table"),
                 md_file("www/md/guillotine/guillotine_draft.md")
               ),
               accordion_panel(
                 "Scoring",
-                icon = bs_icon("gear"),
+                icon = bs_icon("clipboard2-data"),
                 md_file("www/md/guillotine/guillotine_scoring.md")
               ),
               accordion_panel(
                 "Transactions",
-                icon = bs_icon("gear"),
+                icon = bs_icon("wallet2"),
                 md_file("www/md/guillotine/guillotine_transactions.md")
               )
             )
@@ -765,42 +859,81 @@ server <- function(input, output, session) {
         card(
           card_header("NUCLEARFF GUILLOTINE LEAGUES"),
           card_body(
-            tags$p("Test your survival skills in these elimination leagues:"),
+            # tags$p("Test your survival skills in these elimination leagues:"),
             tags$div(
               class = "list-group",
               # NUCLEARFF $10 GUILLOTINE
               tags$a(
-                href = "https://sleeper.com/leagues/1241932113842798592",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF $10 GUILLOTINE", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                href = "https://sleeper.com/leagues/1240503074590568448",
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/guillotine-logo.png",
+                  alt = "NUCLEARFF GUILLOTINE",
+                  class = "league-logo"
                 ),
-                tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("|NUCLEARFF $10 GUILLOTINE", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
+                    class = "league-sub mb-0"
+                  )
+                )
               ),
               # NUCLEARFF $10 GUILLOTINE 02
               tags$a(
                 href = "https://sleeper.com/leagues/1260089054490275840",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF $10 GUILLOTINE 02", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-warning", "5 SPOTS LEFT"))
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/guillotine-logo.png",
+                  alt = "NUCLEARFF GUILLOTINE 02",
+                  class = "league-logo"
                 ),
-                tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("|NUCLEARFF $10 GUILLOTINE 02", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-info", "5 SPOTS LEFT"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
+                    class = "league-sub mb-0"
+                  )
+                )
               ),
               # NUCLEARFF $10 GUILLOTINE 02
               tags$a(
-                href = "https://sleeper.com/leagues/1241932113842798592",
-                class = "list-group-item list-group-item-action",
-                tags$div(
-                  class = "d-flex w-100 justify-content-between",
-                  tags$h6("NUCLEARFF $25 GUILLOTINE", class = "mb-1"),
-                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                href = "https://sleeper.com/leagues/1240503074590568448",
+                class = "list-group-item list-group-item-action league-item",
+                # Left logo
+                tags$img(
+                  src = "logos/guillotine-logo.png",
+                  alt = "NUCLEARFF GUILLOTINE",
+                  class = "league-logo"
                 ),
-                tags$p("$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
-              )
+                tags$div(
+                  class = "league-copy w-100",
+                  # Row 1: title (left) + badge (right)
+                  tags$div(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$h6("|NUCLEARFF $25 GUILLOTINE", class = "league-title mb-0"),
+                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                  ),
+                  # Row 2: subtitle (full width)
+                  tags$p("$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
+                    class = "league-sub mb-0"
+                  )
+                )
+              ),
             )
           )
         )
