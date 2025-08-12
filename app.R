@@ -6,8 +6,9 @@ library(bslib)
 library(DT)
 library(htmltools)
 library(bsicons)
-library(commonmark) # install.packages("commonmark") if needed
+library(commonmark)
 
+# ── Helper Functions ──────────────────────────────────────────────────────────
 md_file <- function(path) {
   if (!file.exists(path)) {
     return(tags$div(
@@ -19,16 +20,14 @@ md_file <- function(path) {
   HTML(commonmark::markdown_html(txt))
 }
 
-# Silence bslib contrast warnings
-# Production helpful
+# ── Configuration ─────────────────────────────────────────────────────────────
 options(
-  shiny.minified = TRUE, # use minified JS
-  bslib.precompiled = TRUE, # cache/precompile themes (faster reloads)
-  bslib.color_contrast_warnings = FALSE # suppress WCAG contrast warnings for brand colors
+  shiny.minified = TRUE,
+  bslib.precompiled = TRUE,
+  bslib.color_contrast_warnings = FALSE
 )
 
-# ── Themes (light/dark) ───────────────────────────────────────────────────────
-# Default brand color keeps your magenta accent
+# ── Themes ────────────────────────────────────────────────────────────────────
 light_theme <- bs_theme(
   version = 5,
   bg = "#ffffff",
@@ -45,324 +44,14 @@ dark_theme <- bs_theme(
 
 # ── UI ────────────────────────────────────────────────────────────────────────
 ui <- tagList(
-  # Head includes: CSS/JS from www/, preload bg image, and small tweaks
+  # Head includes: External CSS/JS files
   tags$head(
     tags$link(rel = "preload", href = "images/football-stadium-bg.jpg", as = "image"),
     tags$link(rel = "stylesheet", href = "css/style.css"),
-    # Make the default Bootstrap navbar resemble .navbar-custom in style.css
-    tags$style(HTML("
-      /* Global layout fixes */
-      html, body { margin: 0; overflow-x: hidden; }
-      body { padding-top: 56px; } /* space for fixed navbar */
-
-      /* Navbar look & feel */
-      .navbar {
-        background: rgba(0, 0, 0, 0.8);
-        backdrop-filter: blur(10px);
-        padding: 2px 5px !important;
-        min-height: 56px;
-      }
-
-      /* Vertically center brand logo with nav links */
-      .navbar .container-fluid {
-        display: flex !important;
-        align-items: center !important;
-      }
-      .navbar .navbar-brand {
-        display: flex !important;
-        align-items: center !important;
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-        margin-right: .5rem; /* tighter gap between logo and Home */
-      }
-      .navbar .navbar-brand img {
-        height: 40px;
-        display: block;
-      }
-      .navbar-nav { gap: 0; }
-      .navbar-nav .nav-link {
-        display: flex;
-        align-items: center;
-        height: 56px;
-        color: #fff;
-      }
-      /* Active tab color per theme */
-      .nff-dark .navbar .nav-link.active,
-      .nff-dark .navbar .navbar-nav .nav-link.active,
-      .nff-dark .navbar .nav-link.show {
-        color: #ce0fa0 !important;
-      }
-
-      .nff-light .navbar .nav-link.active,
-      .nff-light .navbar .navbar-nav .nav-link.active,
-      .nff-light .navbar .nav-link.show {
-        color: #0fa0ce !important;
-      }
-
-      /* Icon button to the right (theme toggle) */
-      .nav-icon-btn {
-        display: flex;
-        align-items: center;
-        font-size: 1.15rem;
-        padding: 0 .25rem;
-        color: #fff !important;
-        text-decoration: none;
-      }
-      /* Hover state for icon button */
-      .nff-dark .navbar .nav-icon-btn:hover { color: #ce0fa0 !important; }
-      .nff-light .navbar .nav-icon-btn:hover { color: #0fa0ce !important; }
-
-
-      /* Home tab: remove side gutters so background can be edge-to-edge */
-      .tab-pane#home > .container,
-      .tab-pane#home > .container-fluid {
-        max-width: 100% !important;
-        width: 100% !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
-
-      /* Ensure hero background truly covers full viewport width */
-      .hero-section {
-        width: 100vw;
-        margin-left: calc(50% - 50vw);
-        margin-right: calc(50% - 50vw);
-        min-height: calc(100vh - 56px);
-        background-size: cover;
-        background-position: center center;
-        background-repeat: no-repeat;
-      }
-
-      /* Theme-synced hero overlay */
-      .hero-overlay {
-        position: relative;
-        background: radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.15), rgba(0,0,0,.55));
-      }
-      .nff-light .hero-overlay {
-        background: radial-gradient(80% 60% at 50% 40%, rgba(255,255,255,.10), rgba(0,0,0,.35));
-      }
-      .nff-dark .hero-overlay {
-        background: radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.20), rgba(0,0,0,.60));
-      }
-
-      /* Small screens: tighten hero typography */
-      @media (max-width: 400px) {
-        .hero-section { min-height: 100vh; height: auto; }
-        .hero-title-nuclear-minimal {
-          font-size: 2.2rem !important;
-          font-weight: 700 !important;
-          letter-spacing: 0;
-        }
-      }
-
-      /* ── Leagues Page Styles ── */
-      .leagues-sidebar {
-        padding: 1rem;
-      }
-
-      /* Make league nav buttons center consistently */
-      .league-nav-btn {
-        width: 100%;
-        /* remove the left align */
-        /* text-align: left; */
-        display: flex;
-        justify-content: center;   /* horizontally center icon + text */
-        align-items: center;       /* vertically center */
-        font-weight: 500;
-        margin-bottom: 0.5rem;
-        transition: all 0.3s ease;
-      }
-
-      /* Inner span */
-      .league-nav-btn span {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;   /* center contents within span */
-        gap: 0.5rem;
-        width: 100%;               /* optional: makes centering robust */
-      }
-
-      /* Make sure icons don't collapse */
-      .league-nav-btn svg {
-        width: 1.1em;
-        height: 1.1em;
-        flex: 0 0 auto;
-      }
-
-      .nff-dark .league-nav-btn {
-        background-color: rgba(206, 15, 160, 0.1);
-        border-color: #ce0fa0;
-        color: #ce0fa0;
-      }
-
-      .nff-dark .league-nav-btn:hover,
-      .nff-dark .league-nav-btn.active {
-        background-color: #ce0fa0;
-        color: #fff;
-      }
-
-      .nff-light .league-nav-btn {
-        background-color: rgba(15, 160, 206, 0.1);
-        border-color: #0fa0ce;
-        color: #0fa0ce;
-      }
-
-      .nff-light .league-nav-btn:hover,
-      .nff-light .league-nav-btn.active {
-        background-color: #0fa0ce;
-        color: #fff;
-      }
-
-      .nff-dark .accordion-button {
-        background-color: rgba(255, 255, 255, 0.05);
-        color: #e9ecef;
-      }
-
-      .nff-dark .accordion-button:not(.collapsed) {
-        background-color: rgba(206, 15, 160, 0.2);
-        color: #ce0fa0;
-      }
-
-      .nff-light .accordion-button {
-        background-color: rgba(0, 0, 0, 0.03);
-        color: #212529;
-      }
-
-      .nff-light .accordion-button:not(.collapsed) {
-        background-color: rgba(15, 160, 206, 0.2);
-        color: #0fa0ce;
-      }
-
-      .league-content-section {
-        padding: 1.5rem;
-      }
-
-      .league-stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .stat-card {
-        padding: 1rem;
-        border-radius: 0.5rem;
-        text-align: center;
-        transition: transform 0.2s;
-      }
-
-      .stat-card:hover {
-        transform: translateY(-2px);
-      }
-
-      .nff-dark .stat-card {
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(206, 15, 160, 0.3);
-      }
-
-      .nff-light .stat-card {
-        background-color: rgba(0, 0, 0, 0.02);
-        border: 1px solid rgba(15, 160, 206, 0.3);
-      }
-
-      .stat-value {
-        font-size: 2rem;
-        font-weight: bold;
-      }
-
-      .nff-dark .stat-value {
-        color: #ce0fa0;
-      }
-
-      .nff-light .stat-value {
-        color: #0fa0ce;
-      }
-
-      .stat-label {
-        font-size: 0.875rem;
-        opacity: 0.8;
-        margin-top: 0.25rem;
-      }
-
-      /* Force the list item to be a horizontal flex row */
-      .list-group .list-group-item.league-item {
-        display: flex !important;
-        flex-direction: row !important;
-        align-items: center !important;
-        gap: 0.75rem !important;
-        padding: 0.5rem 0.75rem !important;
-      }
-
-      /* Make the logo a fixed-height inline graphic, ignoring any global img rules */
-      /* 1st-line 1.25rem + 2nd-line 1.15rem + small gap 0.15rem */
-      .list-group .list-group-item.league-item .league-logo {
-        height: calc(1.25rem + 1.15rem + 0.15rem) !important;
-        width: auto !important;
-        max-width: none !important;
-        display: inline-block !important;
-        flex: 0 0 auto !important;
-        object-fit: contain;
-      }
-
-
-      /* Text block stays compact and drives total height (≈ two lines) */
-      .list-group .list-group-item.league-item .league-copy {
-        flex: 1 1 auto;
-        min-width: 0;
-      }
-
-      .list-group .list-group-item.league-item .league-title {
-        margin: 0;
-        font-size: 1rem;
-        line-height: 1.25rem;
-      }
-
-      .list-group .list-group-item.league-item .league-sub {
-        font-size: 0.9rem;
-        line-height: 1.15rem;
-        opacity: 0.85;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-
-
-
-      /* Preserve your theme colors on hover/active */
-      .nff-dark .league-item:hover { background-color: rgba(206, 15, 160, 0.08); }
-      .nff-light .league-item:hover { background-color: rgba(15, 160, 206, 0.08); }
-
-    ")),
-    tags$script(src = "js/main.js", defer = NA),
-    # Remember theme preference across reloads
-    tags$script(HTML("
-      (function(){
-        function applyThemeClass(val){
-          var root = document.documentElement;
-          root.classList.remove('nff-light','nff-dark');
-          root.classList.add(val === 'light' ? 'nff-light' : 'nff-dark');
-        }
-        document.addEventListener('DOMContentLoaded', function () {
-          try {
-            var pref = localStorage.getItem('nff-theme') || 'dark';
-            applyThemeClass(pref);
-            if (window.Shiny) Shiny.setInputValue('initTheme', pref, {priority: 'event'});
-          } catch (e) {}
-        });
-        if (window.Shiny) {
-          Shiny.addCustomMessageHandler('storeTheme', function (val) {
-            try { localStorage.setItem('nff-theme', val); } catch (e) {}
-          });
-          Shiny.addCustomMessageHandler('applyThemeClass', function (val) {
-            applyThemeClass(val);
-          });
-        }
-      })();
-    "))
+    tags$script(src = "js/main.js", defer = NA)
   ),
 
-  # Navbar layout with left logo, middle tabs, right social icons + theme toggle
+  # Main navigation
   page_navbar(
     title = tags$a(
       class = "navbar-brand d-flex align-items-center",
@@ -378,7 +67,6 @@ ui <- tagList(
     nav_panel(
       "Home",
       value = "home",
-      # Hero section markup mirrors index.html so existing CSS anims apply
       tags$section(
         class = "hero-section",
         tags$div(class = "hero-overlay"),
@@ -403,7 +91,7 @@ ui <- tagList(
       )
     ),
 
-    # ── Leagues Page with Sidebar ──
+    # ── Leagues Page ──
     nav_panel(
       "Leagues",
       value = "leagues",
@@ -411,8 +99,6 @@ ui <- tagList(
         sidebar = sidebar(
           width = 200,
           class = "leagues-sidebar",
-
-          # League Type Navigation
           tags$h5("League Types", class = "mb-3"),
           tags$p("LEAGUE FORMAT", class = "text-muted small mb-2"),
           actionButton("btn_redraft",
@@ -428,8 +114,6 @@ ui <- tagList(
             class = "league-nav-btn"
           )
         ),
-
-        # Main content area
         tags$div(
           class = "league-content-section",
           uiOutput("league_content")
@@ -437,7 +121,7 @@ ui <- tagList(
       )
     ),
 
-    # ── Data (placeholder using DT DataTables demo style) ──
+    # ── Tools ──
     nav_panel(
       "Tools",
       value = "data",
@@ -449,11 +133,9 @@ ui <- tagList(
         )
       )
     ),
-
-    # Push following items to right side
     nav_spacer(),
 
-    # Right‑aligned social links (reuse classes from style.css for hover fx)
+    # Right-aligned social links and theme toggle
     nav_item(
       tags$div(
         class = "social-links d-flex align-items-center",
@@ -472,20 +154,19 @@ ui <- tagList(
           title = "GitHub",
           bs_icon("github")
         ),
-        # ── Theme toggle button (to the right of GitHub) ──
         uiOutput("theme_toggle", inline = TRUE)
       )
     ),
     id = "topnav",
     selected = "home",
-    theme = dark_theme, # default
+    theme = dark_theme,
     navbar_options = navbar_options(position = "fixed-top")
   )
 )
 
 # ── Server ────────────────────────────────────────────────────────────────────
 server <- function(input, output, session) {
-  # Countdown timer (kept from single‑page app)
+  # ── Countdown Timer ──
   output$countdown <- renderText({
     invalidateLater(1000, session)
 
@@ -506,7 +187,7 @@ server <- function(input, output, session) {
     paste0(days, "D ", hours, "H ", minutes, "M ", seconds, "S")
   })
 
-  # DataTables demo (example to replace)
+  # ── DataTables Demo ──
   output$tbl <- renderDT({
     datatable(
       iris,
@@ -525,7 +206,6 @@ server <- function(input, output, session) {
   # ── Leagues Page Logic ──
   selected_league <- reactiveVal("redraft")
 
-  # Update button styles when clicked
   observeEvent(input$btn_redraft, {
     selected_league("redraft")
     session$sendCustomMessage("updateLeagueButtons", "redraft")
@@ -541,410 +221,14 @@ server <- function(input, output, session) {
     session$sendCustomMessage("updateLeagueButtons", "guillotine")
   })
 
-  # Dynamic main content based on selected league
+  # Dynamic league content generator
   output$league_content <- renderUI({
-    league <- selected_league()
-
-    # REDRAFT -------------------------------------------------------------
-    if (league == "redraft") {
-      tags$div(
-        tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4"),
-        tags$p(
-          class = "lead",
-          "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
-        ),
-        tags$div(
-          class = "league-stats-grid",
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "12"),
-            tags$div(class = "stat-label", "Active Leagues")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "156"),
-            tags$div(class = "stat-label", "Total Teams")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "$50"),
-            tags$div(class = "stat-label", "Avg Buy-in")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "89%"),
-            tags$div(class = "stat-label", "Return Rate")
-          )
-        ),
-        tags$hr(class = "my-4"),
-        card(
-          card_header(tags$h5("League Configuration", class = "mb-0")),
-          card_body(
-            accordion(
-              id = "redraft_accordion",
-              class = "league-accordion",
-              accordion_panel(
-                "Overview",
-                icon = bs_icon("chevron-double-right"),
-                md_file("www/md/redraft/redraft_overview.md")
-              ),
-              accordion_panel(
-                "Roster",
-                icon = bs_icon("person-fill-gear"),
-                md_file("www/md/redraft/redraft_roster.md")
-              ),
-              accordion_panel(
-                "Draft",
-                icon = bs_icon("table"),
-                md_file("www/md/redraft/redraft_draft.md")
-              ),
-              accordion_panel(
-                "Scoring",
-                icon = bs_icon("clipboard2-data"),
-                md_file("www/md/redraft/redraft_scoring.md")
-              ),
-              accordion_panel(
-                "Transactions",
-                icon = bs_icon("wallet2"),
-                md_file("www/md/redraft/redraft_transactions.md")
-              )
-            )
-          ),
-          class = "mb-4"
-        ),
-        card(
-          card_header("NUCLEARFF REDRAFT LEAGUES"),
-          card_body(
-            # tags$p("NUCLEARFF REDRAFT LEAGUES:"),
-            tags$div(
-              class = "list-group",
-              tags$a(
-                href = "https://sleeper.com/leagues/1240509989819273216",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/redraft-logo.png",
-                  alt = "Nuclear Football",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("Nuclear Football", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025", class = "league-sub mb-0")
-                )
-              )
-            )
-          )
-        )
-      )
-      # DYNASTY -------------------------------------------------------------
-    } else if (league == "dynasty") {
-      tags$div(
-        tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4"),
-        tags$p(
-          class = "lead",
-          "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
-        ),
-        tags$div(
-          class = "league-stats-grid",
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "8"),
-            tags$div(class = "stat-label", "Active Dynasties")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "3.2"),
-            tags$div(class = "stat-label", "Avg Years Running")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "$75"),
-            tags$div(class = "stat-label", "Avg Buy-in")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "94%"),
-            tags$div(class = "stat-label", "Retention Rate")
-          )
-        ),
-        tags$hr(class = "my-4"),
-        card(
-          card_header(tags$h5("League Configuration", class = "mb-0")),
-          card_body(
-            accordion(
-              id = "dynasty_accordion",
-              class = "league-accordion",
-              accordion_panel(
-                "Overview",
-                icon = bs_icon("chevron-double-right"),
-                md_file("www/md/dynasty/dynasty_overview.md")
-              ),
-              accordion_panel(
-                "Roster",
-                icon = bs_icon("person-fill-gear"),
-                md_file("www/md/dynasty/dynasty_roster.md")
-              ),
-              accordion_panel(
-                "Draft",
-                icon = bs_icon("table"),
-                md_file("www/md/dynasty/dynasty_draft.md")
-              ),
-              accordion_panel(
-                "Scoring",
-                icon = bs_icon("clipboard2-data"),
-                md_file("www/md/dynasty/dynasty_scoring.md")
-              ),
-              accordion_panel(
-                "Transactions",
-                icon = bs_icon("wallet2"),
-                md_file("www/md/dynasty/dynasty_transactions.md")
-              )
-            )
-          ),
-          class = "mb-4"
-        ),
-        card(
-          card_header("NUCLEARFF DYNASTY LEAGUES"),
-          card_body(
-            tags$p("Take over an orphan team or join a startup:"),
-            tags$div(
-              class = "list-group",
-              tags$a(
-                href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/dynasty-logo.png",
-                  alt = "NUCLEARFF DYNASTY",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("NUCLEAR DYNASTY", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX",
-                    class = "league-sub mb-0"
-                  )
-                )
-              ),
-              tags$a(
-                href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/dynasty-logo-2.png",
-                  alt = "NUCLEARFF DYNASTY 02",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("NUCLEAR DYNASTY 02", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-success", "STARTUP"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
-                    class = "league-sub mb-0"
-                  )
-                )
-              ),
-              tags$a(
-                href = "https://sleeper.com/leagues/1190192546172342272",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/dynasty-logo-3.png",
-                  alt = "NUCLEARFF DYNASTY 03",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("NUCLEAR DYNASTY 03", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-warning", "ORPHAN"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX",
-                    class = "league-sub mb-0"
-                  )
-                )
-              )
-            )
-          )
-        )
-      )
-      # GUILLOTINE -------------------------------------------------------------
-    } else {
-      tags$div(
-        tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4"),
-        tags$p(
-          class = "lead",
-          "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
-        ),
-        tags$div(
-          class = "league-stats-grid",
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "3"),
-            tags$div(class = "stat-label", "Active Leagues")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "16"),
-            tags$div(class = "stat-label", "Teams per League")
-          ),
-          tags$div(
-            class = "stat-card",
-            tags$div(class = "stat-value", "Week 9"),
-            tags$div(class = "stat-label", "Avg Elimination")
-          ),
-          # tags$div(
-          #   class = "stat-card",
-          #   tags$div(class = "stat-value", "$40"),
-          #   tags$div(class = "stat-label", "Avg Buy-in")
-          # )
-        ),
-        tags$hr(class = "my-4"),
-        card(
-          card_header(tags$h5("League Configuration", class = "mb-0")),
-          card_body(
-            accordion(
-              id = "guillotine_accordion",
-              class = "league-accordion",
-              accordion_panel(
-                "Overview",
-                icon = bs_icon("chevron-double-right"),
-                md_file("www/md/guillotine/guillotine_overview.md")
-              ),
-              accordion_panel(
-                "Roster",
-                icon = bs_icon("person-fill-gear"),
-                md_file("www/md/guillotine/guillotine_roster.md")
-              ),
-              accordion_panel(
-                "Draft",
-                icon = bs_icon("table"),
-                md_file("www/md/guillotine/guillotine_draft.md")
-              ),
-              accordion_panel(
-                "Scoring",
-                icon = bs_icon("clipboard2-data"),
-                md_file("www/md/guillotine/guillotine_scoring.md")
-              ),
-              accordion_panel(
-                "Transactions",
-                icon = bs_icon("wallet2"),
-                md_file("www/md/guillotine/guillotine_transactions.md")
-              )
-            )
-          ),
-          class = "mb-4"
-        ),
-        card(
-          card_header("NUCLEARFF GUILLOTINE LEAGUES"),
-          card_body(
-            # tags$p("Test your survival skills in these elimination leagues:"),
-            tags$div(
-              class = "list-group",
-              # NUCLEARFF $10 GUILLOTINE
-              tags$a(
-                href = "https://sleeper.com/leagues/1240503074590568448",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/guillotine-logo.png",
-                  alt = "NUCLEARFF GUILLOTINE",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("|NUCLEARFF $10 GUILLOTINE", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
-                    class = "league-sub mb-0"
-                  )
-                )
-              ),
-              # NUCLEARFF $10 GUILLOTINE 02
-              tags$a(
-                href = "https://sleeper.com/leagues/1260089054490275840",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/guillotine-logo.png",
-                  alt = "NUCLEARFF GUILLOTINE 02",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("|NUCLEARFF $10 GUILLOTINE 02", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-info", "5 SPOTS LEFT"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
-                    class = "league-sub mb-0"
-                  )
-                )
-              ),
-              # NUCLEARFF $10 GUILLOTINE 02
-              tags$a(
-                href = "https://sleeper.com/leagues/1240503074590568448",
-                class = "list-group-item list-group-item-action league-item",
-                # Left logo
-                tags$img(
-                  src = "logos/guillotine-logo.png",
-                  alt = "NUCLEARFF GUILLOTINE",
-                  class = "league-logo"
-                ),
-                tags$div(
-                  class = "league-copy w-100",
-                  # Row 1: title (left) + badge (right)
-                  tags$div(
-                    class = "d-flex justify-content-between align-items-center",
-                    tags$h6("|NUCLEARFF $25 GUILLOTINE", class = "league-title mb-0"),
-                    tags$small(tags$span(class = "badge bg-danger", "FULL"))
-                  ),
-                  # Row 2: subtitle (full width)
-                  tags$p("$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD",
-                    class = "league-sub mb-0"
-                  )
-                )
-              ),
-            )
-          )
-        )
-      )
-    }
+    create_league_content(selected_league())
   })
 
-  # ── Theme switching logic ──
+  # ── Theme Management ──
   theme_state <- reactiveVal("dark")
 
-  # Theme toggle icon UI (moon in dark mode, sun in light mode)
   output$theme_toggle <- renderUI({
     icon_name <- if (identical(theme_state(), "dark")) "moon-stars" else "sun"
     actionLink(
@@ -956,7 +240,7 @@ server <- function(input, output, session) {
     )
   })
 
-  # Initialize from localStorage (input$initTheme is sent by inline JS)
+  # Initialize theme from localStorage
   observeEvent(input$initTheme, ignoreInit = TRUE, {
     val <- if (identical(input$initTheme, "light")) "light" else "dark"
     theme_state(val)
@@ -964,7 +248,7 @@ server <- function(input, output, session) {
     session$sendCustomMessage("applyThemeClass", val)
   })
 
-  # Toggle when the navbar icon is clicked
+  # Toggle theme
   observeEvent(input$toggle_theme, ignoreInit = TRUE, {
     new_val <- if (theme_state() == "dark") "light" else "dark"
     theme_state(new_val)
@@ -977,30 +261,222 @@ server <- function(input, output, session) {
     session$sendCustomMessage("applyThemeClass", new_val)
   })
 
-  # Extra mobile CSS tweaks for small screens
-  observe({
-    insertUI(
-      selector = "head",
-      where = "beforeEnd",
-      ui = tags$style(HTML("
-        @media (max-width: 400px) {
-          .hero-section { min-height: 100vh; height: auto; }
-          .hero-title-nuclear-minimal { font-size: 2.2rem !important; font-weight: 700 !important; letter-spacing: 0; }
-        }
-      "))
-    )
-  })
-
-  # Add JavaScript for button highlighting
-  observe({
-    session$sendCustomMessage("updateLeagueButtons", selected_league())
-  })
-
-  # Custom message handler for league button updates
+  # Initialize league buttons
   session$onFlushed(function() {
     session$sendCustomMessage("addLeagueButtonHandler", TRUE)
   }, once = TRUE)
 }
 
-# ── App ───────────────────────────────────────────────────────────────────────
+# ── League Content Generator Function ──
+create_league_content <- function(league) {
+  if (league == "redraft") {
+    create_redraft_content()
+  } else if (league == "dynasty") {
+    create_dynasty_content()
+  } else {
+    create_guillotine_content()
+  }
+}
+
+# ── Redraft League Content ──
+create_redraft_content <- function() {
+  tags$div(
+    tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4"),
+    tags$p(
+      class = "lead",
+      "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
+    ),
+    create_stat_cards(
+      list("12" = "Active Leagues", "156" = "Total Teams", "$50" = "Avg Buy-in", "89%" = "Return Rate")
+    ),
+    tags$hr(class = "my-4"),
+    create_league_accordion("redraft"),
+    create_league_list("redraft", list(
+      list(
+        name = "Nuclear Football",
+        url = "https://sleeper.com/leagues/1240509989819273216",
+        logo = "logos/redraft-logo.png",
+        status = "FULL",
+        details = "$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025"
+      )
+    ))
+  )
+}
+
+# ── Dynasty League Content ──
+create_dynasty_content <- function() {
+  tags$div(
+    tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4"),
+    tags$p(
+      class = "lead",
+      "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
+    ),
+    create_stat_cards(
+      list("8" = "Active Dynasties", "3.2" = "Avg Years Running", "$75" = "Avg Buy-in", "94%" = "Retention Rate")
+    ),
+    tags$hr(class = "my-4"),
+    create_league_accordion("dynasty"),
+    create_league_list("dynasty", list(
+      list(
+        name = "NUCLEAR DYNASTY",
+        url = "https://sleeper.com/leagues/1190192546172342272",
+        logo = "logos/dynasty-logo.png",
+        status = "FULL",
+        details = "$50 ENTRY | 12 TEAM | SUPERFLEX"
+      ),
+      list(
+        name = "NUCLEAR DYNASTY 02",
+        url = "https://sleeper.com/leagues/1190192546172342272",
+        logo = "logos/dynasty-logo-2.png",
+        status = "STARTUP",
+        details = "$50 ENTRY | 12 TEAM | SUPERFLEX | TEP"
+      ),
+      list(
+        name = "NUCLEAR DYNASTY 03",
+        url = "https://sleeper.com/leagues/1190192546172342272",
+        logo = "logos/dynasty-logo-3.png",
+        status = "ORPHAN",
+        details = "$50 ENTRY | 12 TEAM | SUPERFLEX"
+      )
+    ))
+  )
+}
+
+# ── Guillotine League Content ──
+create_guillotine_content <- function() {
+  tags$div(
+    tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4"),
+    tags$p(
+      class = "lead",
+      "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
+    ),
+    create_stat_cards(
+      list("3" = "Active Leagues", "16" = "Teams per League", "Week 9" = "Avg Elimination")
+    ),
+    tags$hr(class = "my-4"),
+    create_league_accordion("guillotine"),
+    create_league_list("guillotine", list(
+      list(
+        name = "|NUCLEARFF $10 GUILLOTINE",
+        url = "https://sleeper.com/leagues/1240503074590568448",
+        logo = "logos/guillotine-logo.png",
+        status = "FULL",
+        details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+      ),
+      list(
+        name = "|NUCLEARFF $10 GUILLOTINE 02",
+        url = "https://sleeper.com/leagues/1260089054490275840",
+        logo = "logos/guillotine-logo.png",
+        status = "5 SPOTS LEFT",
+        status_class = "info",
+        details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+      ),
+      list(
+        name = "|NUCLEARFF $25 GUILLOTINE",
+        url = "https://sleeper.com/leagues/1240503074590568448",
+        logo = "logos/guillotine-logo.png",
+        status = "FULL",
+        details = "$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+      )
+    ))
+  )
+}
+
+# ── Helper Functions for League Content ──
+create_stat_cards <- function(stats) {
+  tags$div(
+    class = "league-stats-grid",
+    lapply(names(stats), function(value) {
+      tags$div(
+        class = "stat-card",
+        tags$div(class = "stat-value", value),
+        tags$div(class = "stat-label", stats[[value]])
+      )
+    })
+  )
+}
+
+create_league_accordion <- function(type) {
+  card(
+    card_header(tags$h5("League Configuration", class = "mb-0")),
+    card_body(
+      accordion(
+        id = paste0(type, "_accordion"),
+        class = "league-accordion",
+        accordion_panel(
+          "Overview",
+          icon = bs_icon("chevron-double-right"),
+          md_file(sprintf("www/md/%s/%s_overview.md", type, type))
+        ),
+        accordion_panel(
+          "Roster",
+          icon = bs_icon("person-fill-gear"),
+          md_file(sprintf("www/md/%s/%s_roster.md", type, type))
+        ),
+        accordion_panel(
+          "Draft",
+          icon = bs_icon("table"),
+          md_file(sprintf("www/md/%s/%s_draft.md", type, type))
+        ),
+        accordion_panel(
+          "Scoring",
+          icon = bs_icon("clipboard2-data"),
+          md_file(sprintf("www/md/%s/%s_scoring.md", type, type))
+        ),
+        accordion_panel(
+          "Transactions",
+          icon = bs_icon("wallet2"),
+          md_file(sprintf("www/md/%s/%s_transactions.md", type, type))
+        )
+      )
+    ),
+    class = "mb-4"
+  )
+}
+
+create_league_list <- function(type, leagues) {
+  title <- switch(type,
+    "redraft" = "NUCLEARFF REDRAFT LEAGUES",
+    "dynasty" = "NUCLEARFF DYNASTY LEAGUES",
+    "guillotine" = "NUCLEARFF GUILLOTINE LEAGUES"
+  )
+
+  card(
+    card_header(title),
+    card_body(
+      tags$div(
+        class = "list-group",
+        lapply(leagues, function(league) {
+          status_class <- league$status_class %||% switch(league$status,
+            "FULL" = "danger",
+            "STARTUP" = "success",
+            "ORPHAN" = "warning",
+            "info"
+          )
+
+          tags$a(
+            href = league$url,
+            class = "list-group-item list-group-item-action league-item",
+            tags$img(
+              src = league$logo,
+              alt = league$name,
+              class = "league-logo"
+            ),
+            tags$div(
+              class = "league-copy w-100",
+              tags$div(
+                class = "d-flex justify-content-between align-items-center",
+                tags$h6(league$name, class = "league-title mb-0"),
+                tags$small(tags$span(class = paste("badge", paste0("bg-", status_class)), league$status))
+              ),
+              tags$p(league$details, class = "league-sub mb-0")
+            )
+          )
+        })
+      )
+    )
+  )
+}
+
+# ── App ──
 shinyApp(ui, server)
