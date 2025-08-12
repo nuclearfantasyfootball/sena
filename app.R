@@ -1,4 +1,4 @@
-# NuclearFF Full Application
+# NuclearFF Full Application with Enhanced Leagues Page
 
 # ── Packages ───────────────────────────────────────────────────────────────────
 library(shiny)
@@ -6,6 +6,18 @@ library(bslib)
 library(DT)
 library(htmltools)
 library(bsicons)
+library(commonmark) # install.packages("commonmark") if needed
+
+md_file <- function(path) {
+  if (!file.exists(path)) {
+    return(tags$div(
+      class = "text-danger small",
+      sprintf("Markdown file not found: %s (wd: %s)", path, getwd())
+    ))
+  }
+  txt <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+  HTML(commonmark::markdown_html(txt))
+}
 
 # Silence bslib contrast warnings
 # Production helpful
@@ -142,6 +154,135 @@ ui <- tagList(
           letter-spacing: 0;
         }
       }
+
+      /* ── Leagues Page Styles ── */
+      .leagues-sidebar {
+        padding: 1rem;
+      }
+
+      /* Make league nav buttons center consistently */
+      .league-nav-btn {
+        width: 100%;
+        /* remove the left align */
+        /* text-align: left; */
+        display: flex;
+        justify-content: center;   /* horizontally center icon + text */
+        align-items: center;       /* vertically center */
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      /* Inner span */
+      .league-nav-btn span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;   /* center contents within span */
+        gap: 0.5rem;
+        width: 100%;               /* optional: makes centering robust */
+      }
+
+      /* Make sure icons don't collapse */
+      .league-nav-btn svg {
+        width: 1.1em;
+        height: 1.1em;
+        flex: 0 0 auto;
+      }
+
+      .nff-dark .league-nav-btn {
+        background-color: rgba(206, 15, 160, 0.1);
+        border-color: #ce0fa0;
+        color: #ce0fa0;
+      }
+
+      .nff-dark .league-nav-btn:hover,
+      .nff-dark .league-nav-btn.active {
+        background-color: #ce0fa0;
+        color: #fff;
+      }
+
+      .nff-light .league-nav-btn {
+        background-color: rgba(15, 160, 206, 0.1);
+        border-color: #0fa0ce;
+        color: #0fa0ce;
+      }
+
+      .nff-light .league-nav-btn:hover,
+      .nff-light .league-nav-btn.active {
+        background-color: #0fa0ce;
+        color: #fff;
+      }
+
+      .nff-dark .accordion-button {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #e9ecef;
+      }
+
+      .nff-dark .accordion-button:not(.collapsed) {
+        background-color: rgba(206, 15, 160, 0.2);
+        color: #ce0fa0;
+      }
+
+      .nff-light .accordion-button {
+        background-color: rgba(0, 0, 0, 0.03);
+        color: #212529;
+      }
+
+      .nff-light .accordion-button:not(.collapsed) {
+        background-color: rgba(15, 160, 206, 0.2);
+        color: #0fa0ce;
+      }
+
+      .league-content-section {
+        padding: 1.5rem;
+      }
+
+      .league-stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .stat-card {
+        padding: 1rem;
+        border-radius: 0.5rem;
+        text-align: center;
+        transition: transform 0.2s;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+      }
+
+      .nff-dark .stat-card {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(206, 15, 160, 0.3);
+      }
+
+      .nff-light .stat-card {
+        background-color: rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(15, 160, 206, 0.3);
+      }
+
+      .stat-value {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .nff-dark .stat-value {
+        color: #ce0fa0;
+      }
+
+      .nff-light .stat-value {
+        color: #0fa0ce;
+      }
+
+      .stat-label {
+        font-size: 0.875rem;
+        opacity: 0.8;
+        margin-top: 0.25rem;
+      }
     ")),
     tags$script(src = "js/main.js", defer = NA),
     # Remember theme preference across reloads
@@ -212,9 +353,43 @@ ui <- tagList(
       )
     ),
 
+    # ── Leagues Page with Sidebar ──
+    nav_panel(
+      "Leagues",
+      value = "leagues",
+      layout_sidebar(
+        sidebar = sidebar(
+          width = 200,
+          class = "leagues-sidebar",
+
+          # League Type Navigation
+          tags$h5("League Types", class = "mb-3"),
+          tags$p("LEAGUE FORMAT", class = "text-muted small mb-2"),
+          actionButton("btn_redraft",
+            tags$span(bs_icon("arrow-repeat"), "Redraft"),
+            class = "league-nav-btn"
+          ),
+          actionButton("btn_dynasty",
+            tags$span(bs_icon("trophy"), "Dynasty"),
+            class = "league-nav-btn"
+          ),
+          actionButton("btn_guillotine",
+            tags$span(bs_icon("scissors"), "Guillotine"),
+            class = "league-nav-btn"
+          )
+        ),
+
+        # Main content area
+        tags$div(
+          class = "league-content-section",
+          uiOutput("league_content")
+        )
+      )
+    ),
+
     # ── Data (placeholder using DT DataTables demo style) ──
     nav_panel(
-      "Data",
+      "Tools",
       value = "data",
       layout_column_wrap(
         widths = 1,
@@ -253,8 +428,8 @@ ui <- tagList(
     ),
     id = "topnav",
     selected = "home",
-    position = "fixed-top",
-    theme = dark_theme # default
+    theme = dark_theme, # default
+    navbar_options = navbar_options(position = "fixed-top")
   )
 )
 
@@ -281,7 +456,7 @@ server <- function(input, output, session) {
     paste0(days, "D ", hours, "H ", minutes, "M ", seconds, "S")
   })
 
-  # DataTables demo (example to replace
+  # DataTables demo (example to replace)
   output$tbl <- renderDT({
     datatable(
       iris,
@@ -295,6 +470,342 @@ server <- function(input, output, session) {
       rownames = FALSE,
       class = "stripe hover order-column"
     )
+  })
+
+  # ── Leagues Page Logic ──
+  selected_league <- reactiveVal("redraft")
+
+  # Update button styles when clicked
+  observeEvent(input$btn_redraft, {
+    selected_league("redraft")
+    session$sendCustomMessage("updateLeagueButtons", "redraft")
+  })
+
+  observeEvent(input$btn_dynasty, {
+    selected_league("dynasty")
+    session$sendCustomMessage("updateLeagueButtons", "dynasty")
+  })
+
+  observeEvent(input$btn_guillotine, {
+    selected_league("guillotine")
+    session$sendCustomMessage("updateLeagueButtons", "guillotine")
+  })
+
+  # Dynamic main content based on selected league
+  output$league_content <- renderUI({
+    league <- selected_league()
+
+    # REDRAFT -------------------------------------------------------------
+    if (league == "redraft") {
+      tags$div(
+        tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4"),
+        tags$p(
+          class = "lead",
+          "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
+        ),
+        tags$div(
+          class = "league-stats-grid",
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "12"),
+            tags$div(class = "stat-label", "Active Leagues")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "156"),
+            tags$div(class = "stat-label", "Total Teams")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "$50"),
+            tags$div(class = "stat-label", "Avg Buy-in")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "89%"),
+            tags$div(class = "stat-label", "Return Rate")
+          )
+        ),
+        tags$hr(class = "my-4"),
+        card(
+          card_header(tags$h5("League Configuration", class = "mb-0")),
+          card_body(
+            accordion(
+              id = "redraft_accordion",
+              class = "league-accordion",
+              accordion_panel(
+                "Overview",
+                icon = bs_icon("chevron-double-right"),
+                md_file("www/md/redraft/redraft_overview.md")
+              ),
+              accordion_panel(
+                "Roster",
+                icon = bs_icon("gear"),
+                md_file("www/md/redraft/redraft_roster.md")
+              ),
+              accordion_panel(
+                "Draft",
+                icon = bs_icon("gear"),
+                md_file("www/md/redraft/redraft_draft.md")
+              ),
+              accordion_panel(
+                "Scoring",
+                icon = bs_icon("gear"),
+                md_file("www/md/redraft/redraft_scoring.md")
+              ),
+              accordion_panel(
+                "Transactions",
+                icon = bs_icon("gear"),
+                md_file("www/md/redraft/redraft_transactions.md")
+              )
+            )
+          ),
+          class = "mb-4"
+        ),
+        card(
+          card_header("NUCLEARFF REDRAFT LEAGUES"),
+          card_body(
+            # tags$p("NUCLEARFF REDRAFT LEAGUES:"),
+            tags$div(
+              class = "list-group",
+              tags$a(
+                href = "https://sleeper.com/leagues/1240509989819273216",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("Nuclear Football", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                ),
+                tags$p("$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025",
+                  class = "mb-1"
+                )
+              )
+            )
+          )
+        )
+      )
+      # DYNASTY -------------------------------------------------------------
+    } else if (league == "dynasty") {
+      tags$div(
+        tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4"),
+        tags$p(
+          class = "lead",
+          "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
+        ),
+        tags$div(
+          class = "league-stats-grid",
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "8"),
+            tags$div(class = "stat-label", "Active Dynasties")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "3.2"),
+            tags$div(class = "stat-label", "Avg Years Running")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "$75"),
+            tags$div(class = "stat-label", "Avg Buy-in")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "94%"),
+            tags$div(class = "stat-label", "Retention Rate")
+          )
+        ),
+        tags$hr(class = "my-4"),
+        card(
+          card_header(tags$h5("League Configuration", class = "mb-0")),
+          card_body(
+            accordion(
+              id = "dynasty_accordion",
+              class = "league-accordion",
+              accordion_panel(
+                "Overview",
+                icon = bs_icon("chevron-double-right"),
+                md_file("www/md/dynasty/dynasty_overview.md")
+              ),
+              accordion_panel(
+                "Roster",
+                icon = bs_icon("gear"),
+                md_file("www/md/dynasty/dynasty_roster.md")
+              ),
+              accordion_panel(
+                "Draft",
+                icon = bs_icon("gear"),
+                md_file("www/md/dynasty/dynasty_draft.md")
+              ),
+              accordion_panel(
+                "Scoring",
+                icon = bs_icon("gear"),
+                md_file("www/md/dynasty/dynasty_scoring.md")
+              ),
+              accordion_panel(
+                "Transactions",
+                icon = bs_icon("gear"),
+                md_file("www/md/dynasty/dynasty_transactions.md")
+              )
+            )
+          ),
+          class = "mb-4"
+        ),
+        card(
+          card_header("NUCLEARFF DYNASTY LEAGUES"),
+          card_body(
+            tags$p("Take over an orphan team or join a startup:"),
+            tags$div(
+              class = "list-group",
+              tags$a(
+                href = "https://sleeper.com/leagues/1190192546172342272",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF DYNASTY", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                ),
+                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
+                  class = "mb-1"
+                )
+              ),
+              tags$a(
+                href = "https://sleeper.com/leagues/1190192546172342272",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF DYNASTY 02", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-success", "STARTUP"))
+                ),
+                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX", class = "mb-1")
+              ),
+              tags$a(
+                href = "https://sleeper.com/leagues/1190192546172342272",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF DYNASTY 03", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-warning", "ORPHAN"))
+                ),
+                tags$p("$50 ENTRY | 12 TEAM | SUPERFLEX | TEP",
+                  class = "mb-1"
+                )
+              )
+            )
+          )
+        )
+      )
+      # GUILLOTINE -------------------------------------------------------------
+    } else {
+      tags$div(
+        tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4"),
+        tags$p(
+          class = "lead",
+          "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
+        ),
+        tags$div(
+          class = "league-stats-grid",
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "4"),
+            tags$div(class = "stat-label", "Active Leagues")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "17"),
+            tags$div(class = "stat-label", "Teams per League")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "Week 9"),
+            tags$div(class = "stat-label", "Avg Elimination")
+          ),
+          tags$div(
+            class = "stat-card",
+            tags$div(class = "stat-value", "$40"),
+            tags$div(class = "stat-label", "Avg Buy-in")
+          )
+        ),
+        tags$hr(class = "my-4"),
+        card(
+          card_header(tags$h5("League Configuration", class = "mb-0")),
+          card_body(
+            accordion(
+              id = "guillotine_accordion",
+              class = "league-accordion",
+              accordion_panel(
+                "Overview",
+                icon = bs_icon("chevron-double-right"),
+                md_file("www/md/guillotine/guillotine_overview.md")
+              ),
+              accordion_panel(
+                "Roster",
+                icon = bs_icon("gear"),
+                md_file("www/md/guillotine/guillotine_roster.md")
+              ),
+              accordion_panel(
+                "Draft",
+                icon = bs_icon("gear"),
+                md_file("www/md/guillotine/guillotine_draft.md")
+              ),
+              accordion_panel(
+                "Scoring",
+                icon = bs_icon("gear"),
+                md_file("www/md/guillotine/guillotine_scoring.md")
+              ),
+              accordion_panel(
+                "Transactions",
+                icon = bs_icon("gear"),
+                md_file("www/md/guillotine/guillotine_transactions.md")
+              )
+            )
+          ),
+          class = "mb-4"
+        ),
+        card(
+          card_header("NUCLEARFF GUILLOTINE LEAGUES"),
+          card_body(
+            tags$p("Test your survival skills in these elimination leagues:"),
+            tags$div(
+              class = "list-group",
+              # NUCLEARFF $10 GUILLOTINE
+              tags$a(
+                href = "https://sleeper.com/leagues/1241932113842798592",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF $10 GUILLOTINE", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                ),
+                tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
+              ),
+              # NUCLEARFF $10 GUILLOTINE 02
+              tags$a(
+                href = "https://sleeper.com/leagues/1260089054490275840",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF $10 GUILLOTINE 02", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-warning", "5 SPOTS LEFT"))
+                ),
+                tags$p("$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
+              ),
+              # NUCLEARFF $10 GUILLOTINE 02
+              tags$a(
+                href = "https://sleeper.com/leagues/1241932113842798592",
+                class = "list-group-item list-group-item-action",
+                tags$div(
+                  class = "d-flex w-100 justify-content-between",
+                  tags$h6("NUCLEARFF $25 GUILLOTINE", class = "mb-1"),
+                  tags$small(tags$span(class = "badge bg-danger", "FULL"))
+                ),
+                tags$p("$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD", class = "mb-1 text-muted")
+              )
+            )
+          )
+        )
+      )
+    }
   })
 
   # ── Theme switching logic ──
@@ -346,6 +857,16 @@ server <- function(input, output, session) {
       "))
     )
   })
+
+  # Add JavaScript for button highlighting
+  observe({
+    session$sendCustomMessage("updateLeagueButtons", selected_league())
+  })
+
+  # Custom message handler for league button updates
+  session$onFlushed(function() {
+    session$sendCustomMessage("addLeagueButtonHandler", TRUE)
+  }, once = TRUE)
 }
 
 # ── App ───────────────────────────────────────────────────────────────────────

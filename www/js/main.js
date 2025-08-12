@@ -68,3 +68,28 @@ if (window.Shiny) {
         if (el) el.textContent = message.text;
     });
 }
+
+/* Button Highlighting */
+// League button handler
+Shiny.addCustomMessageHandler('updateLeagueButtons', function(league) {
+  // Remove active class from all buttons
+  document.querySelectorAll('.league-nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Add active class to selected button
+  if (league === 'redraft') {
+    document.getElementById('btn_redraft')?.classList.add('active');
+  } else if (league === 'dynasty') {
+    document.getElementById('btn_dynasty')?.classList.add('active');
+  } else if (league === 'guillotine') {
+    document.getElementById('btn_guillotine')?.classList.add('active');
+  }
+});
+
+// Initialize first button as active
+Shiny.addCustomMessageHandler('addLeagueButtonHandler', function(msg) {
+  setTimeout(() => {
+    document.getElementById('btn_redraft')?.classList.add('active');
+  }, 100);
+});
