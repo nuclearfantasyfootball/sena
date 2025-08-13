@@ -99,7 +99,7 @@ ui <- tagList(
         sidebar = sidebar(
           width = 200,
           class = "leagues-sidebar",
-          tags$h5("League Types", class = "mb-3"),
+          tags$h5("League Types", class = "mb-2"),
           tags$p("LEAGUE FORMAT", class = "text-muted small mb-2"),
           actionButton("btn_redraft",
             tags$span(bs_icon("arrow-repeat"), "Redraft"),

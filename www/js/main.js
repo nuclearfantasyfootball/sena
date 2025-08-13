@@ -6,8 +6,146 @@ document.addEventListener("DOMContentLoaded", () => {
     initCountdown("2025-08-15T09:00:00-04:00");
     initNavbarBehavior();
     initShinyHandlers();
-    console.log("NuclearFF Frontend Launched 🚀");
+    initNavbarAutoCollapse();
+    console.log("NuclearFF Frontend Launched");
 });
+
+// =================== Navbar Auto-Collapse ===================
+/**
+ * Auto-collapse navbar on mobile when nav items are clicked
+ */
+function initNavbarAutoCollapse() {
+    // Enhanced element detection with multiple attempts
+    const setupAutoCollapse = () => {
+        console.log('Setting up navbar auto-collapse...');
+        
+        // Try multiple selector strategies
+        let navLinks = document.querySelectorAll('.navbar-nav .nav-link, .nav-link[data-bs-toggle="tab"], [data-value][data-bs-toggle="tab"]');
+        let navbarToggler = document.querySelector('.navbar-toggler, [data-bs-toggle="collapse"]');
+        let navbarCollapse = document.querySelector('.navbar-collapse, .collapse');
+        
+        // Alternative selectors if first attempt fails
+        if (!navLinks.length) {
+            navLinks = document.querySelectorAll('a[data-value]'); // Shiny nav items
+        }
+        
+        console.log('Found elements:', {
+            navLinks: navLinks.length,
+            togglerExists: !!navbarToggler,
+            collapseExists: !!navbarCollapse,
+            allNavElements: document.querySelectorAll('[data-value]').length
+        });
+        
+        if (!navLinks.length || !navbarToggler || !navbarCollapse) {
+            console.log('Not all required elements found, retrying...');
+            setTimeout(setupAutoCollapse, 1000);
+            return;
+        }
+        
+        // Use Bootstrap's Collapse API if available
+        let bsCollapse = null;
+        if (window.bootstrap && window.bootstrap.Collapse) {
+            try {
+                bsCollapse = new window.bootstrap.Collapse(navbarCollapse, { toggle: false });
+                console.log('Bootstrap Collapse API initialized');
+            } catch (e) {
+                console.log('Bootstrap Collapse API not available:', e);
+            }
+        }
+        
+        // Function to handle navbar collapse
+        const handleNavbarCollapse = (elementName) => {
+            // Check if we're in mobile mode
+            const isMobile = window.getComputedStyle(navbarToggler).display !== 'none';
+            const isExpanded = navbarCollapse.classList.contains('show') || 
+                            navbarCollapse.classList.contains('showing');
+            
+            console.log(`${elementName} clicked - Mobile check:`, {
+                isMobile: isMobile,
+                isExpanded: isExpanded,
+                togglerDisplay: window.getComputedStyle(navbarToggler).display,
+                collapseClasses: navbarCollapse.className,
+                windowWidth: window.innerWidth
+            });
+            
+            if (isMobile && isExpanded) {
+                console.log(`Attempting to collapse navbar after ${elementName} click...`);
+                
+                // Try Bootstrap API first
+                if (bsCollapse) {
+                    try {
+                        bsCollapse.hide();
+                        console.log('Collapsed using Bootstrap API');
+                        return;
+                    } catch (e) {
+                        console.log('Bootstrap API failed:', e);
+                    }
+                }
+                
+                // Fallback: trigger click on toggler
+                setTimeout(() => {
+                    console.log('Fallback: clicking toggler');
+                    navbarToggler.click();
+                }, 150);
+                
+                // Alternative fallback: manually remove classes
+                setTimeout(() => {
+                    if (navbarCollapse.classList.contains('show')) {
+                        console.log('Manual collapse fallback');
+                        navbarCollapse.classList.remove('show');
+                        navbarCollapse.classList.add('collapse');
+                    }
+                }, 300);
+            }
+        };
+
+        // Add event listeners to nav links
+        navLinks.forEach((link, index) => {
+            link.addEventListener('click', function(event) {
+                console.log(`Nav link ${index} clicked:`, link.textContent || link.getAttribute('data-value'));
+                handleNavbarCollapse('nav link');
+            });
+        });
+
+        // Add event listener to theme toggle button
+        const setupThemeToggleCollapse = () => {
+            const themeToggle = document.querySelector('#toggle_theme, .nav-icon-btn');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(event) {
+                    console.log('Theme toggle clicked');
+                    handleNavbarCollapse('theme toggle');
+                });
+                console.log('Theme toggle auto-collapse enabled');
+            } else {
+                // Theme toggle might not be rendered yet, try again
+                setTimeout(setupThemeToggleCollapse, 500);
+            }
+        };
+        
+        setupThemeToggleCollapse();
+        
+        console.log('Auto-collapse navbar initialized successfully with', navLinks.length, 'nav links');
+    };
+    
+    // Multiple initialization attempts
+    setupAutoCollapse();
+    
+    // Try again after DOM is fully loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupAutoCollapse);
+    }
+    
+    // Try again after Shiny is ready
+    if (window.Shiny) {
+        Shiny.addCustomMessageHandler('setupNavbarCollapse', setupAutoCollapse);
+        
+        // Also try when Shiny is fully initialized
+        $(document).on('shiny:connected', setupAutoCollapse);
+    }
+    
+    // Final attempt after everything should be loaded
+    setTimeout(setupAutoCollapse, 2000);
+}
 
 // =================== Theme Management ===================
 /**
@@ -173,6 +311,7 @@ if (typeof module !== 'undefined' && module.exports) {
         initTheme,
         initCountdown,
         initNavbarBehavior,
-        initShinyHandlers
+        initShinyHandlers,
+        initNavbarAutoCollapse
     };
 }
