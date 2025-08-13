@@ -47,6 +47,9 @@ ui <- tagList(
   # Head includes: External CSS/JS files
   tags$head(
     tags$link(rel = "preload", href = "images/football-stadium-bg.jpg", as = "image"),
+    tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
+    tags$link(rel = "preconnect", href = "https://fonts.gstatic.com", crossorigin = NA),
+    tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"),
     tags$link(rel = "stylesheet", href = "css/style.css"),
     tags$script(src = "js/main.js", defer = NA)
   ),
@@ -77,7 +80,7 @@ ui <- tagList(
             tags$span(class = "word nuclear", "NUCLEAR"),
             tags$span(class = "word ff", "FF")
           ),
-          tags$p(class = "hero-subtitle", "Nuclear Fantasy Football - Coming Soon"),
+          tags$p(class = "hero-subtitle", "Nuclear Fantasy Football"),
           tags$div(
             class = "countdown-display",
             tags$h2(style = "margin-bottom: 1rem;", "LAUNCH SEQUENCE"),
