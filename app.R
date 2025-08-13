@@ -115,6 +115,10 @@ ui <- tagList(
           actionButton("btn_guillotine",
             tags$span(bs_icon("scissors"), "Guillotine"),
             class = "league-nav-btn"
+          ),
+          actionButton("btn_survivor",
+            tags$span(bs_icon("fire"), "Survivor"),
+            class = "league-nav-btn"
           )
         ),
         tags$div(
@@ -224,6 +228,11 @@ server <- function(input, output, session) {
     session$sendCustomMessage("updateLeagueButtons", "guillotine")
   })
 
+  observeEvent(input$btn_survivor, {
+    selected_league("survivor")
+    session$sendCustomMessage("updateLeagueButtons", "survivor")
+  })
+
   # Dynamic league content generator
   output$league_content <- renderUI({
     create_league_content(selected_league())
@@ -276,8 +285,10 @@ create_league_content <- function(league) {
     create_redraft_content()
   } else if (league == "dynasty") {
     create_dynasty_content()
-  } else {
+  } else if (league == "guillotine") {
     create_guillotine_content()
+  } else {
+    create_survivor_content()
   }
 }
 
@@ -360,26 +371,51 @@ create_guillotine_content <- function() {
     create_league_accordion("guillotine"),
     create_league_list("guillotine", list(
       list(
-        name = "|NUCLEARFF $10 GUILLOTINE",
+        name = "NUCLEARFF $10 GUILLOTINE",
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
         details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
       ),
       list(
-        name = "|NUCLEARFF $10 GUILLOTINE 02",
+        name = "NUCLEARFF $10 GUILLOTINE 02",
         url = "https://sleeper.com/leagues/1260089054490275840",
         logo = "logos/guillotine-logo.png",
-        status = "5 SPOTS LEFT",
-        status_class = "info",
+        status = "FULL",
         details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
       ),
       list(
-        name = "|NUCLEARFF $25 GUILLOTINE",
+        name = "NUCLEARFF $25 GUILLOTINE",
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
         details = "$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+      )
+    ))
+  )
+}
+
+# ── Survivor League Content ──
+create_survivor_content <- function() {
+  tags$div(
+    tags$h2(bs_icon("fire"), "SURVIVOR LEAGUES", class = "mb-4"),
+    tags$p(
+      class = "lead",
+      "Pick a team to win each week to survive. Survival comes at a cost, your winning team cannot be chosen again for the remainder of the season. Choose wisely."
+    ),
+    create_stat_cards(
+      list("W" = "Winning is survival", "infinite" = "Teams")
+    ),
+    tags$hr(class = "my-4"),
+    create_league_accordion("survivor"),
+    create_league_list("survivor", list(
+      list(
+        name = "|NUCLEARFF Survivor (Pick 'Em) 2025",
+        url = "https://sleeper.com/leagues/1256760468719030272",
+        logo = "logos/survivor-logo.png",
+        status = "OPEN",
+        status_class = "success",
+        details = "$10 ENTRY | PICK 'EM"
       )
     ))
   )
@@ -407,7 +443,7 @@ create_league_accordion <- function(type) {
         id = paste0(type, "_accordion"),
         class = "league-accordion",
         accordion_panel(
-          "Overview",
+          "OVERVIEW",
           icon = bs_icon("chevron-double-right"),
           md_file(sprintf("www/md/%s/%s_overview.md", type, type))
         ),
@@ -441,7 +477,8 @@ create_league_list <- function(type, leagues) {
   title <- switch(type,
     "redraft" = "NUCLEARFF REDRAFT LEAGUES",
     "dynasty" = "NUCLEARFF DYNASTY LEAGUES",
-    "guillotine" = "NUCLEARFF GUILLOTINE LEAGUES"
+    "guillotine" = "NUCLEARFF GUILLOTINE LEAGUES",
+    "survivor" = "NUCLEARFF SURVIVOR LEAGUES"
   )
 
   card(
