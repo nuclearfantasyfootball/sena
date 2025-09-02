@@ -110,6 +110,63 @@ body {
   will-change: transform, opacity;
 }
 
+/* --- Redraft hero row --- */
+.league-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* centers under the page title */
+  gap: 0.75rem;
+  margin: 0 0 1rem 0;
+  margin-top: 1.5rem;
+  margin-left: 0rem;
+}
+
+.league-hero-row .hero-logo {
+  height: 64px;              /* tweak as needed */
+  width: auto;
+  display: block;
+}
+
+/* REDRAFT shadow dance animation */
+.hero-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3vw + 0.5rem, 2.75rem);
+  line-height: 1;
+  opacity: 0;
+  animation: fadeInShadowDance 2s ease-out 0.2s 1 forwards;
+}
+
+/* Light mode text color */
+.nff-light .hero-text {
+  color: #000; /* black text */
+}
+
+/* Dark mode text color */
+.nff-dark .hero-text {
+  color: #fff; /* white text */
+}
+
+@keyframes fadeInShadowDance {
+  0% {
+    opacity: 0;
+    text-shadow: 5px 5px 0 #ff005e, 10px 10px 0 #00d4ff;
+    transform: translateX(40%);
+  }
+  50% {
+    opacity: 1;
+    text-shadow: -5px -5px 0 #00d4ff, -10px -10px 0 #ff005e;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 1;
+    text-shadow: 5px 5px 0 #ff005e, 10px 10px 0 #00d4ff;
+    transform: translateX(0);
+  }
+}
+
+
+
 /* =================== Animations =================== */
 @keyframes fadeInUp {
   from {
@@ -336,19 +393,68 @@ body {
 }
 
 /* =================== Leagues Page Styles =================== */
-.leagues-sidebar {
-  padding: 1rem;
+/* --- Navbar height variable + global top padding --- */
+:root { --nff-nav-h: 56px; }           /* fallback */
+body { padding-top: var(--nff-nav-h); } /* was: 56px */
+
+/* Reusable top buffer for headings that live under the fixed navbar */
+.nff-title-buffer {
+  margin-top: calc(var(--nff-nav-h) + 0.25rem); /* space for navbar + breathing room */
 }
 
-/* League Navigation Buttons */
+/* --- Ensure Leagues content clears the navbar --- */
+.tab-pane#leagues .league-content-section {
+  /* extra breathing room above the “REDRAFT / …” title */
+  padding-top: calc(var(--nff-nav-h) + 0.5rem) !important;
+}
+
+/* If your left sidebar content is clipped too, pad it too */
+.tab-pane#leagues .leagues-sidebar {
+  padding-top: calc(var(--nff-nav-h) + 1.5rem) !important;
+}
+
+/* nudge only the “League Types” line */
+.league-types-static {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: -0.5rem !important;
+}
+
+
+
+/* If you ever link/scroll to headings, keep them visible below the fixed navbar */
+.tab-pane#leagues h1, 
+.tab-pane#leagues h2, 
+.tab-pane#leagues h3 {
+  scroll-margin-top: calc(var(--nff-nav-h) + 0.5rem);
+}
+
+/* .leagues-sidebar {
+  padding: 1rem;
+} */
+
+/* League Navigation Buttons - Reduced Spacing */
 .league-nav-btn {
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem; /* Reduced from 0.5rem */
   transition: all 0.3s ease;
+}
+
+/* Even tighter spacing option */
+.league-nav-btn.compact {
+  margin-bottom: 0.125rem; /* Very tight spacing */
+}
+
+/* Remove margin from last button */
+.league-nav-btn:last-child {
+  margin-bottom: 0;
 }
 
 .league-nav-btn span {
@@ -511,6 +617,287 @@ body {
   background-color: rgba(15, 160, 206, 0.08); 
 }
 
+/* Header/toggler layout */
+.league-format-header {
+  display: flex;
+  align-items: center !important;
+}
+
+.league-format-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: .5rem 0rem;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+/* Chevron rotation on collapse/expand */
+.league-format-toggle .toggle-icon {
+  transition: transform .2s ease;
+}
+.league-format-toggle.collapsed .toggle-icon {
+  transform: rotate(-90deg);
+}
+
+/* Tighten spacing so buttons sit closer to the header */
+.leagues-sidebar .format-subtitle { margin: 0 0 1.5rem !important; line-height: 1.1; }
+.leagues-sidebar .league-buttons-container { margin-top: 0 !important; gap: .5rem; }
+
+/* Layout: icon on the left, text to the right */
+.league-format-toggle {
+  display: inline-flex;            /* inline so it only takes what it needs */
+  align-items: center;             /* vertical alignment */
+  justify-content: flex-start;     /* keep text next to icon */
+  gap: .25rem;                     /* shrink space between icon and text */
+  border: 0;
+  background: transparent;
+  padding: .25rem 0;
+  color: inherit;
+  cursor: pointer;
+  width: auto;
+  margin-top: 1rem;
+  margin-bottom: -1.25rem !important;
+}
+
+/* If you keep width:100% for a full-width clickable header, still OK: */
+.league-format-toggle.fullwidth { width: 100%; justify-content: flex-start; }
+
+.league-format-toggle .toggle-icon {
+  width: 1em; height: 1em;         /* predictable SVG size */
+  flex: 0 0 auto;
+  transition: transform .2s ease;
+}
+
+.league-format-toggle .toggle-text {
+  font-size: 1.125rem;             /* ≈ h5 */
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0;
+  white-space: nowrap;             /* keep on one line */
+}
+
+/* rotate chevron when open */
+.league-format-toggle[aria-expanded="true"] .toggle-icon { transform: rotate(90deg); }
+}
+
+/* Gentle cross-fade for tab content */
+.tab-content .tab-pane {
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .24s ease, transform .24s ease;
+}
+
+.tab-content .tab-pane.active.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Smooth programmatic & anchor scrolling */
+html { scroll-behavior: smooth; }
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Big page logo under each league title */
+.league-page-logo {
+  max-height: 250px;    /* tweak to taste */
+  width: auto;
+  object-fit: contain;
+}
+
+/* Smooth scroll globally (safe for all tabs)
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } } */
+
+/* Floating "scroll to top" button */
+/* Floating Back-to-top */
+.scroll-top-btn{
+  position: fixed;                     /* fixed to the viewport */
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 1050;                       /* above content; below modals/offcanvas */
+  width: 44px; height: 44px;
+  border-radius: 999px;
+  border: 1px solid var(--bs-border-color, rgba(0,0,0,.15));
+  background: var(--bs-body-bg, #fff);
+  color: var(--bs-body-color, #111);
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,.12);
+  opacity: 0; visibility: hidden; transform: translateY(8px);
+  transition: opacity .2s ease, transform .2s ease, visibility .2s ease;
+}
+.scroll-top-btn:hover { filter: brightness(0.97); }
+.scroll-top-btn.show { opacity: 1; visibility: visible; transform: translateY(0); }
+.scroll-top-icon { width: 1.25em; height: 1.25em; }
+
+/* Smooth scrolling */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+
+/* If your Leagues page has its own scroller, keep the button above it */
+.league-content-section { scroll-behavior: smooth; } /* enables smooth element scrolls too */
+
+/* NuclearFF themed tooltip (used on FULL leagues) */
+.tooltip.nff-tt {
+  --bs-tooltip-padding-x: .6rem;
+  --bs-tooltip-padding-y: .45rem;
+  --bs-tooltip-font-size: .9rem;
+  --bs-tooltip-border-radius: .5rem;
+  --bs-tooltip-opacity: 1;              /* solid, not transparent */
+  z-index: 1080;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.15));
+}
+
+/* Inner box adopts a tint of the theme primary and a subtle border */
+.tooltip.nff-tt .tooltip-inner {
+  color: var(--bs-body-color);
+  background-color: rgba(var(--bs-primary-rgb), .10);  /* default tint */
+  border: 1px solid rgba(var(--bs-primary-rgb), .40);
+}
+
+/* Arrow matches inner background */
+.tooltip.nff-tt .tooltip-arrow::before {
+  background-color: rgba(var(--bs-primary-rgb), .10);
+}
+
+/* LIGHT mode: lighter tint + softer border */
+[data-bs-theme="light"] .tooltip.nff-tt .tooltip-inner,
+.nff-light .tooltip.nff-tt .tooltip-inner {             /* fallback if you use .nff-light */
+  background-color: rgba(var(--bs-primary-rgb), .08);
+  border-color: rgba(var(--bs-primary-rgb), .35);
+}
+[data-bs-theme="light"] .tooltip.nff-tt .tooltip-arrow::before,
+.nff-light .tooltip.nff-tt .tooltip-arrow::before {
+  background-color: rgba(var(--bs-primary-rgb), .08);
+}
+
+/* DARK mode: stronger tint + stronger border */
+[data-bs-theme="dark"] .tooltip.nff-tt .tooltip-inner,
+.nff-dark .tooltip.nff-tt .tooltip-inner {              /* fallback if you use .nff-dark */
+  background-color: rgba(var(--bs-primary-rgb), .20);
+  border-color: rgba(var(--bs-primary-rgb), .55);
+}
+[data-bs-theme="dark"] .tooltip.nff-tt .tooltip-arrow::before,
+.nff-dark .tooltip.nff-tt .tooltip-arrow::before {
+  background-color: rgba(var(--bs-primary-rgb), .20);
+}
+
+/* Optional: slightly bolder title look */
+.tooltip.nff-tt .tooltip-inner { font-weight: 550; }
+
+/* Theme variables for tooltip colors (darker than base primary) */
+[data-bs-theme="light"] {
+  --nff-tt-bg: #0b7aa0;   /* darker blue than #0fa0ce */
+  --nff-tt-border: #08536d;
+  --nff-tt-text: #ffffff;
+}
+
+[data-bs-theme="dark"] {
+  --nff-tt-bg: #a20c7a;   /* darker magenta than #ce0fa0 */
+  --nff-tt-border: #7a095c;
+  --nff-tt-text: #ffffff;
+}
+
+/* NuclearFF themed tooltip */
+.tooltip.nff-tt {
+  --bs-tooltip-padding-x: .6rem;
+  --bs-tooltip-padding-y: .45rem;
+  --bs-tooltip-font-size: .9rem;
+  --bs-tooltip-border-radius: .5rem;
+  --bs-tooltip-opacity: 1;
+  z-index: 1080;
+  filter: drop-shadow(0 6px 18px rgba(0,0,0,.15));
+}
+
+.tooltip.nff-tt .tooltip-inner {
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--nff-tt-bg);
+  color: var(--nff-tt-text);
+  border: 1px solid var(--nff-tt-border);
+  font-weight: 600;
+}
+
+/* Arrow color matches bubble */
+.tooltip.nff-tt .tooltip-arrow::before {
+  background-color: var(--nff-tt-bg);
+}
+
+/* Make sure the arrow hugs the right side on top-end placement */
+.tooltip.nff-tt[data-popper-placement="top-end"] .tooltip-arrow,
+.tooltip.nff-tt[data-popper-placement="bottom-end"] .tooltip-arrow {
+  left: auto !important;    /* let Popper push it to the end */
+  right: .5rem;             /* small inset so it doesn't sit on the corner */
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .fa-spin, .fa-fade { animation: none !important; }
+}
+
+/* Let the tooltip position relative to the league row and overflow out */
+.list-group .league-item { position: relative; overflow: visible; }
+
+/* Keep your themed look (Montserrat + dark blue/pink) from earlier */
+.tooltip.nff-tt { z-index: 2000; }
+
+/* ── Infinity animation (theme-aware) ─────────────────────────────── */
+:root { --inf-len: 300; --inf-time: 3000ms; }
+
+[data-bs-theme="light"] {
+  --nff-inf-stroke: #0fa0ce;  /* your light primary (blue) */
+  --nff-inf-bg:     #0fa0ce;  /* faint background ring */
+}
+[data-bs-theme="dark"] {
+  --nff-inf-stroke: #ce0fa0;  /* your dark primary (pink) */
+  --nff-inf-bg:     #ce0fa0;
+}
+
+/* Fit nicely inside the stat card’s “value” area */
+.stat-card .stat-value { display: flex; align-items: center; justify-content: center; }
+.nff-inf { width: 80px; height: 26px; display: inline-block; }
+.nff-inf svg { width: 100%; height: 100%; display: block; }
+
+.nff-inf #nff-inf-outline {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--nff-inf-stroke);
+  stroke-dasharray: calc(var(--inf-len) * 0.01) var(--inf-len);
+  stroke-dashoffset: 0;
+  animation: nff-inf-anim var(--inf-time) linear infinite;
+}
+.nff-inf #nff-inf-bg {
+  fill: none;
+  stroke-width: 4;
+  stroke: var(--nff-inf-bg);
+  opacity: 0.2;
+}
+
+@keyframes nff-inf-anim {
+  12.5% {
+    stroke-dasharray: calc(var(--inf-len) * 0.14) var(--inf-len);
+    stroke-dashoffset: calc(-1 * var(--inf-len) * 0.11);
+  }
+  43.75% {
+    stroke-dasharray: calc(var(--inf-len) * 0.35) var(--inf-len);
+    stroke-dashoffset: calc(-1 * var(--inf-len) * 0.35);
+  }
+  100% {
+    stroke-dasharray: calc(var(--inf-len) * 0.01) var(--inf-len);
+    stroke-dashoffset: calc(-1 * var(--inf-len) * 0.99);
+  }
+}
+
 /* =================== Utility Classes =================== */
 .fade-in {
   animation: fadeInUp 1s ease-out;
@@ -559,6 +946,250 @@ body {
     min-height: 130px; 
   }
 }
+
+/* Uniform value band so labels line up */
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-card .stat-value {
+  height: 60px;                 /* <- your band height; tweak to taste */
+  display: grid;                /* grid = easy perfect centering */
+  place-items: center;          /* centers both horizontally & vertically */
+  text-align: center;
+}
+
+/* Text-only values scale nicely inside the same band */
+.stat-card .stat-value:not(:has(svg)) {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1;
+}
+
+/* Infinity container + SVG sizing */
+.nff-inf { 
+  display: block;
+  height: 100%;                 /* fill the band height */
+  aspect-ratio: 200 / 80;       /* keeps the correct shape */
+  margin: 0 auto;               /* center horizontally if width is smaller */
+}
+.nff-inf svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* (optional) smaller band on very narrow screens */
+@media (max-width: 480px) {
+  .stat-card .stat-value { height: 52px; }
+}
+
+
+/* Minimal hero layout */
+.hero-section.hero-minimal { position: relative; min-height: 100vh; }
+.hero-section.hero-minimal .hero-overlay { pointer-events: none; }
+
+/* Center block */
+.hero-center {
+  position: absolute; inset: 50% 0 0 50%;
+  transform: translate(-50%, -50%);
+  display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+  text-align: center;
+}
+
+/* Big responsive logo */
+.hero-logo {
+  width: min(60vw, 520px);
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,.25));
+}
+
+/* CTA button: uses theme primary (blue light / pink dark) */
+.hero-cta.btn {
+  padding: .9rem 1.4rem; font-weight: 600; border-radius: .75rem;
+  box-shadow: 0 6px 24px rgba(0,0,0,.18);
+}
+
+/* Hero CTA uses same styling as league-nav-btn */
+.hero-cta.league-nav-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .65rem 1rem;         /* a bit larger for the hero */
+  font-weight: 700;
+  text-transform: uppercase;    /* matches sidebar buttons */
+  letter-spacing: .04em;
+  border-radius: .75rem;        /* same shape */
+}
+.hero-cta.league-nav-btn .bi{ width: 1.1em; height: 1.1em; }
+
+
+/* Lower-left scroll hint */
+.hero-scroll {
+  position: absolute; right: 1rem; bottom: 2rem;
+  display: inline-flex; align-items: center; gap: .4rem;
+  padding: .4rem .6rem;
+  border: 0; background: transparent; color: var(--bs-body-color);
+  opacity: .85; cursor: pointer;
+}
+.hero-scroll:hover { opacity: 1; }
+
+/* Subtle bounce on chevron */
+.hero-scroll svg { transform-origin: 50% 50%; animation: nff-bounce 1.4s ease-in-out infinite; }
+@keyframes nff-bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll svg { animation: none; }
+}
+
+/* Keep top:50%, but pull the block up a bit more */
+.hero-section.hero-minimal .hero-center {
+  transform: translate(-50%, -80%);  /* was -50% */
+}
+
+.hero-section.hero-minimal .hero-center { gap: 0rem; }  /* was ~1.25rem */
+
+/* Smaller, crisp logo */
+.hero-logo {
+  width: min(46vw, 380px);   /* ↓ was larger; tweak to taste */
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,.25));
+}
+
+/* Title stack under the logo */
+.hero-title {
+  display: grid;
+  gap: .25rem;
+  justify-items: center;
+  margin-top: .25rem;
+  /* we’ll set both line widths equally via JS; center them here */
+}
+
+.hero-title-main,
+.hero-title-sub {
+  line-height: .95;
+  letter-spacing: .02em;
+  white-space: nowrap;      /* keep each line on one row */
+  margin: 0;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Colors match your brand (blue for top, pink for bottom) */
+.hero-title-main { color: #0fa0ce; font-weight: 800; font-size: clamp(36px, 9vw, 92px); }
+.hero-title-sub  { color: #ce0fa0; font-weight: 700; font-size: clamp(16px, 4vw, 36px); }
+
+/* Ensure the two lines are perfectly centered in their equal-width boxes */
+.hero-title-main, .hero-title-sub { text-align: center; }
+
+/* (Already added earlier) Animista text-focus-in */
+.text-focus-in {
+  -webkit-animation: text-focus-in .8s cubic-bezier(.55,.085,.68,.53) both;
+          animation: text-focus-in .8s cubic-bezier(.55,.085,.68,.53) both;
+}
+@-webkit-keyframes text-focus-in {
+  0% { -webkit-filter: blur(12px); filter: blur(12px); opacity: 0; }
+  100%{ -webkit-filter: blur(0);    filter: blur(0);    opacity: 1; }
+}
+@keyframes text-focus-in {
+  0% { -webkit-filter: blur(12px); filter: blur(12px); opacity: 0; }
+  100%{ -webkit-filter: blur(0);    filter: blur(0);    opacity: 1; }
+}
+
+/* Pull the whole block tighter */
+.hero-section.hero-minimal .hero-center { gap: .5rem; }            /* logo ↔ titles ↔ button */
+.hero-title { gap: .05rem; margin-top: -2rem; }                        /* NUCLEAR ↔ FANTASY FOOTBALL */
+.hero-logo { margin-bottom: 0; }                                   /* reduce space under logo */
+.hero-cta { margin-top: 1rem; }                                   /* keep a bit of space above the button */
+
+/* Make the two title lines sit closer without overlapping */
+.hero-title-main,
+.hero-title-sub { line-height: .9; margin: 0; }
+
+/* Animate the sub-title a beat after NUCLEAR */
+.hero-title-sub.text-focus-in { animation-delay: .2s; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-sub.text-focus-in { animation-delay: 0s; }
+}
+
+/* Alt color per theme (pink in light hover, blue in dark hover) */
+[data-bs-theme="light"] { --nff-alt: #ce0fa0; } /* pink */
+[data-bs-theme="dark"]  { --nff-alt: #0fa0ce; } /* blue */
+
+/* Hero CTA uses the same base styling as .league-nav-btn, but filled */
+.hero-cta.league-nav-btn{
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  font-weight: 700;
+  padding: .65rem 1rem;              /* a touch larger for the hero */
+  border-radius: .75rem;
+  transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+/* Hover: keep filled background, flip text color to the alt brand */
+.hero-cta.league-nav-btn:hover,
+.hero-cta.league-nav-btn:focus {
+  color: var(--nff-alt);
+}
+
+/* Active/focus ring for accessibility */
+.hero-cta.league-nav-btn:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), .25);
+}
+
+/* Theme-specific hover text color */
+[data-bs-theme="light"] { --nff-cta-hover: #ce0fa0; } /* pink on light */
+[data-bs-theme="dark"]  { --nff-cta-hover: #0fa0ce; } /* blue on dark */
+
+/* Hero CTA: thinner font, white text by default */
+.hero-cta.league-nav-btn{
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 500;                 /* thinner */
+  color: #fff;                      /* white text by default */
+  /* keep the filled look you already set elsewhere */
+}
+
+/* Hover: ONLY change text color; keep fill the same */
+.hero-cta.league-nav-btn:hover,
+.hero-cta.league-nav-btn:focus{
+  color: var(--nff-cta-hover);
+  background-color: var(--bs-primary);  /* lock the fill */
+  border-color: var(--bs-primary);      /* lock the border */
+}
+
+/* Theme-specific hover text color */
+[data-bs-theme="light"] { --nff-cta-hover: #ce0fa0; } /* pink on light */
+[data-bs-theme="dark"]  { --nff-cta-hover: #0fa0ce; } /* blue on dark */
+
+/* EXPLORE button (ID wins over any generic .league-nav-btn rules) */
+#cta_view_app{
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 500;                 /* thinner font */
+  color: #fff;                      /* white by default */
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* Hover/focus: ONLY change text color; keep fill the same */
+#cta_view_app:hover,
+#cta_view_app:focus{
+  color: var(--nff-cta-hover) !important;
+  background-color: var(--bs-primary);
+  border-color: var(--bs-primary);
+}
+
+/* Optional: keyboard focus ring */
+#cta_view_app:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 0 .2rem rgba(var(--bs-primary-rgb), .25);
+}
+
+
+
 
 /* flicker effect */
 /* =================== Text Flicker Animation =================== */

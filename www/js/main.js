@@ -305,6 +305,440 @@ function toggleClass(selector, className) {
     }
 }
 
+function setNavHeightVar() {
+  const navbar = document.querySelector('.navbar');
+  if (!navbar) return;
+  const h = navbar.offsetHeight || 56;
+  document.documentElement.style.setProperty('--nff-nav-h', `${h}px`);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setNavHeightVar();
+  window.addEventListener('resize', setNavHeightVar);
+
+  // Recompute when the navbar collapses/expands (mobile)
+  document.querySelectorAll('.navbar-collapse').forEach(el => {
+    el.addEventListener('shown.bs.collapse', setNavHeightVar);
+    el.addEventListener('hidden.bs.collapse', setNavHeightVar);
+  });
+});
+
+
+// --- Auto-jump from Home -> Leagues on first downward scroll/swipe ---
+(function () {
+  // Config: tweak sensitivity
+  const MIN_WHEEL_DELTA = 15;   // how "downward" a wheel must be to count
+  const HERO_SCROLL_PCT = 0.25; // or jump after 25% of hero scrolled
+
+  let jumpedThisVisit = false;
+  let touchStartY = null;
+
+  function isHomeActive() {
+    const active = document.querySelector('.navbar .nav-link.active');
+    return active && active.dataset && active.dataset.value === 'home';
+  }
+
+  function heroScrolledEnough() {
+    const hero = document.querySelector('.hero-section');
+    if (!hero) return false;
+    const h = Math.max(hero.clientHeight, hero.offsetHeight, 1);
+    return window.scrollY >= h * HERO_SCROLL_PCT;
+  }
+
+  function navSelectLeagues() {
+    if (jumpedThisVisit) return;
+    jumpedThisVisit = true;
+
+    // Prefer bslib API if present
+    if (window.bslib && typeof window.bslib.navSelect === 'function') {
+      window.bslib.navSelect('topnav', 'leagues');
+    } else {
+      // Fallback: click the nav link
+      const link =
+        document.querySelector('.navbar .nav-link[data-value="leagues"]') ||
+        document.querySelector('[data-bs-target="#leagues"]') ||
+        document.querySelector('[data-value="leagues"]');
+      if (link) link.click();
+      // Mirror the input value for server observers (harmless if not needed)
+      if (window.Shiny) {
+        window.Shiny.setInputValue('topnav', 'leagues', { priority: 'event' });
+      }
+    }
+
+    // Optional: snap back to top so Leagues opens at its start
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function shouldTrigger() {
+    return isHomeActive() && !jumpedThisVisit;
+  }
+
+  // Mouse/trackpad wheel
+  window.addEventListener(
+    'wheel',
+    (e) => {
+      if (!shouldTrigger()) return;
+      if (e.deltaY >= MIN_WHEEL_DELTA || heroScrolledEnough()) {
+        navSelectLeagues();
+      }
+    },
+    { passive: true }
+  );
+
+  // Keyboard helpers
+  window.addEventListener('keydown', (e) => {
+    if (!shouldTrigger()) return;
+    const keys = ['PageDown', ' ', 'ArrowDown'];
+    if (keys.includes(e.key)) {
+      navSelectLeagues();
+    }
+  });
+
+  // Touch (mobile swipe up)
+  window.addEventListener(
+    'touchstart',
+    (e) => {
+      touchStartY = e.touches && e.touches[0] ? e.touches[0].clientY : null;
+    },
+    { passive: true }
+  );
+  window.addEventListener(
+    'touchend',
+    (e) => {
+      if (!shouldTrigger() || touchStartY == null) return;
+      const endY = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientY : touchStartY;
+      const delta = touchStartY - endY; // positive means swipe up
+      if (delta > 30) navSelectLeagues();
+      touchStartY = null;
+    },
+    { passive: true }
+  );
+
+  // If the user navigates back to Home manually, allow it to trigger again
+  const resetOnNavChange = () => {
+    const active = document.querySelector('.navbar .nav-link.active');
+    const val = active && active.dataset ? active.dataset.value : null;
+    jumpedThisVisit = val !== 'home' ? jumpedThisVisit : false;
+  };
+  document.addEventListener('click', (e) => {
+    // crude: after any navbar click, reset flag appropriately
+    if (e.target && e.target.closest && e.target.closest('.navbar')) {
+      setTimeout(resetOnNavChange, 0);
+    }
+  });
+})();
+
+// --- Leagues -> Home on upward scroll at top (with smooth scroll) ---
+(function () {
+  const MIN_WHEEL_DELTA_UP = 20;  // how much upward wheel to count
+  const TOP_EDGE_PX = 6;          // treat <= this many px from top as "at top"
+  const SWIPE_DOWN_PX = 30;       // touch threshold
+  let touchStartY = null;
+  let cooldown = false;
+
+  const isActive = (val) => {
+    const a = document.querySelector('.navbar .nav-link.active');
+    const v = a?.dataset?.value || a?.getAttribute?.('data-value');
+    return v === val;
+  };
+
+  // If your Leagues area ever becomes its own scroll container, this still works.
+  const atTop = () => {
+    const scroller = document.querySelector('.league-content-section');
+    const y = scroller && scroller.scrollHeight > scroller.clientHeight
+      ? scroller.scrollTop
+      : window.scrollY;
+    return y <= TOP_EDGE_PX;
+  };
+
+  const navSelect = (tabValue) => {
+    if (window.bslib?.navSelect) {
+      window.bslib.navSelect('topnav', tabValue);
+    } else {
+      document.querySelector(`.navbar .nav-link[data-value="${tabValue}"]`)?.click();
+      window.Shiny?.setInputValue('topnav', tabValue, { priority: 'event' });
+    }
+  };
+
+  const goHome = () => {
+    if (cooldown) return;
+    cooldown = true;
+    navSelect('home');
+    // smooth scroll to top for nice feel
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => (cooldown = false), 400); // prevent flapping
+  };
+
+  // Wheel/trackpad: strong upward push at the very top => Home
+  window.addEventListener('wheel', (e) => {
+    if (isActive('leagues') && atTop() && e.deltaY < -MIN_WHEEL_DELTA_UP) goHome();
+  }, { passive: true });
+
+  // Keyboard: PageUp / ArrowUp at top => Home
+  window.addEventListener('keydown', (e) => {
+    if (!isActive('leagues') || !atTop()) return;
+    if (e.key === 'PageUp' || e.key === 'ArrowUp' || e.key === 'Home') goHome();
+  });
+
+  // Touch: swipe down at top => Home
+  window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches?.[0]?.clientY ?? null;
+  }, { passive: true });
+
+  window.addEventListener('touchend', (e) => {
+    if (!isActive('leagues') || !atTop() || touchStartY == null) return;
+    const endY = e.changedTouches?.[0]?.clientY ?? touchStartY;
+    if (endY - touchStartY > SWIPE_DOWN_PX) goHome();
+    touchStartY = null;
+  }, { passive: true });
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const brand = document.getElementById("brandHome");
+  if (!brand) return;
+
+  brand.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // Prefer bslib’s API
+    if (window.bslib && typeof window.bslib.navSelect === "function") {
+      window.bslib.navSelect("topnav", "home");
+    } else {
+      // Fallbacks
+      document.querySelector('.navbar .nav-link[data-value="home"]')?.click();
+      window.Shiny?.setInputValue("topnav", "home", { priority: "event" });
+    }
+
+    // Nice UX: go to top smoothly
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
+// Block clicks on FULL leagues and show a tooltip instead
+document.addEventListener('click', function (e) {
+  const a = e.target.closest('a.league-item.is-full');
+  if (!a) return;
+  e.preventDefault();
+  e.stopPropagation();
+
+  const Tip = window.bootstrap?.Tooltip;
+  if (Tip) {
+    const tip = Tip.getOrCreateInstance(a, {
+      trigger: 'manual',
+      title: a.getAttribute('data-bs-title') || 'This league is full',
+      placement: a.getAttribute('data-bs-placement') || 'top-end', // right edge
+      container: a,                      // 👈 attach to the anchor, not <body>
+      customClass: 'nff-tt',
+      offset: [0, 10],
+      boundary: 'viewport',
+      popperConfig: (def) => ({          // 👈 make positioning immune to transforms
+        ...def,
+        strategy: 'fixed'
+      })
+    });
+    tip.show();
+    setTimeout(() => tip.hide(), 1400);
+  }
+}, { passive: false });
+
+// Keyboard activation should match
+document.addEventListener('keydown', function (e) {
+  const a = document.activeElement?.closest?.('a.league-item.is-full');
+  if (!a) return;
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    const Tip = window.bootstrap?.Tooltip;
+    if (Tip) {
+      const tip = Tip.getOrCreateInstance(a, {
+        trigger: 'manual',
+        title: a.getAttribute('data-bs-title') || 'This league is full',
+        placement: 'top-end',
+        container: a,
+        customClass: 'nff-tt',
+        offset: [0, 10],
+        boundary: 'viewport',
+        popperConfig: (def) => ({ ...def, strategy: 'fixed' })
+      });
+      tip.show();
+      setTimeout(() => tip.hide(), 1400);
+    }
+  }
+});
+
+
+
+// Also block middle-click and keyboard activation
+document.addEventListener('auxclick', function (e) {
+  const a = e.target.closest('a.league-item.is-full');
+  if (!a) return;
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+document.addEventListener('keydown', function (e) {
+  const a = document.activeElement?.closest?.('a.league-item.is-full');
+  if (!a) return;
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    const Tip = window.bootstrap?.Tooltip;
+    if (Tip) {
+      const tip = Tip.getOrCreateInstance(a, {
+        trigger: 'manual',
+        title: a.getAttribute('data-bs-title') || 'This league is full',
+        placement: 'top-end',
+        container: a,
+        customClass: 'nff-tt',
+        offset: [0, 10],
+        boundary: 'viewport',
+        popperConfig: (def) => ({ ...def, strategy: 'fixed' })
+      });
+      tip.show();
+      setTimeout(() => tip.hide(), 1400);
+    }
+  }
+});
+
+// Floating Back-to-top (works on all pages/tabs)
+(function(){
+  const btn = document.getElementById('scrollTopBtn');
+  if (!btn) return;
+
+  const SHOW_AT = 200;   // px down before showing
+  function update() {
+    const y = window.scrollY || document.documentElement.scrollTop || 0;
+    if (y > SHOW_AT) btn.classList.add('show'); else btn.classList.remove('show');
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  document.addEventListener('DOMContentLoaded', update);
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// Auto-collapse mobile navbar after selecting a page
+document.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.querySelector('.navbar');
+  const collapseEl = navbar?.querySelector('.navbar-collapse');
+  if (!collapseEl || !window.bootstrap) return;
+
+  const collapseApi = bootstrap.Collapse.getOrCreateInstance(collapseEl, { toggle: false });
+
+  const collapseIfOpen = () => {
+    if (collapseEl.classList.contains('show')) collapseApi.hide();
+  };
+
+  // 1) User taps a nav link or dropdown item inside the collapsed menu
+  collapseEl.addEventListener('click', (e) => {
+    const link = e.target.closest('.nav-link, .dropdown-item');
+    if (!link || link.classList.contains('dropdown-toggle')) return;
+    // let Bootstrap switch tabs first, then collapse
+    setTimeout(collapseIfOpen, 100);
+  }, { passive: true });
+
+  // 2) Programmatic tab changes (e.g., bslib.navSelect, brand click, scroll jump)
+  // Bootstrap fires this when a tab becomes active
+  document.addEventListener('shown.bs.tab', collapseIfOpen);
+
+  // 3) If you use Shiny to set the tab value, this covers it too
+  document.addEventListener('shiny:inputchanged', (e) => {
+    if (e.detail?.name === 'topnav') setTimeout(collapseIfOpen, 0);
+  });
+
+  // Optional: expose a helper so your own code can force-collapse after nav changes
+  window.nffCollapseNavbar = collapseIfOpen;
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const goLeagues = () => {
+    if (window.bslib?.navSelect) {
+      window.bslib.navSelect("topnav", "leagues");
+    } else {
+      document.querySelector('.navbar .nav-link[data-value="leagues"]')?.click();
+      window.Shiny?.setInputValue("topnav", "leagues", { priority: "event" });
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.nffCollapseNavbar?.(); // if mobile menu is open, close it
+  };
+
+  document.getElementById("cta_view_app")?.addEventListener("click", goLeagues);
+  document.getElementById("hero_scroll_down")?.addEventListener("click", goLeagues);
+});
+
+// Global scroll-down: scroll the primary scroller by ~1 viewport
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('scrollDownBtn');
+  if (!btn) return;
+
+  const getScrollers = () => {
+    // Add any inner scrollers you use (e.g., leagues content section)
+    const arr = [window];
+    const leagues = document.querySelector('.league-content-section');
+    if (leagues) arr.push(leagues);
+    return arr;
+  };
+
+  const doScroll = () => {
+    const delta = Math.round(window.innerHeight * 0.9);
+    const scrollers = getScrollers();
+    // If an inner scroller is currently scrollable and focused/hovered, prefer it
+    const hovered = scrollers.find(s => {
+      const el = (s === window) ? document.scrollingElement : s;
+      return el && el.scrollHeight > el.clientHeight && el.matches?.(':hover');
+    });
+
+    const target = hovered || window;
+    if (target === window) {
+      window.scrollBy({ top: delta, behavior: 'smooth' });
+    } else {
+      target.scrollBy({ top: delta, behavior: 'smooth' });
+    }
+  };
+
+  btn.addEventListener('click', doScroll);
+});
+
+// Make "NUCLEAR" and "FANTASY FOOTBALL" the same width by adjusting font sizes
+document.addEventListener('DOMContentLoaded', () => {
+  const mainEl = document.querySelector('.hero-title-main');
+  const subEl  = document.querySelector('.hero-title-sub');
+  if (!mainEl || !subEl) return;
+
+  const fit = () => {
+    // reset to CSS sizes first so we measure cleanly on resize
+    mainEl.style.fontSize = '';
+    subEl.style.fontSize  = '';
+
+    const mainW = mainEl.getBoundingClientRect().width;
+    const subW  = subEl.getBoundingClientRect().width;
+    if (!mainW || !subW) return;
+
+    // target = wider of the two; scale the other line up/down to match
+    const target = Math.max(mainW, subW);
+
+    const scaleTo = (el, fromW) => {
+      const base = parseFloat(getComputedStyle(el).fontSize);
+      if (!base || !fromW) return;
+      const newSize = base * (target / fromW);
+      el.style.fontSize = `${newSize}px`;
+    };
+
+    if (mainW < target) scaleTo(mainEl, mainW);
+    if (subW  < target) scaleTo(subEl,  subW);
+  };
+
+  const debounce = (fn, ms=120) => {
+    let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+  };
+
+  fit();
+  // after fit(); in your DOMContentLoaded handler
+  if (document.fonts?.ready) { document.fonts.ready.then(fit); }
+
+  window.addEventListener('resize', debounce(fit, 120));
+});
+
+
 // =================== Export for potential module use ===================
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {

@@ -20,6 +20,46 @@ md_file <- function(path) {
   HTML(commonmark::markdown_html(txt))
 }
 
+nff_infinity_svg <- function() {
+  HTML('
+    <span class="nff-inf" aria-hidden="true">
+      <svg viewBox="0 0 200 80" preserveAspectRatio="xMidYMid meet" role="img" focusable="false">
+        <style>
+          @keyframes nff-inf-anim {
+            12.5%  { stroke-dasharray: 42 300;  stroke-dashoffset: -33; }
+            43.75% { stroke-dasharray: 105 300; stroke-dashoffset: -105; }
+            100%   { stroke-dasharray: 3 300;   stroke-dashoffset: -297; }
+          }
+          .bg {
+            fill: none; stroke: currentColor; stroke-width: 4; opacity: .2;
+          }
+          .outline {
+            fill: none; stroke: currentColor; stroke-width: 4;
+            stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 3 300;
+            animation: nff-inf-anim 3000ms linear infinite;
+          }
+        </style>
+
+        <!-- Symmetric two-loop lemniscate centered on (100,40) -->
+        <path class="bg" pathLength="300"
+          d="M100 40
+             C 80 10, 40 10, 40 40
+             C 40 70, 80 70, 100 40
+             C 120 10, 160 10, 160 40
+             C 160 70, 120 70, 100 40" />
+        <path class="outline" pathLength="300"
+          d="M100 40
+             C 80 10, 40 10, 40 40
+             C 40 70, 80 70, 100 40
+             C 120 10, 160 10, 160 40
+             C 160 70, 120 70, 100 40" />
+      </svg>
+    </span>
+  ')
+}
+
+
 # ── Configuration ─────────────────────────────────────────────────────────────
 options(
   shiny.minified = TRUE,
@@ -46,19 +86,64 @@ dark_theme <- bs_theme(
 ui <- tagList(
   # Head includes: External CSS/JS files
   tags$head(
-    tags$link(rel = "preload", href = "images/football-stadium-bg.jpg", as = "image"),
+    tags$link(rel = "preload", href = "images/nuclearff-launch-smoke.png", as = "image"),
     tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
     tags$link(rel = "preconnect", href = "https://fonts.gstatic.com", crossorigin = NA),
     tags$link(rel = "stylesheet", href = "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"),
+    # Link to Google Fonts Montserrat
+    tags$link(
+      rel = "stylesheet",
+      href = "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+    ),
     tags$link(rel = "stylesheet", href = "css/style.css"),
     tags$script(src = "js/main.js", defer = NA)
   ),
+  tags$style(HTML("
+      /* Apply Montserrat to navbar */
+      .navbar, .navbar-default, .navbar-static-top {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+      }
+
+      /* Apply to navbar brand/title */
+      .navbar-brand {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+      }
+
+      /* Apply to navbar menu items */
+      .navbar-nav > li > a {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+      }
+
+      /* Optional: Apply Montserrat to entire app */
+      body {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+      }
+
+      /* Apply to all headers */
+      h1, h2, h3, h4, h5, h6 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+      }
+
+      /* Apply to tabs if you have them */
+      .nav-tabs > li > a {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+      }
+    ")),
 
   # Main navigation
   page_navbar(
     title = tags$a(
+      id = "brandHome",
       class = "navbar-brand d-flex align-items-center",
-      href = "#home",
+      href = "#", # prevent real navigation; we’ll handle click
+      `aria-label` = "Go to Home",
       tags$img(
         src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
         height = 40,
@@ -67,30 +152,39 @@ ui <- tagList(
     ),
 
     # ── Home (Launch) ──
+    # ── Home (Launch) ──
     nav_panel(
       "Home",
       value = "home",
       tags$section(
-        class = "hero-section",
+        class = "hero-section hero-minimal",
         tags$div(class = "hero-overlay"),
+
+        # Centered logo + CTA
+        # Centered logo + titles + CTA
         tags$div(
-          class = "hero-content fade-in",
-          tags$h1(
-            class = "hero-title-nuclear-minimal",
-            tags$span(class = "word nuclear", "NUCLEAR"),
-            tags$span(class = "word ff", "FF")
+          class = "hero-center",
+          tags$img(
+            src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+            class = "hero-logo",
+            alt = "Nuclear Fantasy Football"
           ),
-          tags$p(class = "hero-subtitle", "Nuclear Fantasy Football"),
+
+          # Title block (NUCLEAR over FANTASY FOOTBALL)
           tags$div(
-            class = "countdown-display",
-            tags$h2(style = "margin-bottom: 1rem;", "LAUNCH SEQUENCE"),
-            tags$div(
-              class = "countdown-text",
-              textOutput("countdown", inline = TRUE)
-            ),
-            tags$p(style = "margin-top: 1rem; opacity: 0.8;", "Aug. 15, 2025 (9:00 AM ET)")
+            class = "hero-title",
+            tags$div(class = "hero-title-main text-focus-in", "NUCLEAR"),
+            tags$div(class = "hero-title-sub text-focus-in", "FANTASY FOOTBALL")
+          ),
+          # In the hero-center block
+          tags$button(
+            id = "cta_view_app",
+            type = "button",
+            class = "league-nav-btn hero-cta",
+            `aria-label` = "Explore the app",
+            "EXPLORE"
           )
-        )
+        ),
       )
     ),
 
@@ -99,26 +193,58 @@ ui <- tagList(
       "Leagues",
       value = "leagues",
       layout_sidebar(
+        # Updated sidebar section in your UI
         sidebar = sidebar(
           width = 200,
           class = "leagues-sidebar",
-          tags$h5("League Types", class = "mb-2"),
-          tags$p("LEAGUE FORMAT", class = "text-muted small mb-2"),
-          actionButton("btn_redraft",
-            tags$span(bs_icon("arrow-repeat"), "Redraft"),
-            class = "league-nav-btn"
+
+          # Collapsible header for small windows
+          # ── Sidebar header (toggler) ──
+          tags$div(
+            class = "league-format-header",
+            tags$button(
+              class = "league-format-toggle",
+              type = "button",
+              `data-bs-toggle` = "collapse",
+              `data-bs-target` = "#leagueFormatsCollapse",
+              `aria-controls` = "leagueFormatsCollapse",
+              `aria-expanded` = "true", # set to FALSE if your collapse is closed by default
+              bs_icon("chevron-right", class = "toggle-icon"),
+              tags$span(class = "toggle-text", "LEAGUES")
+            )
           ),
-          actionButton("btn_dynasty",
-            tags$span(bs_icon("trophy"), "Dynasty"),
-            class = "league-nav-btn"
-          ),
-          actionButton("btn_guillotine",
-            tags$span(bs_icon("scissors"), "Guillotine"),
-            class = "league-nav-btn"
-          ),
-          actionButton("btn_survivor",
-            tags$span(bs_icon("fire"), "Survivor"),
-            class = "league-nav-btn"
+
+
+          #   # Regular header for larger windows
+          #   tags$h5("League Types", class = "mb-2 league-types-static .nff-title-buffer")
+          # ),
+
+          # Collapsible container
+          tags$div(
+            class = "collapse show",
+            id = "leagueFormatsCollapse",
+            # tags$p("LEAGUE FORMAT", class = "text-muted small mb-2 format-subtitle"),
+
+            # Button container
+            tags$div(
+              class = "league-buttons-container",
+              actionButton("btn_redraft",
+                tags$span(bs_icon("arrow-repeat"), "Redraft"),
+                class = "league-nav-btn"
+              ),
+              actionButton("btn_dynasty",
+                tags$span(bs_icon("trophy"), "Dynasty"),
+                class = "league-nav-btn"
+              ),
+              actionButton("btn_guillotine",
+                tags$span(bs_icon("scissors"), "Guillotine"),
+                class = "league-nav-btn"
+              ),
+              actionButton("btn_survivor",
+                tags$span(bs_icon("fire"), "Survivor"),
+                class = "league-nav-btn"
+              )
+            )
           )
         ),
         tags$div(
@@ -168,8 +294,51 @@ ui <- tagList(
     selected = "home",
     theme = dark_theme,
     navbar_options = navbar_options(position = "fixed-top")
-  )
+  ),
 )
+
+# Put this above server(), replacing any previous nff_infinity_svg()
+nff_infinity_svg <- function(size = 80) {
+  # height ≈ 0.325 * width fits nicely in the stat card
+  height <- round(size * 0.325)
+  HTML(sprintf('
+    <span class="nff-inf" style="display:inline-block;width:%dpx;height:%dpx;color: var(--bs-primary);">
+      <svg viewBox="0 0 200 80" width="100%%" height="100%%" aria-hidden="true" focusable="false">
+        <style>
+          @keyframes nff-inf-anim {
+            12.5%%  { stroke-dasharray: 42 300;  stroke-dashoffset: -33; }
+            43.75%% { stroke-dasharray: 105 300; stroke-dashoffset: -105; }
+            100%%   { stroke-dasharray: 3 300;   stroke-dashoffset: -297; }
+          }
+          .bg {
+            fill: none; stroke: currentColor; stroke-width: 4; opacity: .2;
+          }
+          .outline {
+            fill: none; stroke: currentColor; stroke-width: 4;
+            stroke-linecap: round; stroke-linejoin: round;
+            stroke-dasharray: 3 300;
+            animation: nff-inf-anim 3000ms linear infinite;
+          }
+        </style>
+
+        <!-- True infinity: start at center, draw left loop, back to center, right loop, back to center -->
+        <!-- pathLength normalizes stroke-dash math to 300 -->
+        <path class="bg" pathLength="300"
+          d="M100 40
+             C 80 10, 40 10, 40 40
+             C 40 70, 80 70, 100 40
+             C 120 10, 160 10, 160 40
+             C 160 70, 120 70, 100 40" />
+        <path class="outline" pathLength="300"
+          d="M100 40
+             C 80 10, 40 10, 40 40
+             C 40 70, 80 70, 100 40
+             C 120 10, 160 10, 160 40
+             C 160 70, 120 70, 100 40" />
+      </svg>
+    </span>', size, height))
+}
+
 
 # ── Server ────────────────────────────────────────────────────────────────────
 server <- function(input, output, session) {
@@ -279,6 +448,39 @@ server <- function(input, output, session) {
   }, once = TRUE)
 }
 
+# Put a hero logo between H2 and the lead paragraph (mirrors Survivor)
+league_header <- function(icon, title, logo_src, subtitle) {
+  tags$div(
+    tags$h2(bs_icon(icon), title, class = "mb-4 nff-title-buffer"),
+    tags$img(
+      src = logo_src, # path relative to www/
+      alt = paste(title, "logo"),
+      class = "league-page-logo img-fluid d-block mx-auto mb-3"
+    ),
+    tags$p(class = "lead", subtitle)
+  )
+}
+
+# fall back to a placeholder if a logo file is missing locally
+logo_path <- function(rel_path) {
+  p <- file.path("www", rel_path)
+  if (file.exists(p)) rel_path else "logos/placeholder.png"
+}
+
+league_hero_row <- function(logo_src, word) {
+  tags$div(
+    class = "league-hero-row",
+    tags$img(
+      src = logo_src,
+      alt = paste(word, "logo"),
+      class = "hero-logo"
+    ),
+    tags$span(toupper(word), class = "hero-text")
+  )
+}
+
+
+
 # ── League Content Generator Function ──
 create_league_content <- function(league) {
   if (league == "redraft") {
@@ -292,14 +494,14 @@ create_league_content <- function(league) {
   }
 }
 
-# ── Redraft League Content ──
 create_redraft_content <- function() {
   tags$div(
-    tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4"),
-    tags$p(
-      class = "lead",
-      "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
-    ),
+    # tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4 nff-title-buffer"),
+    league_hero_row("logos/nuclearff-logo.png", "Redraft"),
+    # tags$p(
+    #   class = "lead",
+    #   "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
+    # ),
     create_stat_cards(
       list("12" = "Active Leagues", "156" = "Total Teams", "$50" = "Avg Buy-in", "89%" = "Return Rate")
     ),
@@ -311,20 +513,22 @@ create_redraft_content <- function() {
         url = "https://sleeper.com/leagues/1240509989819273216",
         logo = "logos/redraft-logo.png",
         status = "FULL",
-        details = "$100 Entry | 10 teams | PPR | Drafting Sep. 1st, 2025"
+        details = "10 TEAM | PPR | 3 FLEX"
       )
     ))
   )
 }
 
+
 # ── Dynasty League Content ──
 create_dynasty_content <- function() {
   tags$div(
-    tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4"),
-    tags$p(
-      class = "lead",
-      "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
-    ),
+    # tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4 nff-title-buffer"),
+    league_hero_row("logos/nuclearff-logo.png", "Dynasty"),
+    # tags$p(
+    #   class = "lead",
+    #   "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
+    # ),
     create_stat_cards(
       list("8" = "Active Dynasties", "3.2" = "Avg Years Running", "$75" = "Avg Buy-in", "94%" = "Retention Rate")
     ),
@@ -332,38 +536,25 @@ create_dynasty_content <- function() {
     create_league_accordion("dynasty"),
     create_league_list("dynasty", list(
       list(
-        name = "NUCLEAR DYNASTY",
+        name = "NUCLEARFF DYNASTY",
         url = "https://sleeper.com/leagues/1190192546172342272",
         logo = "logos/dynasty-logo.png",
         status = "FULL",
-        details = "$50 ENTRY | 12 TEAM | SUPERFLEX"
-      ),
-      list(
-        name = "NUCLEAR DYNASTY 02",
-        url = "https://sleeper.com/leagues/1190192546172342272",
-        logo = "logos/dynasty-logo-2.png",
-        status = "STARTUP",
-        details = "$50 ENTRY | 12 TEAM | SUPERFLEX | TEP"
-      ),
-      list(
-        name = "NUCLEAR DYNASTY 03",
-        url = "https://sleeper.com/leagues/1190192546172342272",
-        logo = "logos/dynasty-logo-3.png",
-        status = "ORPHAN",
-        details = "$50 ENTRY | 12 TEAM | SUPERFLEX"
+        details = "12 TEAM | PPR | SUPERFLEX"
       )
     ))
   )
 }
 
-# ── Guillotine League Content ──
+
 create_guillotine_content <- function() {
   tags$div(
-    tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4"),
-    tags$p(
-      class = "lead",
-      "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
-    ),
+    # tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4 nff-title-buffer"),
+    league_hero_row("logos/nuclearff-logo.png", "Guillotine"),
+    # tags$p(
+    #   class = "lead",
+    #   "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
+    # ),
     create_stat_cards(
       list("3" = "Active Leagues", "16" = "Teams per League", "Week 9" = "Avg Elimination")
     ),
@@ -395,17 +586,16 @@ create_guillotine_content <- function() {
   )
 }
 
-# ── Survivor League Content ──
+
 create_survivor_content <- function() {
   tags$div(
-    tags$h2(bs_icon("fire"), "SURVIVOR LEAGUES", class = "mb-4"),
-    tags$p(
-      class = "lead",
-      "Pick a team to win each week to survive. Survival comes at a cost, your winning team cannot be chosen again for the remainder of the season. Choose wisely."
-    ),
-    create_stat_cards(
-      list("W" = "Winning is survival", "infinite" = "Teams")
-    ),
+    # tags$h2(bs_icon("fire"), "SURVIVOR LEAGUES", class = "mb-4 nff-title-buffer"),
+    league_hero_row("logos/nuclearff-logo.png", "Survivor"),
+    # tags$p(
+    #   class = "lead",
+    #   "Pick a team to win each week to survive. Survival comes at a cost, your winning team cannot be chosen again for the remainder of the season. Choose wisely."
+    # ),
+    create_stat_cards(list("W" = "Winning is survival", "infinite" = "Teams")),
     tags$hr(class = "my-4"),
     create_league_accordion("survivor"),
     create_league_list("survivor", list(
@@ -421,19 +611,30 @@ create_survivor_content <- function() {
   )
 }
 
+
 # ── Helper Functions for League Content ──
+# Keep the clean 2-loop helper you installed earlier, just call it larger here:
 create_stat_cards <- function(stats) {
   tags$div(
     class = "league-stats-grid",
-    lapply(names(stats), function(value) {
+    lapply(names(stats), function(name) {
+      label <- stats[[name]]
+      value_node <- if (tolower(name) %in% c("infinite", "infinity", "∞")) {
+        # 180px wide ≈ 58px tall → fits nicely in a 60px band
+        tags$div(class = "stat-value", nff_infinity_svg(size = 180))
+      } else {
+        tags$div(class = "stat-value", name)
+      }
       tags$div(
         class = "stat-card",
-        tags$div(class = "stat-value", value),
-        tags$div(class = "stat-label", stats[[value]])
+        value_node,
+        tags$div(class = "stat-label", label)
       )
     })
   )
 }
+
+
 
 create_league_accordion <- function(type) {
   card(
@@ -488,20 +689,27 @@ create_league_list <- function(type, leagues) {
         class = "list-group",
         lapply(leagues, function(league) {
           status_class <- league$status_class %||% switch(league$status,
-            "FULL" = "danger",
+            "FULL"    = "danger",
             "STARTUP" = "success",
-            "ORPHAN" = "warning",
+            "ORPHAN"  = "warning",
             "info"
           )
+          is_full <- identical(league$status, "FULL")
 
           tags$a(
-            href = league$url,
-            class = "list-group-item list-group-item-action league-item",
-            tags$img(
-              src = league$logo,
-              alt = league$name,
-              class = "league-logo"
+            href = league$url, # keep the real URL; JS will block clicks
+            class = paste(
+              "list-group-item list-group-item-action league-item",
+              if (is_full) "is-full" else ""
             ),
+            # Tooltip for FULL items
+            `data-bs-toggle` = if (is_full) "tooltip" else NULL,
+            `data-bs-title` = if (is_full) "This league is full" else NULL,
+            `data-bs-placement` = if (is_full) "top" else NULL,
+            `data-bs-container` = if (is_full) "body" else NULL,
+            `aria-disabled` = if (is_full) "true" else NULL,
+            tabindex = if (is_full) "0" else NULL,
+            tags$img(src = league$logo, alt = league$name, class = "league-logo"),
             tags$div(
               class = "league-copy w-100",
               tags$div(
@@ -517,6 +725,7 @@ create_league_list <- function(type, leagues) {
     )
   )
 }
+
 
 # ── App ──
 shinyApp(ui, server)
