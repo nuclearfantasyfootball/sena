@@ -1,6 +1,7 @@
-# NuclearFF Full Application with Enhanced Leagues Page
+# NuclearFF UI/Server Shiny Application
+# Author: Nolan MacDonald
 
-# ── Packages ───────────────────────────────────────────────────────────────────
+# Packages ──────────────────────────────────────────────────────────────────
 library(shiny)
 library(bslib)
 library(DT)
@@ -8,7 +9,7 @@ library(htmltools)
 library(bsicons)
 library(commonmark)
 
-# ── Helper Functions ──────────────────────────────────────────────────────────
+# Helper Functions ──────────────────────────────────────────────────────────
 md_file <- function(path) {
   if (!file.exists(path)) {
     return(tags$div(
@@ -59,15 +60,14 @@ nff_infinity_svg <- function() {
   ')
 }
 
-
-# ── Configuration ─────────────────────────────────────────────────────────────
+# Configuration ─────────────────────────────────────────────────────────────
 options(
   shiny.minified = TRUE,
   bslib.precompiled = TRUE,
   bslib.color_contrast_warnings = FALSE
 )
 
-# ── Themes ────────────────────────────────────────────────────────────────────
+# Themes ────────────────────────────────────────────────────────────────────
 light_theme <- bs_theme(
   version = 5,
   bg = "#ffffff",
@@ -82,7 +82,7 @@ dark_theme <- bs_theme(
   primary = "#ce0fa0"
 )
 
-# ── UI ────────────────────────────────────────────────────────────────────────
+# UI ────────────────────────────────────────────────────────────────────────
 ui <- tagList(
   # Head includes: External CSS/JS files
   tags$head(
@@ -151,8 +151,7 @@ ui <- tagList(
       )
     ),
 
-    # ── Home (Launch) ──
-    # ── Home (Launch) ──
+    # Home (Launch) ──
     nav_panel(
       "Home",
       value = "home",
@@ -188,7 +187,7 @@ ui <- tagList(
       )
     ),
 
-    # ── Leagues Page ──
+    # Leagues Page ──
     nav_panel(
       "Leagues",
       value = "leagues",
@@ -199,7 +198,7 @@ ui <- tagList(
           class = "leagues-sidebar",
 
           # Collapsible header for small windows
-          # ── Sidebar header (toggler) ──
+          # Sidebar header (toggler) ──
           tags$div(
             class = "league-format-header",
             tags$button(
@@ -254,7 +253,7 @@ ui <- tagList(
       )
     ),
 
-    # ── Tools ──
+    # Tools ──
     nav_panel(
       "Tools",
       value = "data",
@@ -339,10 +338,9 @@ nff_infinity_svg <- function(size = 80) {
     </span>', size, height))
 }
 
-
-# ── Server ────────────────────────────────────────────────────────────────────
+# Server ────────────────────────────────────────────────────────────────────
 server <- function(input, output, session) {
-  # ── Countdown Timer ──
+  # Countdown Timer ──
   output$countdown <- renderText({
     invalidateLater(1000, session)
 
@@ -363,7 +361,7 @@ server <- function(input, output, session) {
     paste0(days, "D ", hours, "H ", minutes, "M ", seconds, "S")
   })
 
-  # ── DataTables Demo ──
+  # DataTables Demo ──
   output$tbl <- renderDT({
     datatable(
       iris,
@@ -379,7 +377,7 @@ server <- function(input, output, session) {
     )
   })
 
-  # ── Leagues Page Logic ──
+  # Leagues Page Logic ──
   selected_league <- reactiveVal("redraft")
 
   observeEvent(input$btn_redraft, {
@@ -407,7 +405,7 @@ server <- function(input, output, session) {
     create_league_content(selected_league())
   })
 
-  # ── Theme Management ──
+  # Theme Management ──
   theme_state <- reactiveVal("dark")
 
   output$theme_toggle <- renderUI({
@@ -479,9 +477,7 @@ league_hero_row <- function(logo_src, word) {
   )
 }
 
-
-
-# ── League Content Generator Function ──
+# League Content Generator Function ──
 create_league_content <- function(league) {
   if (league == "redraft") {
     create_redraft_content()
@@ -519,8 +515,7 @@ create_redraft_content <- function() {
   )
 }
 
-
-# ── Dynasty League Content ──
+# Dynasty League Content ──
 create_dynasty_content <- function() {
   tags$div(
     # tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4 nff-title-buffer"),
@@ -546,15 +541,10 @@ create_dynasty_content <- function() {
   )
 }
 
-
 create_chopped_content <- function() {
   tags$div(
     # tags$h2(bs_icon("scissors"), "CHOPPED LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Chopped"),
-    # tags$p(
-    #   class = "lead",
-    #   "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
-    # ),
     create_stat_cards(
       list("3" = "Active Leagues", "16" = "Teams per League", "Week 9" = "Avg Elimination")
     ),
@@ -566,35 +556,30 @@ create_chopped_content <- function() {
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
-        details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+        details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
       ),
       list(
         name = "NUCLEARFF CHOPPED $10 02",
         url = "https://sleeper.com/leagues/1260089054490275840",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
-        details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+        details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
       ),
       list(
         name = "NUCLEARFF CHOPPED $25",
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
-        details = "$25 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
+        details = "$25 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
       )
     ))
   )
 }
 
-
 create_survivor_content <- function() {
   tags$div(
     # tags$h2(bs_icon("fire"), "SURVIVOR LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Survivor"),
-    # tags$p(
-    #   class = "lead",
-    #   "Pick a team to win each week to survive. Survival comes at a cost, your winning team cannot be chosen again for the remainder of the season. Choose wisely."
-    # ),
     create_stat_cards(list("W" = "Winning is survival", "infinite" = "Teams")),
     tags$hr(class = "my-4"),
     create_league_accordion("survivor"),
@@ -611,8 +596,7 @@ create_survivor_content <- function() {
   )
 }
 
-
-# ── Helper Functions for League Content ──
+# Helper Functions for League Content ──
 # Keep the clean 2-loop helper you installed earlier, just call it larger here:
 create_stat_cards <- function(stats) {
   tags$div(
@@ -633,8 +617,6 @@ create_stat_cards <- function(stats) {
     })
   )
 }
-
-
 
 create_league_accordion <- function(type) {
   card(
@@ -727,5 +709,5 @@ create_league_list <- function(type, leagues) {
 }
 
 
-# ── App ──
+# App ──
 shinyApp(ui, server)
