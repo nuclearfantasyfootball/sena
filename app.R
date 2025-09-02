@@ -236,8 +236,8 @@ ui <- tagList(
                 tags$span(bs_icon("trophy"), "Dynasty"),
                 class = "league-nav-btn"
               ),
-              actionButton("btn_guillotine",
-                tags$span(bs_icon("scissors"), "Guillotine"),
+              actionButton("btn_chopped",
+                tags$span(bs_icon("scissors"), "Chopped"),
                 class = "league-nav-btn"
               ),
               actionButton("btn_survivor",
@@ -392,9 +392,9 @@ server <- function(input, output, session) {
     session$sendCustomMessage("updateLeagueButtons", "dynasty")
   })
 
-  observeEvent(input$btn_guillotine, {
-    selected_league("guillotine")
-    session$sendCustomMessage("updateLeagueButtons", "guillotine")
+  observeEvent(input$btn_chopped, {
+    selected_league("chopped")
+    session$sendCustomMessage("updateLeagueButtons", "chopped")
   })
 
   observeEvent(input$btn_survivor, {
@@ -487,8 +487,8 @@ create_league_content <- function(league) {
     create_redraft_content()
   } else if (league == "dynasty") {
     create_dynasty_content()
-  } else if (league == "guillotine") {
-    create_guillotine_content()
+  } else if (league == "chopped") {
+    create_chopped_content()
   } else {
     create_survivor_content()
   }
@@ -547,9 +547,9 @@ create_dynasty_content <- function() {
 }
 
 
-create_guillotine_content <- function() {
+create_chopped_content <- function() {
   tags$div(
-    # tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4 nff-title-buffer"),
+    # tags$h2(bs_icon("scissors"), "CHOPPED LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Chopped"),
     # tags$p(
     #   class = "lead",
@@ -559,24 +559,24 @@ create_guillotine_content <- function() {
       list("3" = "Active Leagues", "16" = "Teams per League", "Week 9" = "Avg Elimination")
     ),
     tags$hr(class = "my-4"),
-    create_league_accordion("guillotine"),
-    create_league_list("guillotine", list(
+    create_league_accordion("chopped"),
+    create_league_list("chopped", list(
       list(
-        name = "NUCLEARFF $10 GUILLOTINE",
+        name = "NUCLEARFF GUILLOTINE $10",
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
         details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
       ),
       list(
-        name = "NUCLEARFF $10 GUILLOTINE 02",
+        name = "NUCLEARFF CHOPPED $10 02",
         url = "https://sleeper.com/leagues/1260089054490275840",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
         details = "$10 ENTRY | 16 TEAM | PPR | 6-PT PASS TD"
       ),
       list(
-        name = "NUCLEARFF $25 GUILLOTINE",
+        name = "NUCLEARFF CHOPPED $25",
         url = "https://sleeper.com/leagues/1240503074590568448",
         logo = "logos/guillotine-logo.png",
         status = "FULL",
@@ -678,7 +678,7 @@ create_league_list <- function(type, leagues) {
   title <- switch(type,
     "redraft" = "NUCLEARFF REDRAFT LEAGUES",
     "dynasty" = "NUCLEARFF DYNASTY LEAGUES",
-    "guillotine" = "NUCLEARFF GUILLOTINE LEAGUES",
+    "guillotine" = "NUCLEARFF CHOPPED/GUILLOTINE LEAGUES",
     "survivor" = "NUCLEARFF SURVIVOR LEAGUES"
   )
 
