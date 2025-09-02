@@ -550,7 +550,7 @@ create_dynasty_content <- function() {
 create_guillotine_content <- function() {
   tags$div(
     # tags$h2(bs_icon("scissors"), "GUILLOTINE LEAGUES", class = "mb-4 nff-title-buffer"),
-    league_hero_row("logos/nuclearff-logo.png", "Guillotine"),
+    league_hero_row("logos/nuclearff-logo.png", "Chopped"),
     # tags$p(
     #   class = "lead",
     #   "Survive or be eliminated! Each week, the lowest scoring team is cut and their players hit waivers."
