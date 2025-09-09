@@ -1,5 +1,7 @@
+# =================== NUCLEARFF SHINY APPLICATION ===================
 # NuclearFF UI/Server Shiny Application
 # Author: Nolan MacDonald
+# Description: Multi-page fantasy football application with dark/light themes
 
 # Packages ──────────────────────────────────────────────────────────────────
 library(shiny)
@@ -10,6 +12,7 @@ library(bsicons)
 library(commonmark)
 
 # Helper Functions ──────────────────────────────────────────────────────────
+# Render markdown files with error handling
 md_file <- function(path) {
   if (!file.exists(path)) {
     return(tags$div(
@@ -21,15 +24,17 @@ md_file <- function(path) {
   HTML(commonmark::markdown_html(txt))
 }
 
-nff_infinity_svg <- function() {
-  HTML('
-    <span class="nff-inf" aria-hidden="true">
-      <svg viewBox="0 0 200 80" preserveAspectRatio="xMidYMid meet" role="img" focusable="false">
+# Animated infinity SVG for stats display
+nff_infinity_svg <- function(size = 80) {
+  height <- round(size * 0.325)
+  HTML(sprintf('
+    <span class="nff-inf" style="display:inline-block;width:%dpx;height:%dpx;">
+      <svg viewBox="0 0 200 80" width="100%%" height="100%%" aria-hidden="true" focusable="false">
         <style>
           @keyframes nff-inf-anim {
-            12.5%  { stroke-dasharray: 42 300;  stroke-dashoffset: -33; }
-            43.75% { stroke-dasharray: 105 300; stroke-dashoffset: -105; }
-            100%   { stroke-dasharray: 3 300;   stroke-dashoffset: -297; }
+            12.5%%  { stroke-dasharray: 42 300;  stroke-dashoffset: -33; }
+            43.75%% { stroke-dasharray: 105 300; stroke-dashoffset: -105; }
+            100%%   { stroke-dasharray: 3 300;   stroke-dashoffset: -297; }
           }
           .bg {
             fill: none; stroke: currentColor; stroke-width: 4; opacity: .2;
@@ -41,8 +46,6 @@ nff_infinity_svg <- function() {
             animation: nff-inf-anim 3000ms linear infinite;
           }
         </style>
-
-        <!-- Symmetric two-loop lemniscate centered on (100,40) -->
         <path class="bg" pathLength="300"
           d="M100 40
              C 80 10, 40 10, 40 40
@@ -56,8 +59,7 @@ nff_infinity_svg <- function() {
              C 120 10, 160 10, 160 40
              C 160 70, 120 70, 100 40" />
       </svg>
-    </span>
-  ')
+    </span>', size, height))
 }
 
 # Configuration ─────────────────────────────────────────────────────────────
@@ -86,6 +88,13 @@ dark_theme <- bs_theme(
 ui <- tagList(
   # Head includes: External CSS/JS files
   tags$head(
+    # Run before first paint to avoid gray flash
+    tags$script(HTML("(function () {
+      var pref = (function(){ try { return localStorage.getItem('nff-theme'); } catch(e){ return null; } })() || 'dark';
+      var root = document.documentElement;
+      root.setAttribute('data-bs-theme', pref);
+      root.classList.add(pref === 'light' ? 'nff-light' : 'nff-dark');
+    })();")),
     tags$link(rel = "preload", href = "images/nuclearff-launch-smoke.png", as = "image"),
     tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
     tags$link(rel = "preconnect", href = "https://fonts.gstatic.com", crossorigin = NA),
@@ -142,7 +151,7 @@ ui <- tagList(
     title = tags$a(
       id = "brandHome",
       class = "navbar-brand d-flex align-items-center",
-      href = "#", # prevent real navigation; we’ll handle click
+      href = "#",
       `aria-label` = "Go to Home",
       tags$img(
         src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
@@ -158,9 +167,6 @@ ui <- tagList(
       tags$section(
         class = "hero-section hero-minimal",
         tags$div(class = "hero-overlay"),
-
-        # Centered logo + CTA
-        # Centered logo + titles + CTA
         tags$div(
           class = "hero-center",
           tags$img(
@@ -168,14 +174,11 @@ ui <- tagList(
             class = "hero-logo",
             alt = "Nuclear Fantasy Football"
           ),
-
-          # Title block (NUCLEAR over FANTASY FOOTBALL)
           tags$div(
             class = "hero-title",
             tags$div(class = "hero-title-main text-focus-in", "NUCLEAR"),
             tags$div(class = "hero-title-sub text-focus-in", "FANTASY FOOTBALL")
           ),
-          # In the hero-center block
           tags$button(
             id = "cta_view_app",
             type = "button",
@@ -183,7 +186,7 @@ ui <- tagList(
             `aria-label` = "Explore the app",
             "EXPLORE"
           )
-        ),
+        )
       )
     ),
 
@@ -192,13 +195,9 @@ ui <- tagList(
       "Leagues",
       value = "leagues",
       layout_sidebar(
-        # Updated sidebar section in your UI
         sidebar = sidebar(
           width = 200,
           class = "leagues-sidebar",
-
-          # Collapsible header for small windows
-          # Sidebar header (toggler) ──
           tags$div(
             class = "league-format-header",
             tags$button(
@@ -207,24 +206,14 @@ ui <- tagList(
               `data-bs-toggle` = "collapse",
               `data-bs-target` = "#leagueFormatsCollapse",
               `aria-controls` = "leagueFormatsCollapse",
-              `aria-expanded` = "true", # set to FALSE if your collapse is closed by default
+              `aria-expanded` = "true",
               bs_icon("chevron-right", class = "toggle-icon"),
               tags$span(class = "toggle-text", "LEAGUES")
             )
           ),
-
-
-          #   # Regular header for larger windows
-          #   tags$h5("League Types", class = "mb-2 league-types-static .nff-title-buffer")
-          # ),
-
-          # Collapsible container
           tags$div(
             class = "collapse show",
             id = "leagueFormatsCollapse",
-            # tags$p("LEAGUE FORMAT", class = "text-muted small mb-2 format-subtitle"),
-
-            # Button container
             tags$div(
               class = "league-buttons-container",
               actionButton("btn_redraft",
@@ -293,118 +282,11 @@ ui <- tagList(
     selected = "home",
     theme = dark_theme,
     navbar_options = navbar_options(position = "fixed-top")
-  ),
+  )
 )
-
-# Put this above server(), replacing any previous nff_infinity_svg()
-nff_infinity_svg <- function(size = 80) {
-  # height ≈ 0.325 * width fits nicely in the stat card
-  height <- round(size * 0.325)
-  HTML(sprintf('
-    <span class="nff-inf" style="display:inline-block;width:%dpx;height:%dpx;color: var(--bs-primary);">
-      <svg viewBox="0 0 200 80" width="100%%" height="100%%" aria-hidden="true" focusable="false">
-        <style>
-          @keyframes nff-inf-anim {
-            12.5%%  { stroke-dasharray: 42 300;  stroke-dashoffset: -33; }
-            43.75%% { stroke-dasharray: 105 300; stroke-dashoffset: -105; }
-            100%%   { stroke-dasharray: 3 300;   stroke-dashoffset: -297; }
-          }
-          .bg {
-            fill: none; stroke: currentColor; stroke-width: 4; opacity: .2;
-          }
-          .outline {
-            fill: none; stroke: currentColor; stroke-width: 4;
-            stroke-linecap: round; stroke-linejoin: round;
-            stroke-dasharray: 3 300;
-            animation: nff-inf-anim 3000ms linear infinite;
-          }
-        </style>
-
-        <!-- True infinity: start at center, draw left loop, back to center, right loop, back to center -->
-        <!-- pathLength normalizes stroke-dash math to 300 -->
-        <path class="bg" pathLength="300"
-          d="M100 40
-             C 80 10, 40 10, 40 40
-             C 40 70, 80 70, 100 40
-             C 120 10, 160 10, 160 40
-             C 160 70, 120 70, 100 40" />
-        <path class="outline" pathLength="300"
-          d="M100 40
-             C 80 10, 40 10, 40 40
-             C 40 70, 80 70, 100 40
-             C 120 10, 160 10, 160 40
-             C 160 70, 120 70, 100 40" />
-      </svg>
-    </span>', size, height))
-}
 
 # Server ────────────────────────────────────────────────────────────────────
 server <- function(input, output, session) {
-  # Countdown Timer ──
-  output$countdown <- renderText({
-    invalidateLater(1000, session)
-
-    target_date <- as.POSIXct("2025-08-15 09:00:00", tz = "America/New_York")
-    now <- as.POSIXct(Sys.time(), tz = "America/New_York")
-
-    time_remaining <- difftime(target_date, now, units = "secs")
-    if (as.numeric(time_remaining) <= 0) {
-      return("LAUNCHED!")
-    }
-
-    total_seconds <- as.numeric(time_remaining)
-    days <- floor(total_seconds / (24 * 3600))
-    hours <- floor((total_seconds %% (24 * 3600)) / 3600)
-    minutes <- floor((total_seconds %% 3600) / 60)
-    seconds <- floor(total_seconds %% 60)
-
-    paste0(days, "D ", hours, "H ", minutes, "M ", seconds, "S")
-  })
-
-  # DataTables Demo ──
-  output$tbl <- renderDT({
-    datatable(
-      iris,
-      extensions = c("Buttons"),
-      options = list(
-        pageLength = 10,
-        dom = "Bfrtip",
-        buttons = c("copy", "csv", "excel", "pdf", "print"),
-        scrollX = TRUE
-      ),
-      rownames = FALSE,
-      class = "stripe hover order-column"
-    )
-  })
-
-  # Leagues Page Logic ──
-  selected_league <- reactiveVal("redraft")
-
-  observeEvent(input$btn_redraft, {
-    selected_league("redraft")
-    session$sendCustomMessage("updateLeagueButtons", "redraft")
-  })
-
-  observeEvent(input$btn_dynasty, {
-    selected_league("dynasty")
-    session$sendCustomMessage("updateLeagueButtons", "dynasty")
-  })
-
-  observeEvent(input$btn_chopped, {
-    selected_league("chopped")
-    session$sendCustomMessage("updateLeagueButtons", "chopped")
-  })
-
-  observeEvent(input$btn_survivor, {
-    selected_league("survivor")
-    session$sendCustomMessage("updateLeagueButtons", "survivor")
-  })
-
-  # Dynamic league content generator
-  output$league_content <- renderUI({
-    create_league_content(selected_league())
-  })
-
   # Theme Management ──
   theme_state <- reactiveVal("dark")
 
@@ -440,41 +322,60 @@ server <- function(input, output, session) {
     session$sendCustomMessage("applyThemeClass", new_val)
   })
 
+  # DataTables Demo ────────────────────────────────────────────────────────────
+  output$tbl <- renderDT({
+    datatable(
+      iris,
+      extensions = c("Buttons"),
+      options = list(
+        pageLength = 10,
+        dom = "Bfrtip",
+        buttons = c("copy", "csv", "excel", "pdf", "print"),
+        scrollX = TRUE,
+        responsive = TRUE,
+        order = list(list(0, "asc")),
+        columnDefs = list(
+          list(targets = "_all", className = "dt-center")
+        )
+      ),
+      rownames = FALSE,
+      class = "stripe hover order-column nowrap",
+      style = "bootstrap5"
+    )
+  })
+
+  # Leagues Page Logic ──
+  selected_league <- reactiveVal("redraft")
+
+  observeEvent(input$btn_redraft, {
+    selected_league("redraft")
+    session$sendCustomMessage("updateLeagueButtons", "redraft")
+  })
+
+  observeEvent(input$btn_dynasty, {
+    selected_league("dynasty")
+    session$sendCustomMessage("updateLeagueButtons", "dynasty")
+  })
+
+  observeEvent(input$btn_chopped, {
+    selected_league("chopped")
+    session$sendCustomMessage("updateLeagueButtons", "chopped")
+  })
+
+  observeEvent(input$btn_survivor, {
+    selected_league("survivor")
+    session$sendCustomMessage("updateLeagueButtons", "survivor")
+  })
+
+  # Dynamic league content generator
+  output$league_content <- renderUI({
+    create_league_content(selected_league())
+  })
+
   # Initialize league buttons
   session$onFlushed(function() {
     session$sendCustomMessage("addLeagueButtonHandler", TRUE)
   }, once = TRUE)
-}
-
-# Put a hero logo between H2 and the lead paragraph (mirrors Survivor)
-league_header <- function(icon, title, logo_src, subtitle) {
-  tags$div(
-    tags$h2(bs_icon(icon), title, class = "mb-4 nff-title-buffer"),
-    tags$img(
-      src = logo_src, # path relative to www/
-      alt = paste(title, "logo"),
-      class = "league-page-logo img-fluid d-block mx-auto mb-3"
-    ),
-    tags$p(class = "lead", subtitle)
-  )
-}
-
-# fall back to a placeholder if a logo file is missing locally
-logo_path <- function(rel_path) {
-  p <- file.path("www", rel_path)
-  if (file.exists(p)) rel_path else "logos/placeholder.png"
-}
-
-league_hero_row <- function(logo_src, word) {
-  tags$div(
-    class = "league-hero-row",
-    tags$img(
-      src = logo_src,
-      alt = paste(word, "logo"),
-      class = "hero-logo"
-    ),
-    tags$span(toupper(word), class = "hero-text")
-  )
 }
 
 # League Content Generator Function ──
@@ -490,14 +391,21 @@ create_league_content <- function(league) {
   }
 }
 
+league_hero_row <- function(logo_src, word) {
+  tags$div(
+    class = "league-hero-row",
+    tags$img(
+      src = logo_src,
+      alt = paste(word, "logo"),
+      class = "hero-logo"
+    ),
+    tags$span(toupper(word), class = "hero-text")
+  )
+}
+
 create_redraft_content <- function() {
   tags$div(
-    # tags$h2(bs_icon("arrow-repeat"), "REDRAFT LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Redraft"),
-    # tags$p(
-    #   class = "lead",
-    #   "Traditional season-long fantasy football. Draft a new team each year and compete for the championship!"
-    # ),
     create_stat_cards(
       list("12" = "Active Leagues", "156" = "Total Teams", "$50" = "Avg Buy-in", "89%" = "Return Rate")
     ),
@@ -518,12 +426,7 @@ create_redraft_content <- function() {
 # Dynasty League Content ──
 create_dynasty_content <- function() {
   tags$div(
-    # tags$h2(bs_icon("trophy"), "DYNASTY LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Dynasty"),
-    # tags$p(
-    #   class = "lead",
-    #   "Build a franchise for years to come. Keep your players, trade draft picks, and create a lasting legacy!"
-    # ),
     create_stat_cards(
       list("8" = "Active Dynasties", "3.2" = "Avg Years Running", "$75" = "Avg Buy-in", "94%" = "Retention Rate")
     ),
@@ -543,7 +446,6 @@ create_dynasty_content <- function() {
 
 create_chopped_content <- function() {
   tags$div(
-    # tags$h2(bs_icon("scissors"), "CHOPPED LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Chopped"),
     create_stat_cards(
       list("3" = "Active Leagues", "16" = "Teams per League", "Week 9" = "Avg Elimination")
@@ -578,7 +480,6 @@ create_chopped_content <- function() {
 
 create_survivor_content <- function() {
   tags$div(
-    # tags$h2(bs_icon("fire"), "SURVIVOR LEAGUES", class = "mb-4 nff-title-buffer"),
     league_hero_row("logos/nuclearff-logo.png", "Survivor"),
     create_stat_cards(list("W" = "Winning is survival", "infinite" = "Teams")),
     tags$hr(class = "my-4"),
@@ -597,14 +498,12 @@ create_survivor_content <- function() {
 }
 
 # Helper Functions for League Content ──
-# Keep the clean 2-loop helper you installed earlier, just call it larger here:
 create_stat_cards <- function(stats) {
   tags$div(
     class = "league-stats-grid",
     lapply(names(stats), function(name) {
       label <- stats[[name]]
       value_node <- if (tolower(name) %in% c("infinite", "infinity", "∞")) {
-        # 180px wide ≈ 58px tall → fits nicely in a 60px band
         tags$div(class = "stat-value", nff_infinity_svg(size = 180))
       } else {
         tags$div(class = "stat-value", name)
@@ -661,6 +560,7 @@ create_league_list <- function(type, leagues) {
     "redraft" = "NUCLEARFF REDRAFT LEAGUES",
     "dynasty" = "NUCLEARFF DYNASTY LEAGUES",
     "guillotine" = "NUCLEARFF CHOPPED/GUILLOTINE LEAGUES",
+    "chopped" = "NUCLEARFF CHOPPED/GUILLOTINE LEAGUES",
     "survivor" = "NUCLEARFF SURVIVOR LEAGUES"
   )
 
@@ -670,21 +570,26 @@ create_league_list <- function(type, leagues) {
       tags$div(
         class = "list-group",
         lapply(leagues, function(league) {
-          status_class <- league$status_class %||% switch(league$status,
-            "FULL"    = "danger",
-            "STARTUP" = "success",
-            "ORPHAN"  = "warning",
-            "info"
-          )
+          # Handle status_class with simple if-else
+          status_class <- if (!is.null(league$status_class)) {
+            league$status_class
+          } else {
+            switch(league$status,
+              "FULL"    = "danger",
+              "STARTUP" = "success",
+              "ORPHAN"  = "warning",
+              "info"
+            )
+          }
+
           is_full <- identical(league$status, "FULL")
 
           tags$a(
-            href = league$url, # keep the real URL; JS will block clicks
+            href = league$url,
             class = paste(
               "list-group-item list-group-item-action league-item",
               if (is_full) "is-full" else ""
             ),
-            # Tooltip for FULL items
             `data-bs-toggle` = if (is_full) "tooltip" else NULL,
             `data-bs-title` = if (is_full) "This league is full" else NULL,
             `data-bs-placement` = if (is_full) "top" else NULL,
@@ -707,7 +612,6 @@ create_league_list <- function(type, leagues) {
     )
   )
 }
-
 
 # App ──
 shinyApp(ui, server)
