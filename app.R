@@ -90,7 +90,15 @@ build_head_tags <- function(config) {
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Observer.min.js"),
     tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"),
-    # Note: SplitText is a paid plugin - using alternative approach
+
+    # Google Analytics
+    tags$script(src = "https://www.googletagmanager.com/gtag/js?id=G-ZW75NFDLXL", async = NA),
+    tags$script(HTML("
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-ZW75NFDLXL', { 'anonymize_ip': true });
+    ")),
 
     # Resources
     tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
@@ -118,7 +126,25 @@ build_head_tags <- function(config) {
         sc.style.display = '';
       }
     });
-  "))
+  ")),
+
+    # GA track page_view on tab change
+    tags$script(HTML("
+      Shiny.addCustomMessageHandler('nff:navChanged', function(tab) {
+        // ...your existing code (hide home scroller, etc.)...
+
+        // GA page view for SPA navigation
+        if (window.gtag) {
+          var pagePath = '/' + tab;
+          var pageLoc  = window.location.origin + window.location.pathname + '#' + tab;
+          gtag('event','page_view', {
+            page_title: 'NuclearFF - ' + tab,
+            page_path: pagePath,
+            page_location: pageLoc
+          });
+        }
+      });
+    "))
   )
 }
 
