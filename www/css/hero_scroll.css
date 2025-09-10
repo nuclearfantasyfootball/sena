@@ -1,0 +1,121 @@
+/* ======================== NUCLEARFF HERO STYLESHEET ======================= */
+/* ------------------------- Author: Nolan MacDonald------------------------- */
+
+/* Shiny navbar compatibility */
+.scroll-container {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+  background: #000; /* Fallback background */
+}
+
+/* Sections setup */
+.scroll-container section {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  position: absolute;
+  visibility: hidden;
+}
+
+.scroll-container .outer,
+.scroll-container .inner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scroll-container .bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+/* Background images with gradients */
+.first .bg {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.second .bg {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/football-stadium-bg.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.third .bg {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-launch-smoke.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.fourth .bg {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.fifth .bg {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
+  background-size: cover;
+  background-position: 50% 50%;
+}
+
+/* Typography */
+.section-heading {
+  font-size: clamp(2rem, 8vw, 6rem);
+  font-weight: 600;
+  text-align: center;
+  width: 90vw;
+  max-width: 1200px;
+  text-transform: none;
+  color: #fff;
+  line-height: 1.2;
+  margin: 0;
+  z-index: 999;
+}
+
+/* CTA button */
+.scroll-cta {
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 0.5rem;
+  background: rgba(206, 15, 160, 0.9);
+  border: 2px solid #ce0fa0;
+  color: white;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.scroll-cta:hover {
+  background: #ce0fa0;
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(206, 15, 160, 0.4);
+}
+
+/* Clip text for animation */
+.clip-text {
+  overflow: hidden;
+}
