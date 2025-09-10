@@ -359,14 +359,21 @@ body {
   padding: 0 .25rem;
   color: #fff !important;
   text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.nav-icon-btn:hover {
+  transform: translateY(-2px) scale(1.1); /* Same as socials, hover effect */
 }
 
 .nff-dark .navbar .nav-icon-btn:hover { 
   color: var(--nff-dark-primary) !important; 
+  text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3);
 }
 
 .nff-light .navbar .nav-icon-btn:hover { 
   color: var(--nff-light-primary) !important; 
+  text-shadow: 0 4px 8px rgba(15, 160, 206, 0.3);
 }
 
 /* =================== Social Icons =================== */
