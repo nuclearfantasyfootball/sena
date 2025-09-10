@@ -8,27 +8,41 @@
 data_tools_ui <- function(id) {
     ns <- NS(id)
 
-    layout_column_wrap(
-        widths = 1,
-        card(
-            card_header(
-                class = "d-flex justify-content-between align-items-center",
-                tags$span("Data Explorer"),
-                tags$div(
-                    class = "btn-group btn-group-sm",
-                    actionButton(ns("refresh_data"),
-                        "Refresh",
-                        icon = icon("rotate-right"),
-                    ),
-                    actionButton(ns("download_data"),
-                        "Download",
-                        icon = icon("download"),
-                        class = "btn-outline-secondary"
-                    )
-                )
+    tags$div(
+        class = "tools-content-section", # Wrapper for content/table
+        # Styled title for dataTable card
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "Tools logo",
+                class = "hero-logo"
             ),
-            card_body(
-                DTOutput(ns("data_table"), width = "100%")
+            tags$span("TOOLS", class = "hero-text")
+        ),
+        tags$hr(class = "my-4"),
+        layout_column_wrap(
+            widths = 1,
+            card(
+                card_header(
+                    class = "d-flex justify-content-between align-items-center",
+                    tags$span("Data Explorer"),
+                    tags$div(
+                        class = "btn-group btn-group-sm",
+                        actionButton(ns("refresh_data"),
+                            "Refresh",
+                            icon = icon("rotate-right"),
+                        ),
+                        actionButton(ns("download_data"),
+                            "Download",
+                            icon = icon("download"),
+                            class = "btn-outline-secondary"
+                        )
+                    )
+                ),
+                card_body(
+                    DTOutput(ns("data_table"), width = "100%")
+                )
             )
         )
     )
@@ -49,7 +63,7 @@ data_tools_server <- function(id,
     moduleServer(id, function(input, output, session) {
         # Merge default options with custom options
         default_options <- list(
-            pageLength = 10,
+            pageLength = 25,
             dom = "Bfrtip",
             buttons = c("copy", "csv", "excel", "pdf", "print"),
             scrollX = TRUE,

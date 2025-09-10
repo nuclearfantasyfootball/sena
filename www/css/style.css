@@ -53,6 +53,29 @@ body {
   --nff-accent: var(--nff-dark-primary);
 }
 
+/* Bootstrap pagination theming for dark mode */
+[data-bs-theme="dark"] {
+  --bs-pagination-bg: var(--nff-dark-bg);
+  --bs-pagination-border-color: rgba(206, 15, 160, 0.3);
+  --bs-pagination-color: var(--nff-dark-text);
+
+  --bs-pagination-hover-bg: rgba(206, 15, 160, 0.2);
+  --bs-pagination-hover-color: #fff;
+  --bs-pagination-hover-border-color: var(--nff-dark-primary);
+
+  --bs-pagination-active-bg: var(--nff-dark-primary);
+  --bs-pagination-active-border-color: var(--nff-dark-primary);
+  --bs-pagination-active-color: #fff;
+
+  /* The crucial part: disabled states */
+  --bs-pagination-disabled-bg: var(--nff-dark-bg);
+  --bs-pagination-disabled-color: var(--nff-dark-text);
+  --bs-pagination-disabled-border-color: rgba(206, 15, 160, 0.3);
+  --bs-pagination-hover-bg: rgba(206, 15, 160, 0.2);  /* pink tint */
+  --bs-pagination-hover-color: #fff;                  /* white text */
+  --bs-pagination-hover-border-color: var(--nff-dark-primary);
+}
+
 /* Dark theme body */
 [data-bs-theme="dark"] body,
 .nff-dark body {
@@ -981,10 +1004,149 @@ body {
   background-color: #0e0e0e !important;
 }
 
-/* Fix any wrapper divs that might show through */
+/* Fix any wrapper divs */
 [data-bs-theme="dark"] .dataTable-container,
 [data-bs-theme="dark"] .DT {
   background-color: #0e0e0e !important;
+}
+
+/* Page buttons DataTables -------------------------------------------------- */
+/* Light theme -------------------------------------------------------------- */
+
+/* Light theme - Disabled pagination buttons */
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+  background: #fff !important;
+  color: #adb5bd !important; /* subtle disabled text */
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  cursor: not-allowed !important;
+  opacity: 1 !important; /* cancel Bootstrap dimming */
+}
+
+/* Light theme - Ellipsis styling */
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate span .paginate_button.disabled {
+  background: transparent !important;
+  border: none !important;
+  color: #6c757d !important; /* neutral gray for ellipsis */
+}
+
+/* Light theme - force disabled pagination .page-link */
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link,
+[data-bs-theme="light"] .dataTables_wrapper .pagination .page-item.disabled .page-link {
+  background-color: #fff !important;
+  color: #adb5bd !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* Light theme - hover (blue tint + white text) */
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .page-link:hover,
+[data-bs-theme="light"] .dataTables_wrapper .pagination .page-link:hover {
+  background-color: rgba(15, 160, 206, 0.3) !important;
+  border-color: var(--nff-light-primary) !important;
+  color: #fff !important;
+}
+
+/* Light theme - active/current page (solid blue + white) */
+[data-bs-theme="light"] .dataTables_wrapper .dataTables_paginate .page-link.active,
+[data-bs-theme="light"] .dataTables_wrapper .pagination .page-link.active {
+  background-color: var(--nff-light-primary) !important;
+  border-color: var(--nff-light-primary) !important;
+  color: #fff !important;
+}
+
+/* Dark theme --------------------------------------------------------------- */
+
+/* Dark theme - Disabled pagination buttons */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+  background: var(--nff-dark-bg) !important;
+  color: var(--nff-dark-text) !important;   /* keep visible text */
+  border-color: rgba(206, 15, 160, 0.3) !important; /* subtle pink border */
+  cursor: not-allowed !important;
+  opacity: 1 !important; /* optional to show disabled state */
+}
+
+/* Dark theme - Ellipsis styling */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate span .paginate_button.disabled {
+  background: transparent !important;
+  border: none !important;
+  color: var(--nff-dark-text) !important;
+}
+
+/* Dark theme - force disabled pagination .page-link to match black theme */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .page-item.disabled .page-link,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination .page-item.disabled .page-link {
+  background-color: var(--nff-dark-bg) !important;
+  color: var(--nff-dark-text) !important;
+  border-color: rgba(206, 15, 160, 0.3) !important;
+  opacity: 1 !important;          /* cancel Bootstrap dimming */
+  filter: none !important;         /* belt-and-suspenders in case of filters */
+  box-shadow: none !important;     /* avoid grayish glow from themes */
+  background-image: none !important;
+}
+
+/* Dark theme - force pagination hover to match pink/black theme */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .page-link:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination .page-link:hover {
+  background-color: rgba(206, 15, 160, 0.2) !important; /* pink background */
+  border-color: var(--nff-dark-primary) !important;
+  color: #fff !important;
+}
+
+/* Dark theme — base page number boxes (black) */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .page-link,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination .page-link {
+  background-color: var(--nff-dark-bg) !important;
+  color: var(--nff-dark-text) !important;
+  border-color: rgba(206, 15, 160, 0.3) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* Dark theme — hover (pink tint) */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .page-link:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination .page-link:hover {
+  background-color: rgba(206, 15, 160, 0.2) !important;
+  border-color: var(--nff-dark-primary) !important;
+  color: #fff !important;
+}
+
+/* Dark theme — active/current page (solid pink fill) */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate .page-link.active,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination .page-link.active {
+  background-color: var(--nff-dark-primary) !important; /* solid pink box */
+  border-color: var(--nff-dark-primary) !important;
+  color: #fff !important;
+}
+
+/* Dark theme — active/current page (force solid pink) */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate li.page-item.active > a.page-link,
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate a.paginate_button.current,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination li.page-item.active > a.page-link,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination a.paginate_button.current {
+  background-color: var(--nff-dark-primary) !important;  /* solid pink */
+  border-color: var(--nff-dark-primary) !important;
+  color: #fff !important;
+  opacity: 1 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep active on hover the same solid pink */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate li.page-item.active > a.page-link:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate a.paginate_button.current:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination li.page-item.active > a.page-link:hover,
+[data-bs-theme="dark"] .dataTables_wrapper .pagination a.paginate_button.current:hover {
+  background-color: var(--nff-dark-primary) !important;
+  border-color: var(--nff-dark-primary) !important;
+  color: #fff !important;
 }
 
 /* Enables scrolling on Leagues page ---------------------------------------- */
@@ -1003,7 +1165,43 @@ body {
   padding-top: calc(var(--nff-nav-h) + 0.5rem);
 }
 
+/* Alignment and Spacing - Non-Home ----------------------------------------- */
 
+/* Ensure the Tools content section has proper spacing */
+#tools .layout-column-wrap {
+  padding-top: 1rem;
+}
+
+/* Match Leagues exactly */
+.tab-pane#tools .card:first-child {
+  margin-top: 0.5rem;
+}
+
+/* Consistent tab content spacing - accounts for fixed navbar */
+.tab-content {
+  padding-top: 0; /* Reset default */
+}
+
+/* Home tab - no padding needed due to hero sections */
+.tab-pane#home {
+  padding-top: 0;
+}
+
+/* Leagues tab - existing spacing */
+.tab-pane#leagues {
+  padding-top: calc(var(--nff-nav-h) + 0.5rem);
+}
+
+/* Tools tab - match Leagues spacing */
+.tab-pane#tools {
+  padding-top: calc(var(--nff-nav-h) + 0.5rem);
+}
+
+/* Optional: Add this class for any future tabs */
+.tab-pane:not(#home) {
+  padding-top: calc(var(--nff-nav-h) + 0.5rem);
+  min-height: calc(100vh - var(--nff-nav-h));
+}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
