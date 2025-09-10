@@ -286,10 +286,22 @@ body {
 
 /* =================== Navbar =================== */
 .navbar {
-  background: #000 !important;
   backdrop-filter: blur(10px);
   padding: 2px 5px !important;
   min-height: 56px;
+}
+
+/* Dark mode - black background */
+.nff-dark .navbar,
+[data-bs-theme="dark"] .navbar {
+  background: #000 !important;
+}
+
+/* Light mode - white background */
+.nff-light .navbar,
+[data-bs-theme="light"] .navbar {
+  background: #ffffff !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .navbar .container-fluid {
@@ -312,17 +324,28 @@ body {
   display: block;
 }
 
-.navbar-nav { 
-  gap: 0; 
+.navbar-nav {
+  gap: 0;
 }
 
 .navbar-nav .nav-link {
   display: flex;
   align-items: center;
   height: 56px;
-  color: #fff !important;
   text-decoration: none !important;
   border-bottom: none !important;
+}
+
+/* Dark mode - white text */
+.nff-dark .navbar-nav .nav-link,
+[data-bs-theme="dark"] .navbar-nav .nav-link {
+  color: #fff !important;
+}
+
+/* Light mode - dark text */
+.nff-light .navbar-nav .nav-link,
+[data-bs-theme="light"] .navbar-nav .nav-link {
+  color: var(--bs-body-color) !important;
 }
 
 /* Remove underlines from all nav elements */
@@ -358,28 +381,39 @@ body {
   align-items: center;
   font-size: 1.15rem;
   padding: 0 .25rem;
-  color: #fff !important;
   text-decoration: none;
   transition: all 0.3s ease;
 }
 
-.nav-icon-btn:hover {
-  transform: translateY(-2px) scale(1.1); /* Same as socials, hover effect */
+/* Dark mode - white icon by default */
+.nff-dark .nav-icon-btn,
+[data-bs-theme="dark"] .nav-icon-btn {
+  color: #fff !important;
 }
 
-.nff-dark .navbar .nav-icon-btn:hover { 
-  color: var(--nff-dark-primary) !important; 
+/* Light mode - gray icon by default */
+.nff-light .nav-icon-btn,
+[data-bs-theme="light"] .nav-icon-btn {
+  color: #495057 !important;
+}
+
+.nav-icon-btn:hover {
+  transform: translateY(-2px) scale(1.1);
+}
+
+.nff-dark .navbar .nav-icon-btn:hover {
+  color: var(--nff-dark-primary) !important;
   text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3);
 }
 
-.nff-light .navbar .nav-icon-btn:hover { 
-  color: var(--nff-light-primary) !important; 
+.nff-light .navbar .nav-icon-btn:hover {
+  color: var(--nff-light-primary) !important;
   text-shadow: 0 4px 8px rgba(15, 160, 206, 0.3);
 }
 
 /* =================== Social Icons =================== */
+/* =================== Social Icons =================== */
 .social-links a {
-  color: white;
   margin: 0 0.5rem;
   font-size: 1.5rem;
   text-decoration: none;
@@ -387,6 +421,23 @@ body {
   display: inline-block;
 }
 
+/* Dark mode - white icons by default */
+.nff-dark .social-links a,
+[data-bs-theme="dark"] .social-links a {
+  color: white;
+}
+
+/* Light mode - social icons same as nav tabs + text */
+.nff-light .navbar-nav .nav-link,
+[data-bs-theme="light"] .navbar-nav .nav-link,
+.nff-light .social-links a,
+[data-bs-theme="light"] .social-links a,
+.nff-light .nav-icon-btn,
+[data-bs-theme="light"] .nav-icon-btn {
+  color: var(--bs-body-color) !important;
+}
+
+/* Hover effects remain the same */
 .social-links a:hover {
   transform: translateY(-2px) scale(1.1);
 }
