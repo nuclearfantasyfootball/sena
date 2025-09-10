@@ -367,7 +367,7 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// =================== Auto-collapse mobile navbar after selecting a page ===================
+// Auto-collapse mobile navbar after selecting a page
 document.addEventListener('DOMContentLoaded', () => {
   const navbar = document.querySelector('.navbar');
   if (!navbar) return;
@@ -393,28 +393,43 @@ document.addEventListener('DOMContentLoaded', () => {
   window.nffCollapseNavbar = collapseIfOpen;
 });
 
-// =================== CTA buttons to go to Leagues ===================
+// Dynamically manage scroll behavior
 document.addEventListener("DOMContentLoaded", () => {
-  const goLeagues = () => {
-    if (window.bslib && typeof window.bslib.navSelect === 'function') {
-      window.bslib.navSelect("topnav", "leagues");
-    } else {
-      const leaguesLink = document.querySelector('.navbar .nav-link[data-value="leagues"]');
-      if (leaguesLink) leaguesLink.click();
-      if (window.Shiny && typeof Shiny.setInputValue === 'function') {
-        Shiny.setInputValue("topnav", "leagues", { priority: "event" });
+  // Enable scrolling on non-home tabs
+  if (window.Shiny) {
+    Shiny.addCustomMessageHandler('tabChanged', function(tab) {
+      const body = document.body;
+      const html = document.documentElement;
+      const scrollContainer = document.querySelector('.scroll-container');
+      
+      // Set data attribute for CSS targeting
+      document.documentElement.setAttribute('data-active-tab', tab);
+      
+      if (tab === 'home') {
+        // Disable normal scrolling for home
+        body.style.overflow = 'hidden';
+        html.style.overflow = 'hidden';
+        body.style.height = '100vh';
+        
+        // Show scroll container
+        if (scrollContainer) {
+          scrollContainer.style.display = 'block';
+          scrollContainer.setAttribute('aria-hidden', 'false');
+        }
+      } else {
+        // Enable normal scrolling for other pages
+        body.style.overflow = 'auto';
+        html.style.overflow = 'auto';
+        body.style.height = 'auto';
+        
+        // Hide scroll container
+        if (scrollContainer) {
+          scrollContainer.style.display = 'none';
+          scrollContainer.setAttribute('aria-hidden', 'true');
+        }
       }
-    }
-    if (typeof window.nffCollapseNavbar === 'function') {
-      window.nffCollapseNavbar();
-    }
-  };
-
-  const ctaBtn = document.getElementById("cta_view_app");
-  if (ctaBtn) ctaBtn.addEventListener("click", goLeagues);
-  
-  const scrollBtn = document.getElementById("hero_scroll_down");
-  if (scrollBtn) scrollBtn.addEventListener("click", goLeagues);
+    });
+  }
 });
 
 // =================== Exports ===================

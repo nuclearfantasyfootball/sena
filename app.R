@@ -75,10 +75,10 @@ build_ui <- function() {
   )
 }
 
-# Build head tags
+# Build head tags - Import libraries and resources
 build_head_tags <- function(config) {
   tags$head(
-    # Theme initialization
+    # Theme initialization (keep existing)
     tags$script(HTML("(function () {
       var pref = (function(){ try { return localStorage.getItem('nff-theme'); } catch(e){ return null; } })() || 'dark';
       var root = document.documentElement;
@@ -86,16 +86,39 @@ build_head_tags <- function(config) {
       root.classList.add(pref === 'light' ? 'nff-light' : 'nff-dark');
     })();")),
 
+    # GSAP Libraries - Use CDN with SplitText plugin
+    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"),
+    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Observer.min.js"),
+    tags$script(src = "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"),
+    # Note: SplitText is a paid plugin - using alternative approach
+
     # Resources
-    tags$link(rel = "preload", href = "images/nuclearff-launch-smoke.png", as = "image"),
     tags$link(rel = "preconnect", href = "https://fonts.googleapis.com"),
     tags$link(rel = "preconnect", href = "https://fonts.gstatic.com", crossorigin = NA),
     tags$link(rel = "stylesheet", href = config$external_resources$fonts$montserrat),
     tags$link(rel = "stylesheet", href = "css/style.css"),
+    tags$link(rel = "stylesheet", href = "css/hero_scroll.css"),
     tags$script(src = "js/main.js", defer = NA),
+    tags$script(src = "js/hero_scroll.js", defer = NA),
+    tags$script(HTML("
+    Shiny.addCustomMessageHandler('nff:navChanged', function(tab) {
+      // Tag document state for CSS if you want it
+      document.documentElement.setAttribute('data-active-tab', tab);
 
-    # Custom styles
-    tags$style(HTML(readLines("www/css/style.css", warn = FALSE)))
+      // Hide the full-viewport Home scroller on non-Home tabs so it doesn't block scroll
+      const sc = document.querySelector('.scroll-container');
+      if (!sc) return;
+      const off = (tab !== 'home');
+
+      // When off-Home: completely remove it from layout and hit-testing
+      sc.setAttribute('aria-hidden', off ? 'true' : 'false');
+      if (off) {
+        sc.style.display = 'none';
+      } else {
+        sc.style.display = '';
+      }
+    });
+  "))
   )
 }
 
@@ -159,6 +182,11 @@ build_server <- function() {
       ignoreInit = TRUE
     )
 
+    # Record which tab is active so JS can enable/disable the home scroller
+    observeEvent(input$topnav, {
+      session$sendCustomMessage("nff:navChanged", input$topnav)
+    })
+
     # Module: Home page
     home_state <- home_page_server("home", parent_session = session)
 
@@ -167,6 +195,14 @@ build_server <- function() {
 
     # Module: Data tools
     data_state <- data_tools_server("data_tools", data = reactive(iris))
+
+    # Send tab change events to JS for scroll handling
+    observeEvent(input$topnav,
+      {
+        session$sendCustomMessage("tabChanged", input$topnav)
+      },
+      ignoreInit = FALSE
+    ) # Don't ignore init to set initial state
 
     # Global observers
     observe({

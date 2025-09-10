@@ -1,5 +1,6 @@
-/* =================== NUCLEARFF COMPLETE STYLESHEET =================== */
-/* This consolidated stylesheet includes all styles with proper theme support */
+/* ========================== NUCLEARFF STYLESHEET ========================== */
+/* -------------- CSS Stylesheet for NuclearFF Shiny Apps/Site -------------- */
+/* ------------------------- Author: Nolan MacDonald------------------------- */
 
 /* =================== Global Layout & Theme Variables =================== */
 html, body { 
@@ -953,6 +954,56 @@ body {
   border-color: var(--nff-dark-primary) !important;
   color: #fff !important;
 }
+
+/* Ensure page buttons on table match theme */
+/* Force black background on DataTable wrapper and container */
+[data-bs-theme="dark"] .dataTables_wrapper,
+[data-bs-theme="dark"] .dataTables_scroll,
+[data-bs-theme="dark"] .dataTables_scrollHead,
+[data-bs-theme="dark"] .dataTables_scrollBody,
+[data-bs-theme="dark"] .dataTables_scrollFoot {
+  background-color: #0e0e0e !important;
+}
+
+/* Ensure table container maintains black background */
+[data-bs-theme="dark"] div.dataTables_wrapper div.dataTables_processing {
+  background-color: rgba(14, 14, 14, 0.9) !important;
+  color: #e9ecef !important;
+}
+
+/* Fix pagination area background */
+[data-bs-theme="dark"] .dataTables_wrapper .dataTables_paginate {
+  background-color: #0e0e0e !important;
+}
+
+/* Ensure the entire table area stays black */
+[data-bs-theme="dark"] table.dataTable {
+  background-color: #0e0e0e !important;
+}
+
+/* Fix any wrapper divs that might show through */
+[data-bs-theme="dark"] .dataTable-container,
+[data-bs-theme="dark"] .DT {
+  background-color: #0e0e0e !important;
+}
+
+/* Enables scrolling on Leagues page ---------------------------------------- */
+/* Make active tabs fill the viewport under the fixed navbar and scroll */
+.tab-content { 
+  position: relative;
+}
+
+.tab-pane {
+  /* do not force any hidden overflow by default */
+  overflow: visible;
+}
+
+/* Add some top padding so content never hides under the fixed navbar */
+.tab-pane#leagues {
+  padding-top: calc(var(--nff-nav-h) + 0.5rem);
+}
+
+
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {

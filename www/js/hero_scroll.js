@@ -5,6 +5,7 @@
 let sections, images, headings, outerWrappers, innerWrappers;
 let currentIndex = -1;
 let wrap, animating = false;
+let scrollObserver = null; // Track observer instance
 
 function initScrollSections() {
   // Check if GSAP is loaded
@@ -77,7 +78,7 @@ function initScrollSections() {
       }, 0)
       .fromTo(images[index], { yPercent: 15 * dFactor }, { yPercent: 0 }, 0);
 
-    // Animate text (simple fade in for now)
+    // Animate text
     if (headings[index]) {
       tl.fromTo(headings[index], {
         autoAlpha: 0,
@@ -93,34 +94,46 @@ function initScrollSections() {
     currentIndex = index;
   };
 
-  // Create Observer for scroll/swipe
-  if (typeof Observer !== 'undefined') {
-    Observer.create({
-      type: "wheel,touch,pointer",
-      wheelSpeed: -1,
-      onDown: () => !animating && gotoSection(currentIndex - 1, -1),
-      onUp: () => !animating && gotoSection(currentIndex + 1, 1),
-      tolerance: 10,
-      preventDefault: true
-    });
-  } else {
-    // Fallback: use wheel events
-    homeContainer.addEventListener('wheel', (e) => {
-      if (animating) return;
-      if (e.deltaY > 0) {
-        gotoSection(currentIndex + 1, 1);
-      } else {
-        gotoSection(currentIndex - 1, -1);
-      }
-      e.preventDefault();
-    });
+  // Create Observer for scroll/swipe - ONLY when home tab is active
+  function createScrollObserver() {
+    if (scrollObserver) {
+      scrollObserver.kill();
+      scrollObserver = null;
+    }
+    
+    if (typeof Observer !== 'undefined') {
+      scrollObserver = Observer.create({
+        target: homeContainer, // Target ONLY the home container
+        type: "wheel,touch,pointer",
+        wheelSpeed: -1,
+        onDown: () => !animating && gotoSection(currentIndex - 1, -1),
+        onUp: () => !animating && gotoSection(currentIndex + 1, 1),
+        tolerance: 10,
+        preventDefault: true
+      });
+    }
   }
 
   // Start with first section
   gotoSection(0, 1);
+  createScrollObserver();
   
   console.log('Scroll sections initialized');
-  // Removed setupCTANavigation() call - no longer needed
+}
+
+// Clean up function to disable hero scroll
+function disableHeroScroll() {
+  if (scrollObserver) {
+    scrollObserver.kill();
+    scrollObserver = null;
+  }
+  window.scrollSectionsInitialized = false;
+}
+
+// Enable function to re-enable hero scroll
+function enableHeroScroll() {
+  window.scrollSectionsInitialized = false;
+  setTimeout(initScrollSections, 100);
 }
 
 // Initialize when ready
@@ -134,10 +147,9 @@ if (document.readyState === 'loading') {
 if (window.Shiny) {
   Shiny.addCustomMessageHandler('tabChanged', function(message) {
     if (message === 'home') {
-      window.scrollSectionsInitialized = false;
-      setTimeout(() => {
-        initScrollSections();
-      }, 100);
+      enableHeroScroll();
+    } else {
+      disableHeroScroll();
     }
   });
 }

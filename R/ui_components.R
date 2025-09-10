@@ -66,23 +66,23 @@ create_league_accordion <- function(type,
     section_config <- list(
         overview = list(
             title = "OVERVIEW",
-            icon = icon("chevron-double-right") # Direct icon usage
+            icon = bs_icon("chevron-double-right") # Direct icon usage
         ),
         roster = list(
             title = "Roster",
-            icon = icon("person-fill-gear")
+            icon = bs_icon("person-fill-gear")
         ),
         draft = list(
             title = "Draft",
-            icon = icon("table")
+            icon = bs_icon("table")
         ),
         scoring = list(
             title = "Scoring",
-            icon = icon("clipboard2-data")
+            icon = bs_icon("clipboard2-data")
         ),
         transactions = list(
             title = "Transactions",
-            icon = icon("wallet2")
+            icon = bs_icon("wallet2")
         )
     )
 
