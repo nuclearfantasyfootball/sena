@@ -412,7 +412,6 @@ body {
 }
 
 /* =================== Social Icons =================== */
-/* =================== Social Icons =================== */
 .social-links a {
   margin: 0 0.5rem;
   font-size: 1.5rem;
@@ -450,6 +449,76 @@ body {
 .nff-light .social-links a:hover {
   color: var(--nff-light-primary);
   text-shadow: 0 4px 8px rgba(15, 160, 206, 0.3);
+}
+
+/* =================== Navbar Hamburger =================== */
+/* Use the official Bootstrap variable that powers the hamburger icon */
+[data-bs-theme="dark"] .navbar,
+.nff-dark .navbar {
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23ce0fa0' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+[data-bs-theme="light"] .navbar,
+.nff-light .navbar {
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%230fa0ce' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* Keep your hover/background polish */
+.navbar-toggler {
+  border: none !important;
+  padding: 0.25rem 0.5rem;
+  transition: all 0.3s ease;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.nff-dark .navbar-toggler:hover,
+[data-bs-theme="dark"] .navbar-toggler:hover {
+  background-color: rgba(206, 15, 160, 0.1) !important;
+}
+
+.nff-light .navbar-toggler:hover,
+[data-bs-theme="light"] .navbar-toggler:hover {
+  background-color: rgba(15, 160, 206, 0.1) !important;
+}
+
+/* Remove the light-mode gray border/ring around the hamburger */
+[data-bs-theme="light"] .navbar {
+  /* Bootstrap drives the button border via this var */
+  --bs-navbar-toggler-border-color: transparent;
+  /* Remove the focus ring width + shadow color */
+  --bs-navbar-toggler-focus-width: 0;
+  --bs-navbar-toggler-focus-shadow-rgb: 0, 0, 0;
+}
+
+/* Belt-and-suspenders: ensure the element is clean */
+[data-bs-theme="light"] .navbar .navbar-toggler {
+  border-color: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Hover treatment in light mode */
+[data-bs-theme="light"] .navbar .navbar-toggler:hover {
+  background-color: rgba(15, 160, 206, 0.1) !important;
+}
+
+/* Suppress any outline via :focus-visible */
+[data-bs-theme="light"] .navbar .navbar-toggler:focus,
+[data-bs-theme="light"] .navbar .navbar-toggler:focus-visible,
+[data-bs-theme="light"] .navbar .navbar-toggler:active {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
 }
 
 /* =================== Leagues Page Styles =================== */
