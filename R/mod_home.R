@@ -30,11 +30,13 @@ home_page_ui <- function(id) {
                             tags$br(),
                             "FANTASY FOOTBALL"
                         ),
-                        hero_electrified_button(
+                        # Electrified button
+                        electrified_button(
                             id = ns("dashboard_action_btn"),
-                            text = "ANALYZE",
-                            onclick = sprintf("Shiny.setInputValue('%s', Date.now(), {priority: 'event'})", ns("analyze_clicked"))
-                        ),
+                            text = "EXPLORE",
+                            position = "bottom-right",
+                            onclick = "window.gotoSection(1, 1); return false;"
+                        )
                     )
                 )
             )
@@ -137,7 +139,10 @@ home_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
             session$sendCustomMessage("tabChanged", "home")
             # Initialize Electrified button
             # Important! Remember to initialize in module with unique ID
-            init_electrified_button(session, session$ns("dashboard_action_btn"))
+            init_electrified_button(session,
+                session$ns("dashboard_action_btn"),
+                auto_play = TRUE # Enable auto-play on load
+            )
         }, once = TRUE)
 
         # No need for button observers - look in main.js

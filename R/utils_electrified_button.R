@@ -1,45 +1,79 @@
 #' Create Electrified Button Component
 #'
-#' Generates an animated GSAP-powered button with electrical effects
-#'
 #' @param id Character. Unique ID for the button
 #' @param text Character. Button text to display
-#' @param class Character. Additional CSS classes
-#' @param onclick Character. JavaScript onclick handler (optional)
+#' @param class Character. Additional CSS classes for container
+#' @param shape Character. Button shape: "pill", "rounded-rect", "square", "stadium"
+#' @param position Character. Positioning preset or "custom"
+#' @param position_style Character. Custom CSS positioning (when position="custom")
+#' @param onclick Character. JavaScript onclick handler
 #' @return HTML tags for electrified button
 #' @export
 electrified_button <- function(id = "electrified_btn",
                                text = "ENTER",
                                class = "",
+                               shape = "pill",
+                               position = "relative",
+                               position_style = NULL,
                                onclick = NULL) {
-    # Build button container with all necessary elements
-    tags$div(
-        class = paste("electrified-container", class),
-        id = paste0(id, "_container"),
+    # Map position presets to classes
+    position_class <- switch(position,
+        "bottom-center" = "position-bottom-center",
+        "bottom-right" = "position-bottom-right",
+        "bottom-left" = "position-bottom-left",
+        "top-center" = "position-top-center",
+        "center" = "position-center",
+        "relative" = "position-relative-center",
+        "custom" = "",
+        "" # default to no position class
+    )
 
-        # Gradient border wrapper
-        tags$div(
-            class = "electrified-border-gradient",
+    # Build container classes
+    container_classes <- c("electrified-container", class, position_class)
+    container_classes <- container_classes[container_classes != ""]
 
-            # Actual button
-            tags$button(
-                id = id,
-                class = "electrified-btn",
-                onclick = onclick,
-                tags$span(class = "vh", text) # Screen reader text
+    # Build container attributes
+    container_attrs <- list(
+        class = paste(container_classes, collapse = " "),
+        id = paste0(id, "_container")
+    )
+
+    # Add custom positioning if specified
+    if (position == "custom" && !is.null(position_style)) {
+        container_attrs$style <- position_style
+    }
+
+    # Map shape to class
+    shape_class <- if (shape != "pill") paste0("shape-", shape) else ""
+
+    # Build the button
+    do.call(tags$div, c(
+        container_attrs,
+        list(
+            # Gradient border wrapper
+            tags$div(
+                class = paste(c("electrified-border-gradient", shape_class), collapse = " "),
+
+                # Actual button
+                tags$button(
+                    id = id,
+                    class = paste(c("electrified-btn", shape_class), collapse = " "),
+                    onclick = onclick,
+                    tags$span(class = "vh", text)
+                ),
+
+                # Visual button text
+                tags$span(
+                    class = "electrified-button-text",
+                    `aria-hidden` = "true",
+                    text
+                )
             ),
 
-            # Visual button text
-            tags$span(
-                class = "electrified-button-text",
-                `aria-hidden` = "true",
-                text
-            )
-        ),
-
-        # SVG lightning effects
-        electrified_svg(id)
-    )
+            # SVG lightning effects (could also be modified for shape)
+            electrified_svg(id)
+        )
+    ))
 }
 
 #' Create Electrified Button SVG Effects
@@ -201,30 +235,33 @@ create_strike_rect <- function(filter_id, gradient_id, stroke_width) {
 #' @param session Shiny session
 #' @param button_id Button ID to initialize
 #' @export
-init_electrified_button <- function(session, button_id) {
-    session$sendCustomMessage("initElectrifiedButton", list(id = button_id))
+init_electrified_button <- function(session, button_id, auto_play = FALSE) {
+    session$sendCustomMessage(
+        "initElectrifiedButton",
+        list(
+            id = button_id,
+            autoPlay = auto_play
+        )
+    )
 }
 
 #' Create Hero Electrified Button
 #'
-#' Wrapper for electrified button specifically for hero section
+#' Convenience wrapper for hero section with default positioning and id.
 #'
-#' @param id Character. Unique ID for the button (default: "hero_enter_btn")
-#' @param text Character. Button text to display (default: "ENTER")
-#' @param onclick Character. JavaScript to execute on click
-#' @param wrapper_class Character. CSS class for wrapper div (default: "hero-electrified-wrapper")
-#' @return HTML div with positioned electrified button
+#' @inheritParams electrified_button
 #' @export
 hero_electrified_button <- function(id = "hero_enter_btn",
                                     text = "ENTER",
                                     onclick = "window.bslib.navSelect('topnav', 'leagues'); return false;",
-                                    wrapper_class = "hero-electrified-wrapper") {
-    tags$div(
-        class = wrapper_class,
-        electrified_button(
-            id = id,
-            text = text,
-            onclick = onclick
-        )
+                                    position = "bottom-center",
+                                    ...) {
+    # Button with hero defaults
+    electrified_button(
+        id = id,
+        text = text,
+        onclick = onclick,
+        position = position,
+        ...
     )
 }

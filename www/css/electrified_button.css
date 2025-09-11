@@ -1,6 +1,7 @@
 /* =================== ELECTRIFIED BUTTON STYLES =================== */
 /* Animated GSAP button with electrical effects */
 
+/* Base container - relative by default */
 .electrified-container {
   position: relative;
   display: inline-block;
@@ -8,13 +9,65 @@
   z-index: 10;
 }
 
-/* Center the button in hero section */
-.hero-electrified-wrapper {
-  position: absolute;
+/* Position presets - absolute positioning */
+.position-bottom-center {
+  position: absolute !important;
   bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
+}
+
+.position-bottom-right {
+  position: absolute !important;
+  bottom: 5%;
+  right: 5%;
+  z-index: 100;
+}
+
+.position-bottom-left {
+  position: absolute !important;
+  bottom: 5%;
+  left: 5%;
+  z-index: 100;
+}
+
+.position-top-left {
+  position: absolute !important;
+  top: 5%;
+  left: 5%;
+  z-index: 100;
+}
+
+.position-top-right {
+  position: absolute !important;
+  top: 5%;
+  right: 5%;
+  z-index: 100;
+}
+
+.position-top-center {
+  position: absolute !important;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.position-center {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+/* Relative positioning */
+.position-relative-center {
+  position: relative !important;
+  margin: 2rem auto;
+  display: block;
+  width: fit-content;
 }
 
 .electrified-btn {

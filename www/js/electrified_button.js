@@ -4,12 +4,13 @@
 /**
  * Initialize an electrified button with GSAP animations
  * @param {string} buttonId - The ID of the button to electrify
+ * @param {boolean} autoPlay - Whether to auto-play animation on load
  */
-function initElectrifiedButton(buttonId) {
+function initElectrifiedButton(buttonId, autoPlay = false) {
   // Check if GSAP is loaded
   if (typeof gsap === 'undefined') {
     console.error('GSAP not loaded - electrified button requires GSAP');
-    setTimeout(() => initElectrifiedButton(buttonId), 500);
+    setTimeout(() => initElectrifiedButton(buttonId, autoPlay), 500);
     return;
   }
 
@@ -117,21 +118,68 @@ function initElectrifiedButton(buttonId) {
   button.addEventListener("focus", handleMouseEnter);
   button.addEventListener("blur", handleMouseLeave);
 
-  console.log(`Electrified button initialized: ${buttonId}`);
+  // AUTO-PLAY ON LOAD if specified
+  if (autoPlay) {
+    // Wait a moment for page to settle, then play animation
+    setTimeout(() => {
+      gsap.to(scribbles, { opacity: 1, duration: 0.3, ease: "sine.out" });
+      tl.play(0);
+      
+      // Auto-reverse after animation completes
+      setTimeout(() => {
+        gsap.to(scribbles, { opacity: 0, duration: 0.6, ease: "sine.out" });
+        tl.reverse();
+      }, 2500); // Adjust timing as needed (2.5 seconds total)
+    }, 800); // Small delay after page load for dramatic effect
+  }
+
+  console.log(`Electrified button initialized: ${buttonId}${autoPlay ? ' (with auto-play)' : ''}`);
 }
 
-// Shiny integration
+// Shiny integration with auto-play support
 if (window.Shiny) {
   Shiny.addCustomMessageHandler('initElectrifiedButton', function(data) {
+    // Extract parameters
+    const buttonId = data.id || data;
+    const autoPlay = data.autoPlay || false;
+    
     // Wait for DOM ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => initElectrifiedButton(data.id));
+      document.addEventListener('DOMContentLoaded', () => initElectrifiedButton(buttonId, autoPlay));
     } else {
       // Small delay to ensure elements are rendered
-      setTimeout(() => initElectrifiedButton(data.id), 100);
+      setTimeout(() => initElectrifiedButton(buttonId, autoPlay), 100);
     }
   });
 }
+
+// Alternative: Auto-play for buttons with specific class (no R changes needed)
+document.addEventListener('DOMContentLoaded', function() {
+  // Delay to ensure GSAP and button initialization
+  setTimeout(() => {
+    // Find all buttons that should auto-play
+    const autoPlayButtons = document.querySelectorAll('.electrified-btn-autoplay');
+    
+    autoPlayButtons.forEach(button => {
+      const buttonId = button.id;
+      if (buttonId) {
+        const scribbles = document.getElementById(`${buttonId}_scribbles`);
+        
+        if (scribbles) {
+          // Trigger animation by simulating mouse enter
+          const event = new MouseEvent('mouseenter');
+          button.dispatchEvent(event);
+          
+          // Auto-reverse after animation
+          setTimeout(() => {
+            const leaveEvent = new MouseEvent('mouseleave');
+            button.dispatchEvent(leaveEvent);
+          }, 2500);
+        }
+      }
+    });
+  }, 1500); // Wait for everything to initialize
+});
 
 // Export for manual initialization
 window.initElectrifiedButton = initElectrifiedButton;
