@@ -726,12 +726,12 @@ body {
 /* Accordion Styling - Dark theme */
 .nff-dark .accordion-button {
   background-color: rgba(255, 255, 255, 0.05);
-  color: #e9ecef;
+  color: var(--nff-dark-primary);
 }
 
 .nff-dark .accordion-button:not(.collapsed) {
   background-color: rgba(206, 15, 160, 0.2);
-  color: #ce0fa0;
+  color: var(--nff-dark-primary);
 }
 
 .nff-dark .accordion-item {
@@ -741,18 +741,18 @@ body {
 
 .nff-dark .accordion-body {
   background-color: #121212;
-  color: #e9ecef;
+  color: var(--nff-dark-text);
 }
 
 /* Accordion Styling - Light theme */
 .nff-light .accordion-button {
   background-color: rgba(0, 0, 0, 0.03);
-  color: #212529;
+  color: var(--nff-light-primary);
 }
 
 .nff-light .accordion-button:not(.collapsed) {
   background-color: rgba(15, 160, 206, 0.2);
-  color: #0fa0ce;
+  color: var(--nff-light-primary);
 }
 
 .nff-light .accordion-item {
@@ -1330,6 +1330,155 @@ body {
   padding-top: calc(var(--nff-nav-h) + 0.5rem);
   min-height: calc(100vh - var(--nff-nav-h));
 }
+
+/* =================== FAQ Article Styling =================== */
+.faq-accordion .accordion-body {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 0rem !important;
+  padding-bottom: 0rem !important;
+}
+
+/* FAQ article list container */
+.faq-article-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  /* padding: 0.5rem 0; */
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Make FAQ article titles uppercase */
+.faq-article-title {
+  text-transform: uppercase !important;
+  letter-spacing: 0em; /* Add letter spacing for readability */
+}
+
+/* Individual FAQ article items - remove wrapper styling */
+.faq-article-item {
+  border: none !important;
+  margin: 0;
+  padding: 0;
+}
+
+/* FAQ article links - styled exactly like DataTable page buttons */
+.faq-article-link {
+  border: 1px solid; /* Keep border to separate articles */
+  border-radius: 0rem !important; /* Remove rounded corners for edge-to-edge look */
+  border-left: none !important;
+  border-right: none !important;
+  margin: 0 !important;
+  text-decoration: none !important;
+  display: block !important;
+  transition: all 0.2s ease;
+  padding: 0.5rem 0.5rem !important; /* Ensure padding is applied */
+}
+
+/* Force remove Bootstrap's link underlines */
+.faq-article-link:hover,
+.faq-article-link:focus,
+.faq-article-link:active {
+  text-decoration: none !important;
+}
+
+/* Dark theme - base state matching pagination buttons */
+[data-bs-theme="dark"] .faq-article-link {
+  background-color: var(--nff-dark-surface) !important; /* var(--nff-dark-bg) */
+  border-color: rgba(206, 15, 160, 0.3) !important;
+  color: var(--nff-dark-text) !important;
+}
+
+[data-bs-theme="dark"] .faq-article-link .faq-article-title {
+  color: var(--nff-dark-text) !important;
+  font-weight: 600;
+}
+
+[data-bs-theme="dark"] .faq-article-link .faq-article-arrow {
+  color: var(--nff-dark-primary) !important;
+  opacity: 0.8;
+}
+
+/* Dark theme - hover state (pink tint like pagination) */
+[data-bs-theme="dark"] .faq-article-link:hover {
+  background-color: rgba(206, 15, 160, 0.2) !important;
+  border-color: var(--nff-dark-primary) !important;
+}
+
+[data-bs-theme="dark"] .faq-article-link:hover .faq-article-title,
+[data-bs-theme="dark"] .faq-article-link:hover .faq-article-arrow {
+  color: var(--nff-dark-text) !important;
+}
+
+/* Light theme - base state matching pagination buttons */
+[data-bs-theme="light"] .faq-article-link {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 160, 206, 0.3) !important;  
+  color: #212529 !important;
+}
+
+[data-bs-theme="light"] .faq-article-link .faq-article-title {
+  color: var(--nff-light-text) !important;
+  font-weight: 600;
+}
+
+[data-bs-theme="light"] .faq-article-link .faq-article-arrow {
+  color: var(--nff-light-primary) !important;
+  opacity: 0.8;
+}
+
+/* Light theme - hover state (blue tint like pagination) */
+[data-bs-theme="light"] .faq-article-link:hover {
+  background-color: rgba(15, 160, 206, 0.3) !important;
+  border-color: var(--nff-light-primary) !important;
+}
+
+[data-bs-theme="light"] .faq-article-link:hover .faq-article-title,
+[data-bs-theme="light"] .faq-article-link:hover .faq-article-arrow {
+  color: var(--nff-light-text) !important;
+}
+
+/* Remove any conflicting accordion body styling for FAQ items */
+.accordion-body .faq-article-list {
+  background-color: transparent !important;
+}
+
+.accordion-body .faq-article-item {
+  background-color: transparent !important;
+}
+
+/* =============================== FAAB DEMO =============================== */
+/* Phone-style card + claims */
+.nff-phone { border-radius: 24px; box-shadow: 0 8px 28px rgba(0,0,0,.25); }
+.nff-claims-wrap { display: flex; flex-direction: column; }
+.nff-claim {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center;
+  gap: .5rem;
+  padding: .5rem .75rem;
+  border-bottom: 1px solid var(--bs-border-color);
+}
+.nff-claim:last-child { border-bottom: 0; }
+.nff-player { font-weight: 500; }
+.nff-bid, .nff-priority { font-weight: 600; }
+.nff-hint { font-size:.85rem; color: var(--bs-secondary-color); padding: .5rem .75rem; }
+
+/* Chips + status badges */
+.nff-chip {
+  font-size: .75rem; border-radius: 999px; padding: .1rem .5rem;
+  border: 1px dashed var(--bs-border-color);
+}
+.nff-chip-tie { opacity: .8; }
+
+.nff-status { padding: .15rem .55rem; border-radius: 999px; font-size: .8rem; font-weight: 600; }
+.nff-won     { background: rgba(16,185,129,.18); }   /* emerald-ish */
+.nff-outbid  { background: rgba(107,114,128,.18); }  /* gray-ish    */
+.nff-invalid { background: rgba(239,68,68,.18); }    /* red-ish     }
+
+/* Table container spacing */
+.nff-table-wrap { margin-top: .75rem; }
+.nff-legend { font-size: .9rem; color: var(--bs-secondary-color); margin-top: .5rem; }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {

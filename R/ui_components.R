@@ -90,8 +90,11 @@ create_league_accordion <- function(type,
     panels <- lapply(sections, function(section) {
         config <- section_config[[section]]
         accordion_panel(
-            config$title,
-            config$icon, # Pass the icon object directly
+            title = tags$span(
+                config$icon,
+                tags$span(class = "ms-2", config$title)
+            ),
+            value = section, # Use section name as the value/ID
             md_file(sprintf("www/md/%s/%s_%s.md", type, type, section))
         )
     })
