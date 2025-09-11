@@ -1,0 +1,146 @@
+/* =================== ELECTRIFIED BUTTON STYLES =================== */
+/* Animated GSAP button with electrical effects */
+
+.electrified-container {
+  position: relative;
+  display: inline-block;
+  margin: 2rem auto;
+  z-index: 10;
+}
+
+/* Center the button in hero section */
+.hero-electrified-wrapper {
+  position: absolute;
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.electrified-btn {
+  cursor: pointer;
+  width: 200px;
+  height: 75px;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  background-color: #081649;
+  text-decoration: none;
+  padding: 0.75em 1.75em;
+  border-radius: 99px;
+  border: none;
+  transition: background-color 0.6s ease-out;
+}
+
+.electrified-btn:focus:not(:focus-visible) { 
+  outline: none;
+}
+
+.electrified-btn:hover {
+  background-color: #0f2473;
+}
+
+.electrified-btn:focus {
+  background-color: #0f2473;
+  outline: 5px solid #a0fdfe;
+}
+
+.electrified-border-gradient {
+  padding: 4px;
+  opacity: 0.8;
+  border-radius: 99px;
+  background: rgb(177, 131, 255);
+  background: linear-gradient(
+    90deg,
+    rgb(177, 131, 255) 0%,
+    rgb(85, 114, 199) 100%
+  );
+}
+
+.electrified-button-text {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-55%);
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  user-select: none;
+  letter-spacing: 1.5px;
+  color: white;
+  text-transform: uppercase;
+}
+
+.electrified-scribbles {
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+
+.electrified-lightning {
+  opacity: 0;
+}
+
+/* Visually hidden for screen readers */
+.vh {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+/* Theme-specific adjustments */
+[data-bs-theme="dark"] .electrified-btn {
+  background-color: #081649;
+}
+
+[data-bs-theme="dark"] .electrified-btn:hover,
+[data-bs-theme="dark"] .electrified-btn:focus {
+  background-color: #0f2473;
+}
+
+[data-bs-theme="light"] .electrified-btn {
+  background-color: #1a2f7a;
+}
+
+[data-bs-theme="light"] .electrified-btn:hover,
+[data-bs-theme="light"] .electrified-btn:focus {
+  background-color: #2a4091;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .electrified-btn {
+    width: 180px;
+    height: 65px;
+  }
+  
+  .electrified-button-text {
+    font-size: 1.4rem;
+  }
+  
+  .hero-electrified-wrapper {
+    bottom: 10%;
+  }
+}
+
+@media (max-width: 480px) {
+  .electrified-btn {
+    width: 160px;
+    height: 60px;
+  }
+  
+  .electrified-button-text {
+    font-size: 1.2rem;
+  }
+}

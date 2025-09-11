@@ -2,6 +2,9 @@
 #'
 #' Create the home/landing page with scroll sections
 #'
+#' One of the important features is the electrified button in the hero section.
+#' This button uses SVG and JavaScript to create an animated, electrified effect.
+#'
 #' @param id Character string. Module namespace ID
 #' @return UI element for home page
 #' @export
@@ -26,7 +29,12 @@ home_page_ui <- function(id) {
                             "NUCLEAR",
                             tags$br(),
                             "FANTASY FOOTBALL"
-                        )
+                        ),
+                        hero_electrified_button(
+                            id = ns("dashboard_action_btn"),
+                            text = "ANALYZE",
+                            onclick = sprintf("Shiny.setInputValue('%s', Date.now(), {priority: 'event'})", ns("analyze_clicked"))
+                        ),
                     )
                 )
             )
@@ -123,9 +131,13 @@ home_page_ui <- function(id) {
 #' @export
 home_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
     moduleServer(id, function(input, output, session) {
-        # Just initialize scroll sections
+        # Initialize
         session$onFlushed(function() {
+            # Scroll sections
             session$sendCustomMessage("tabChanged", "home")
+            # Initialize Electrified button
+            # Important! Remember to initialize in module with unique ID
+            init_electrified_button(session, session$ns("dashboard_action_btn"))
         }, once = TRUE)
 
         # No need for button observers - look in main.js
