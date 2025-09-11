@@ -1,0 +1,52 @@
+/* Light mode version, cyan emphasis */
+[data-bs-theme="light"] .nff-backdrop {
+  /* same content as your light 'body' block */
+  --x: calc(var(--posX, 0) * 1px);
+  --y: calc(var(--posY, 0) * 1px);
+  background-image:
+    linear-gradient(115deg, #f7f8fb, #eceff4),
+    radial-gradient(95% 110% at calc(25% + var(--x)) calc(20% + var(--y)),
+      rgba(206, 15, 160, 0.20) 0%, rgba(206, 15, 160, 0.00) 60%),
+    radial-gradient(115% 125% at calc(62% - var(--x)) calc(58% - var(--y)),
+      rgba(15, 160, 206, 0.48) 0%, rgba(15, 160, 206, 0.00) 78%),
+    radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)),
+      rgba(32, 40, 56, 0.20) 0%, rgba(32, 40, 56, 0.00) 70%),
+    radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)),
+      rgba(206, 15, 160, 0.14) 0%, rgba(206, 15, 160, 0.00) 70%),
+    linear-gradient(60deg, rgba(206, 15, 160, 0.22), rgba(15, 160, 206, 0.36));
+  background-blend-mode: overlay, overlay, screen, difference, lighten, normal;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* Dark mode version, magenta emphasis */
+[data-bs-theme="dark"] .nff-backdrop {
+  /* same content as your dark 'body' block */
+  --x: calc(var(--posX, 0) * 1px);
+  --y: calc(var(--posY, 0) * 1px);
+  background-image:
+    linear-gradient(115deg, #0a0a0a, #1a1a1a),
+    radial-gradient(90% 100% at calc(50% + var(--x)) calc(0% + var(--y)), #0fa0ce, #0a0020),
+    radial-gradient(100% 100% at calc(80% - var(--x)) calc(0% - var(--y)), #ce0fa0, #200010),
+    radial-gradient(150% 210% at calc(100% + var(--x)) calc(0% + var(--y)), #0fa0ce, #001020),
+    radial-gradient(100% 100% at calc(100% - var(--x)) calc(30% - var(--y)), #ce0fa0, #100020),
+    linear-gradient(60deg, #ce0fa0, #0fa0ce);
+  background-blend-mode: overlay, overlay, screen, difference, lighten, normal;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  min-height: 100vh;
+}
+
+/* If a section uses the dynamic backdrop, ensure it’s clean */
+.nff-backdrop {
+  background-attachment: scroll; /* avoid fixed stacking issues */
+}
+.nff-backdrop .bg {
+  position: relative;  /* keep headings clickable above backdrop */
+  z-index: 1;
+  background: none !important;
+  background-image: none !important;
+}

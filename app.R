@@ -10,7 +10,9 @@ library(htmltools)
 library(bsicons)
 library(commonmark)
 
-# Source all R files
+DEV_MODE <- TRUE
+
+# Source all R files, all functions/modules available globally
 source_dir <- function(path) {
   files <- list.files(path, pattern = "\\.R$", full.names = TRUE)
   lapply(files, source)
@@ -37,26 +39,39 @@ build_ui <- function() {
       title = build_navbar_brand(config),
       window_title = "Nuclear Fantasy Football",
 
-      # Home panel
+      # Home panel ---------------------------------------------------
       nav_panel(
         "Home",
         value = "home",
         home_page_ui("home")
       ),
 
-      # Leagues panel
+      # Leagues panel ---------------------------------------------------
       nav_panel(
         "Leagues",
         value = "leagues",
         leagues_page_ui("leagues")
       ),
 
-      # Tools panel
+      # Formats panel ---------------------------------------------------
+      nav_panel(
+        "FAQ",
+        value = "faq",
+        faq_page_ui("faq")
+      ),
+
+      # Tools panel---------------------------------------------------
       nav_panel(
         "Tools",
         value = "tools",
         data_tools_ui("data_tools")
       ),
+      nav_panel(
+        "FAAB Demo",
+        value = "faab_demo",
+        faab_demo_ui("faab_demo")
+      ),
+      # Navbar spacing before adding social links
       nav_spacer(),
 
       # Right-aligned navigation
@@ -106,8 +121,15 @@ build_head_tags <- function(config) {
     tags$link(rel = "stylesheet", href = config$external_resources$fonts$montserrat),
     tags$link(rel = "stylesheet", href = "css/style.css"),
     tags$link(rel = "stylesheet", href = "css/hero_scroll.css"),
+    tags$link(rel = "stylesheet", href = "css/backdrop.css"), # Backgrounds
+    tags$link(rel = "stylesheet", href = "css/card_effects.css"), # Card styles
+    tags$link(rel = "stylesheet", href = "css/electrified_button.css"),
+    # JavaScript
     tags$script(src = "js/main.js", defer = NA),
     tags$script(src = "js/hero_scroll.js", defer = NA),
+    tags$script(src = "js/backdrop.js", defer = NA), # Background effects
+    tags$script(src = "js/glass_effects.js", defer = NA), # Liquid glass effects
+    tags$script(src = "js/electrified_button.js", defer = NA),
     tags$script(HTML("
     Shiny.addCustomMessageHandler('nff:navChanged', function(tab) {
       // Tag document state for CSS if you want it
@@ -218,6 +240,11 @@ build_server <- function() {
 
     # Module: Leagues page
     selected_league <- leagues_page_server("leagues")
+
+    # Module: FAQ page
+    faq_state <- faq_page_server("faq")
+
+    faab_demo_state <- faab_demo_server("faab_demo")
 
     # Module: Data tools
     data_state <- data_tools_server("data_tools", data = reactive(iris))

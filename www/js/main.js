@@ -34,6 +34,9 @@ function applyThemeClass(mode) {
   // Also maintain legacy classes for compatibility
   document.documentElement.classList.toggle('nff-light', validMode === 'light');
   document.documentElement.classList.toggle('nff-dark', validMode === 'dark');
+
+  // Emit custom event so gradient backgrounds can respond/re-bias
+  window.dispatchEvent(new Event('nff:theme-applied'));
   
   // Force DataTables to refresh styling if present
   setTimeout(() => {

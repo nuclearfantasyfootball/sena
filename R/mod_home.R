@@ -35,7 +35,7 @@ home_page_ui <- function(id) {
                             id = ns("dashboard_action_btn"),
                             text = "EXPLORE",
                             position = "bottom-right",
-                            onclick = "window.gotoSection(1, 1); return false;"
+                            onclick = "setTimeout(() => window.gotoSection(1), 50); return false;"
                         )
                     )
                 )
@@ -43,19 +43,64 @@ home_page_ui <- function(id) {
         ),
 
         # Section 2 - Welcome
+        # Section 2 - Welcome
         tags$section(
-            class = "second",
+            class = "second nff-backdrop",
             tags$div(
                 class = "outer",
                 tags$div(
                     class = "inner",
                     tags$div(
                         class = "bg",
-                        tags$h2(
-                            class = "section-heading",
-                            "Welcome to",
-                            tags$br(),
-                            "Elite Fantasy"
+                        # Title + Card block
+                        tags$div(
+                            class = "section-block",
+                            tags$h2(
+                                class = "section-heading",
+                                "Welcome to", tags$br(), "Elite Fantasy"
+                            ),
+                            bslib::card(
+                                class = "glass-effect section-card",
+                                bslib::card_body(
+                                    tags$h4("Enhanced Glass Effect"),
+                                    tags$p("This card now features an advanced liquid glass effect with distortion and multiple layers."),
+                                    tags$p("The effect responds to both light and dark themes with appropriate tinting.")
+                                )
+                            )
+                        ),
+                        # SVG filter for liquid glass distortion
+                        tags$svg(
+                            style = "position: absolute; width: 0; height: 0;",
+                            tags$defs(
+                                tags$filter(
+                                    id = "liquid-glass-distortion",
+                                    x = "0%", y = "0%",
+                                    width = "100%", height = "100%",
+                                    filterUnits = "objectBoundingBox",
+                                    # Turbulence for liquid effect
+                                    tags$feTurbulence(
+                                        type = "fractalNoise",
+                                        baseFrequency = "0.008 0.008",
+                                        numOctaves = "2",
+                                        seed = "3",
+                                        result = "turbulence"
+                                    ),
+                                    # Smooth the turbulence
+                                    tags$feGaussianBlur(
+                                        `in` = "turbulence",
+                                        stdDeviation = "2",
+                                        result = "blur"
+                                    ),
+                                    # Displacement for warping
+                                    tags$feDisplacementMap(
+                                        `in` = "SourceGraphic",
+                                        in2 = "blur",
+                                        scale = "12",
+                                        xChannelSelector = "R",
+                                        yChannelSelector = "G"
+                                    )
+                                )
+                            )
                         )
                     )
                 )
@@ -64,7 +109,7 @@ home_page_ui <- function(id) {
 
         # Section 3 - Features
         tags$section(
-            class = "third",
+            class = "third nff-backdrop",
             tags$div(
                 class = "outer",
                 tags$div(
@@ -84,7 +129,7 @@ home_page_ui <- function(id) {
 
         # Section 4 - Community
         tags$section(
-            class = "fourth",
+            class = "fourth nff-backdrop",
             tags$div(
                 class = "outer",
                 tags$div(
@@ -105,7 +150,7 @@ home_page_ui <- function(id) {
         # Section 5 - Get Started
         # Section 5 - Get Started (modified)
         tags$section(
-            class = "fifth",
+            class = "fifth nff-backdrop",
             tags$div(
                 class = "outer",
                 tags$div(
@@ -114,7 +159,7 @@ home_page_ui <- function(id) {
                         class = "bg",
                         tags$h2(
                             class = "section-heading",
-                            "Get Started" # Simplified - removed the button
+                            "Get Started"
                         )
                     )
                 )
