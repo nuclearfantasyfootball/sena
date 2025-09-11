@@ -50,32 +50,69 @@
   background-position: center;
 }
 
+/* Center the whole block within the section viewport */
 .second .bg {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
-              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/football-stadium-bg.jpg");
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* keeps same as hero */
+  padding: 2rem;     /* breathing room on small screens */
 }
 
 .third .bg {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
-              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-launch-smoke.png");
   background-size: cover;
   background-position: center;
 }
 
 .fourth .bg {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
-              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
   background-size: cover;
   background-position: center;
 }
 
 .fifth .bg {
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
-              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
   background-size: cover;
   background-position: 50% 50%;
+}
+
+/* Customize the block and section headings ---------------- */
+/* Stack title over card */
+.section-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+
+  /* Responsive container width; both title and card follow this */
+  width: clamp(320px, 90vw, 960px);
+}
+
+/* Title spans the same container and aligns to the right edge */
+.section-heading {
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  /* Optional: scale, but cap extremes */
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+/* Center title while card remains full-width */
+.section-block .section-heading {
+  align-self: center;  /* Centers just the heading */
+}
+
+/* Card fills the container width */
+.section-card {
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;  /* rely on your .glass-effect shadows */
+  background: transparent;      /* keep your glass bg */
+}
+
+/* Mobile nicety: reduce gap and padding if desired */
+@media (max-width: 768px) {
+  .second .bg { padding: 1.25rem; }
+  .section-block { gap: 0.75rem; }
 }
 
 /* Typography */

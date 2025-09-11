@@ -47,12 +47,20 @@ function initScrollSections() {
   gsap.set(outerWrappers, { yPercent: 100 });
   gsap.set(innerWrappers, { yPercent: -100 });
 
-  // Section navigation function
+  // Section navigation function  
   window.gotoSection = function(index, direction) {
     if (animating) return;
     
     index = wrap(index);
     animating = true;
+    
+    // If no direction specified, determine it based on current vs target index
+    if (direction === undefined) {
+        direction = index > currentIndex ? 1 : -1;
+        // Handle wrap-around case
+        if (currentIndex === sections.length - 1 && index === 0) direction = 1;
+        if (currentIndex === 0 && index === sections.length - 1) direction = -1;
+    }
     
     let fromTop = direction === -1,
         dFactor = fromTop ? -1 : 1,
@@ -115,9 +123,19 @@ function initScrollSections() {
   }
 
   // Start with first section
-  gotoSection(0, 1);
+  // Initial setup - make first section visible WITHOUT animation
+  gsap.set(sections[0], { autoAlpha: 1, zIndex: 1 });
+  gsap.set(outerWrappers[0], { yPercent: 0 });
+  gsap.set(innerWrappers[0], { yPercent: 0 });
+  gsap.set(images[0], { yPercent: 0 });
+  if (headings[0]) {
+    gsap.set(headings[0], { autoAlpha: 1, y: 0 });
+  }
+  currentIndex = 0; // Set current index without animation
+
+  // Remove the gotoSection(0, 1) call - we're setting up section 0 manually
   createScrollObserver();
-  
+
   console.log('Scroll sections initialized');
 }
 
