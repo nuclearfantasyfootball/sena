@@ -56,7 +56,7 @@ function applyThemeClass(mode) {
 }
 
 /** 
- * Snap theme change (no gray tween) 
+ * Snap theme change - No gray flashing
  */
 function toggleTheme(nextTheme) {
   const root = document.documentElement;
@@ -289,7 +289,7 @@ function initShinyHandlers() {
     }, 100);
   });
 
-  // Optional: Update countdown label dynamically
+  // Update countdown label dynamically
   Shiny.addCustomMessageHandler('updateCountdownLabel', function (message) {
     const el = document.querySelector('.countdown-text');
     if (el) el.textContent = message.text;
@@ -312,7 +312,6 @@ document.addEventListener("DOMContentLoaded", () => {
   brand.addEventListener("click", (e) => {
     e.preventDefault();
     
-    // Always navigate to home first, then handle section reset
     const currentTab = document.querySelector('.navbar .nav-link.active[data-value]');
     const isOnHome = currentTab && currentTab.getAttribute('data-value') === 'home';
     
@@ -327,29 +326,27 @@ document.addEventListener("DOMContentLoaded", () => {
           Shiny.setInputValue("topnav", "home", { priority: "event" });
         }
       }
-    }
-    
-    // Always attempt to reset to first section with proper delay
-    setTimeout(() => {
-      if (typeof window.gotoSection === 'function') {
-        window.gotoSection(0, 1);
-      } else if (window.currentIndex !== undefined) {
-        // Fallback: trigger the scroll system directly
-        const scrollContainer = document.querySelector('.scroll-container');
-        if (scrollContainer) {
-          // Re-initialize if needed
-          if (typeof initScrollSections === 'function') {
-            initScrollSections();
-            setTimeout(() => {
-              if (typeof window.gotoSection === 'function') {
-                window.gotoSection(0, 1);
-              }
-            }, 200);
-          }
-        }
+      // tabChange handler will automatically reset to section 0
+    } else {
+      // Already on home, just reset to first section
+      if (window.resetToFirstSection) {
+        window.resetToFirstSection();
       }
-    }, isOnHome ? 100 : 300); // Shorter delay if already on home
+    }
   });
+  
+  // Handle Home nav link clicks
+  const homeNavLink = document.querySelector('.navbar .nav-link[data-value="home"]');
+  if (homeNavLink) {
+    homeNavLink.addEventListener("click", (e) => {
+      // Small delay to let tab switching complete
+      setTimeout(() => {
+        if (window.resetToFirstSection) {
+          window.resetToFirstSection();
+        }
+      }, 100);
+    });
+  }
 });
 
 // =================== Block clicks on FULL leagues ===================
