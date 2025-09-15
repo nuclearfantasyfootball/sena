@@ -66,11 +66,6 @@ build_ui <- function() {
         value = "tools",
         data_tools_ui("data_tools")
       ),
-      nav_panel(
-        "FAAB Demo",
-        value = "faab_demo",
-        faab_demo_ui("faab_demo")
-      ),
 
       # Navbar spacing before adding social links
       nav_spacer(),
@@ -255,9 +250,6 @@ build_server <- function() {
 
     # Module: FAQ page with integrated article display
     faq_state <- faq_page_server("faq", parent_session = session)
-
-    # Module: FAAB Demo
-    faab_demo_state <- faab_demo_server("faab_demo")
 
     # Module: Data tools
     data_state <- data_tools_server("data_tools", data = reactive(iris))
