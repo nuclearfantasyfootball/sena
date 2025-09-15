@@ -1,0 +1,99 @@
+/* Development Section Specific Styles */
+.third .development-title {
+  position: fixed !important;
+  top: calc(var(--nff-nav-h, 56px) + 0rem) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 100 !important;
+  width: auto !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-size: clamp(2rem, 5vw, 3.5rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+/* Development card container */
+.development-card-container {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+}
+
+.development-card-container {
+    position: fixed !important;
+    left: 5% !important;
+    right: 5% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.development-card-container .glass-effect {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+/* For very small screens, you might need to reduce the percentage */
+@media (max-width: 480px) {
+    .development-card-container {
+        left: 2% !important;
+        right: 2% !important;
+    }
+}
+
+/* Ensure the card fills its container */
+.development-card-container .glass-effect {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.development-card-container .card-body {
+  flex: 1 !important;
+  overflow-y: auto !important;
+  padding: 2rem !important;
+}
+
+/* Custom scrollbar for development card */
+.development-card-container .card-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.development-card-container .card-body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+[data-bs-theme="dark"] .development-card-container .card-body::-webkit-scrollbar-thumb {
+  background: rgba(206, 15, 160, 0.3);
+  border-radius: 4px;
+}
+
+[data-bs-theme="light"] .development-card-container .card-body::-webkit-scrollbar-thumb {
+  background: rgba(15, 160, 206, 0.3);
+  border-radius: 4px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .third .development-title {
+    font-size: clamp(1.5rem, 4vw, 2.5rem) !important;
+  }
+  
+  .development-card-container .card-body {
+    padding: 1rem !important;
+  }
+}
+
+/* Force no-tilt cards to never transform */
+.glass-effect.no-tilt {
+  transform: none !important;
+  transition: box-shadow 0.3s ease !important; /* Only animate shadow on hover */
+}
+
+.glass-effect.no-tilt:hover {
+  transform: none !important; /* Ensure no transform on hover */
+}

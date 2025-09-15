@@ -1,0 +1,181 @@
+/* =================== SCROLL INDICATOR STYLES =================== */
+/* Save this as www/css/scroll_indicator.css */
+
+/* Main container for scroll indicator */
+/* TODO CENTER THE SCROLL ARROW ON THE BOTTOM MIDDLE */
+/* TODO R MARKDOWN ARTICLES */
+/* TODO TRANSPARENT GLASS NAVBAR */
+/* TODO ADD QUOTE BLOCK FOR ARTICLES */
+.scroll-indicator {
+  position: fixed;
+  bottom: 5%;  /* Positioned below the electrified button */
+  right: 5%;   /* Aligned with electrified button */
+  z-index: 100;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeInUp 1s ease-out 3s forwards; /* Delay to appear after button */
+}
+
+/* For sections 2-4, use fixed positioning to keep indicator visible */
+.second .scroll-indicator,
+.third .scroll-indicator,
+.fourth .scroll-indicator {
+  position: fixed !important;
+  bottom: 11% !important;
+  right: 5% !important;
+  animation-delay: 0.5s; /* Faster appearance on these sections */
+}
+
+/* Special positioning for section 2 with card content */
+.second .scroll-indicator {
+  bottom: 11% !important; /* Slightly lower to avoid card overlap */
+}
+
+/* Arrow container */
+.scroll-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 50px;
+}
+
+/* Individual arrows */
+.scroll-box span {
+  width: 20px;
+  height: 20px;
+  display: block;
+  border-right: 2px solid;
+  border-bottom: 2px solid;
+  transform: rotate(45deg);
+  margin: -10px;
+  animation: animateArrow 3s infinite;
+  opacity: 0.5;
+}
+
+/* Dark mode arrow colors */
+[data-bs-theme="dark"] .scroll-box span {
+  border-color: #ffffff; /* Pink arrows in dark mode */
+}
+
+/* Light mode arrow colors */
+[data-bs-theme="light"] .scroll-box span {
+  border-color: #ffffff; /* Blue arrows in light mode */
+}
+
+/* Stagger animation delays */
+.scroll-box span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.scroll-box span:nth-child(3) {
+  animation-delay: -0.4s;
+}
+
+/* Arrow animation */
+@keyframes animateArrow {
+  0% {
+    opacity: 0;
+    transform: rotate(45deg) translate(0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(45deg) translate(10px, 10px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) translate(20px, 20px);
+  }
+}
+
+/* Scroll text below arrows */
+.scroll-text {
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+  opacity: 0.5;
+}
+
+/* Dark mode text color */
+[data-bs-theme="dark"] .scroll-text {
+  /* color: rgba(206, 15, 160, 0.9); */
+  color: #ffffff;
+}
+
+/* Light mode text color */
+[data-bs-theme="light"] .scroll-text {
+  /* color: rgba(15, 160, 206, 0.9); */
+  color: #ffffff;
+}
+
+/* Hover effects */
+.scroll-indicator:hover .scroll-box span {
+  animation-duration: 1.5s; /* Speed up on hover */
+}
+
+[data-bs-theme="dark"] .scroll-indicator:hover .scroll-box span {
+  border-color: #ce0fa0; /* Full opacity on hover */
+}
+
+[data-bs-theme="light"] .scroll-indicator:hover .scroll-box span {
+  border-color: #0fa0ce; /* Full opacity on hover */
+}
+
+.scroll-indicator:hover .scroll-text {
+  opacity: 1;
+}
+
+/* Fade in animation for initial appearance */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .scroll-indicator {
+    bottom: 10%;
+    right: 50%;
+    transform: translateX(50%); /* Center on mobile */
+  }
+  
+  .scroll-box {
+    width: 35px;
+    height: 50px;
+  }
+  
+  .scroll-box span {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .scroll-text {
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-indicator {
+    bottom: 12%;
+  }
+  
+  .scroll-box span {
+    width: 16px;
+    height: 16px;
+    margin: -8px;
+  }
+}
