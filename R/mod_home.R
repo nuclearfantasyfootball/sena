@@ -129,18 +129,156 @@ home_page_ui <- function(id) {
                         # Full-height card container with more bottom padding
                         tags$div(
                             class = "development-card-container",
-                            # style = "position: fixed; top: calc(56px + 0.1rem); bottom: 10% !important; left: 5% !important; right: 5% !important; transform: none; z-index: 10;",
                             bslib::card(
-                                class = "glass-effect section-card no-tilt",
+                                class = "glass-effect section-card no-tilt centered-nav-pills",
                                 style = "height: 100%; overflow-y: auto;",
-                                bslib::card_body(
-                                    tags$h4("Development Resources"),
-                                    tags$p("This full-height card contains development information and resources."),
-                                    tags$p("The card now has more space from the bottom of the viewport."),
-                                    # Add your actual development content here
-                                    tags$div(
-                                        class = "development-content",
-                                        # Your existing development content...
+                                navset_pill(
+                                    id = ns("dev_tabs"),
+                                    nav_panel(
+                                        title = "Overview",
+                                        icon = bsicons::bs_icon("info-circle"),
+                                        tags$div(
+                                            class = "p-3",
+                                            tags$h4("Development Overview"),
+                                            tags$p("Information about the development process and methodology."),
+                                            tags$ul(
+                                                tags$li("Modern R Shiny architecture"),
+                                                tags$li("Modular design patterns"),
+                                                tags$li("Custom CSS/JavaScript integration"),
+                                                tags$li("Responsive design principles"),
+                                                tags$li("Performance optimization")
+                                            )
+                                        )
+                                    ),
+                                    nav_panel(
+                                        title = "Tech Stack",
+                                        icon = bsicons::bs_icon("stack"),
+                                        tags$div(
+                                            class = "p-3",
+                                            tags$h4("Technology Stack"),
+                                            tags$p("Core technologies powering this application:"),
+                                            tags$div(
+                                                class = "row g-3",
+                                                tags$div(
+                                                    class = "col-md-6",
+                                                    tags$h6("Frontend"),
+                                                    tags$ul(
+                                                        tags$li("R Shiny"),
+                                                        tags$li("Bootstrap 5"),
+                                                        tags$li("GSAP Animations"),
+                                                        tags$li("Custom CSS"),
+                                                        tags$li("JavaScript ES6+")
+                                                    )
+                                                ),
+                                                tags$div(
+                                                    class = "col-md-6",
+                                                    tags$h6("Backend"),
+                                                    tags$ul(
+                                                        tags$li("R Server"),
+                                                        tags$li("Modular Architecture"),
+                                                        tags$li("Data Processing"),
+                                                        tags$li("API Integration"),
+                                                        tags$li("AWS Deployment")
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    nav_panel(
+                                        title = "Resources",
+                                        icon = bsicons::bs_icon("book"),
+                                        tags$div(
+                                            class = "p-3",
+                                            tags$h4("Development Resources"),
+                                            tags$p("Useful links and documentation:"),
+                                            tags$div(
+                                                class = "list-group",
+                                                tags$a(
+                                                    href = "https://shiny.posit.co/",
+                                                    target = "_blank",
+                                                    class = "list-group-item list-group-item-action",
+                                                    tags$div(
+                                                        class = "d-flex justify-content-between align-items-center",
+                                                        tags$div(
+                                                            tags$h6(class = "mb-1", "Shiny Documentation"),
+                                                            tags$small("Official Shiny documentation and guides")
+                                                        ),
+                                                        bsicons::bs_icon("arrow-up-right")
+                                                    )
+                                                ),
+                                                tags$a(
+                                                    href = "https://rstudio.github.io/bslib/",
+                                                    target = "_blank",
+                                                    class = "list-group-item list-group-item-action",
+                                                    tags$div(
+                                                        class = "d-flex justify-content-between align-items-center",
+                                                        tags$div(
+                                                            tags$h6(class = "mb-1", "bslib Package"),
+                                                            tags$small("Bootstrap themes and components for Shiny")
+                                                        ),
+                                                        bsicons::bs_icon("arrow-up-right")
+                                                    )
+                                                ),
+                                                tags$a(
+                                                    href = "https://github.com/nuclearfantasyfootball",
+                                                    target = "_blank",
+                                                    class = "list-group-item list-group-item-action",
+                                                    tags$div(
+                                                        class = "d-flex justify-content-between align-items-center",
+                                                        tags$div(
+                                                            tags$h6(class = "mb-1", "GitHub Repository"),
+                                                            tags$small("Source code and development history")
+                                                        ),
+                                                        bsicons::bs_icon("arrow-up-right")
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    ),
+                                    nav_panel(
+                                        title = "Contact",
+                                        icon = bsicons::bs_icon("envelope"),
+                                        tags$div(
+                                            class = "p-3",
+                                            tags$h4("Get in Touch"),
+                                            tags$p("Connect with the development team:"),
+                                            tags$div(
+                                                class = "row g-3",
+                                                tags$div(
+                                                    class = "col-12",
+                                                    tags$div(
+                                                        class = "card",
+                                                        tags$div(
+                                                            class = "card-body text-center",
+                                                            tags$div(
+                                                                class = "d-flex justify-content-center gap-3 mb-3",
+                                                                tags$a(
+                                                                    href = "https://x.com/nuclearffnolan",
+                                                                    target = "_blank",
+                                                                    class = "btn btn-outline-primary",
+                                                                    bsicons::bs_icon("twitter-x"),
+                                                                    " Twitter"
+                                                                ),
+                                                                tags$a(
+                                                                    href = "https://discord.gg/9sJQ4yYkkF",
+                                                                    target = "_blank",
+                                                                    class = "btn btn-outline-primary",
+                                                                    bsicons::bs_icon("discord"),
+                                                                    " Discord"
+                                                                ),
+                                                                tags$a(
+                                                                    href = "https://github.com/nuclearfantasyfootball",
+                                                                    target = "_blank",
+                                                                    class = "btn btn-outline-primary",
+                                                                    bsicons::bs_icon("github"),
+                                                                    " GitHub"
+                                                                )
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
                                     )
                                 )
                             )
@@ -178,14 +316,9 @@ home_page_ui <- function(id) {
                                 class = "glass-effect section-card",
                                 style = "height: 100%; overflow-y: auto;",
                                 bslib::card_body(
-                                    tags$h4("Development Resources"),
-                                    tags$p("This full-height card contains development information and resources."),
-                                    tags$p("The card now has more space from the bottom of the viewport."),
-                                    # Add your actual development content here
-                                    tags$div(
-                                        class = "development-content",
-                                        # Your existing development content...
-                                    )
+                                    tags$h4("Join Our Community"),
+                                    tags$p("Connect with fellow fantasy football enthusiasts and stay updated on the latest features."),
+                                    tags$p("Join our Discord server for real-time discussions and support.")
                                 )
                             )
                         ),

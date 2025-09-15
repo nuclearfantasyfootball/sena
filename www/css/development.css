@@ -29,3 +29,105 @@
   margin: 0 !important;
   padding: 0 !important;
 }
+
+/* Centered navigation pills - higher specificity */
+.glass-effect.centered-nav-pills .nav-pills,
+.section-card.centered-nav-pills .nav-pills {
+    justify-content: center !important;
+    border-bottom: none;
+    padding-bottom: 0rem;
+    margin-bottom: 0;
+    font-weight: 400;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+/* Remove gap between tabs and content, style the h4 titles */
+.centered-nav-pills .tab-content {
+    padding-top: 0; /* Remove the gap */
+}
+
+/* Style the h4 titles in tab content */
+.centered-nav-pills .tab-content h4 {
+    margin-top: -4rem; /* Remove top margin */
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    text-transform: uppercase;
+    padding-bottom: 0rem;
+}
+
+/* Dark theme title color */
+[data-bs-theme="dark"] .centered-nav-pills .tab-content h4 {
+    color: var(--nff-dark-primary);
+    border-bottom-color: var(--nff-dark-primary);
+}
+
+/* Light theme title color */
+[data-bs-theme="light"] .centered-nav-pills .tab-content h4 {
+    color: var(--nff-light-primary);
+    border-bottom-color: var(--nff-light-primary);
+}
+
+/* Apply existing hover effects to nav pills */
+.centered-nav-pills .nav-pills .nav-link {
+    transition: all 0.3s ease; /* Smooth transitions like your other elements */
+    border-radius: 0.5rem; /* Match app border radius */
+}
+
+/* Dark theme nav pill hover effects - matching navbar style */
+[data-bs-theme="dark"] .centered-nav-pills .nav-pills .nav-link:hover {
+    color: var(--nff-dark-primary) !important;
+    background-color: rgba(206, 15, 160, 0.1) !important;
+    transform: translateY(-2px) scale(1.05); /* Your signature hover transform */
+    text-shadow: 0 4px 8px rgba(206, 15, 160, 0.3); /* Your signature text shadow */
+}
+
+[data-bs-theme="dark"] .centered-nav-pills .nav-pills .nav-link.active {
+    background-color: var(--nff-dark-primary) !important;
+    border-color: var(--nff-dark-primary) !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="dark"] .centered-nav-pills .nav-pills .nav-link.active:hover {
+    background-color: var(--nff-dark-primary) !important;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(206, 15, 160, 0.4); /* Enhanced shadow for active state */
+}
+
+/* Light theme nav pill hover effects - matching navbar style */
+[data-bs-theme="light"] .centered-nav-pills .nav-pills .nav-link:hover {
+    color: var(--nff-light-primary) !important;
+    background-color: rgba(15, 160, 206, 0.1) !important;
+    transform: translateY(-2px) scale(1.05); /* Your signature hover transform */
+    text-shadow: 0 4px 8px rgba(15, 160, 206, 0.3); /* Your signature text shadow */
+}
+
+[data-bs-theme="light"] .centered-nav-pills .nav-pills .nav-link.active {
+    background-color: var(--nff-light-primary) !important;
+    border-color: var(--nff-light-primary) !important;
+    color: #fff !important;
+}
+
+[data-bs-theme="light"] .centered-nav-pills .nav-pills .nav-link.active:hover {
+    background-color: var(--nff-light-primary) !important;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(15, 160, 206, 0.4); /* Enhanced shadow for active state */
+}
+
+/* Focus states for accessibility - matching nav style */
+.centered-nav-pills .nav-pills .nav-link:focus {
+    outline: none;
+}
+
+[data-bs-theme="dark"] .centered-nav-pills .nav-pills .nav-link:focus {
+    color: var(--nff-dark-primary) !important;
+    background-color: rgba(206, 15, 160, 0.2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(206, 15, 160, 0.25);
+}
+
+[data-bs-theme="light"] .centered-nav-pills .nav-pills .nav-link:focus {
+    color: var(--nff-light-primary) !important;
+    background-color: rgba(15, 160, 206, 0.2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(15, 160, 206, 0.25);
+}

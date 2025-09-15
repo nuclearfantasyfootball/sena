@@ -15,6 +15,7 @@ body {
 /* Root variables for consistent theming */
 :root {
   --nff-dark-bg: #0e0e0e;
+  --nff-light-bg: #ffffff;
   --nff-dark-surface: #121212;
   --nff-dark-text: #e9ecef;
   --nff-nav-h: 56px;
