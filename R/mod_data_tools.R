@@ -33,7 +33,7 @@ data_tools_ui <- function(id) {
                             "Refresh",
                             icon = icon("rotate-right"),
                         ),
-                        actionButton(ns("download_data"),
+                        downloadButton(ns("download_data"),
                             "Download",
                             icon = icon("download"),
                             class = "btn-outline-secondary"
