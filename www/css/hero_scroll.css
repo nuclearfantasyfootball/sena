@@ -45,7 +45,7 @@
 /* Background images with gradients */
 .first .bg {
   background: linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.1) 100%),
-              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/1-implement-multiple-pages/www/images/nuclearff-smoke-3d.png");
+              url("https://raw.githubusercontent.com/nuclearfantasyfootball/sena/main/www/images/nuclearff-smoke-3d.png");
   background-size: cover;
   background-position: center;
 }
