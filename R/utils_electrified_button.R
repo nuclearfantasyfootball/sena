@@ -244,24 +244,3 @@ init_electrified_button <- function(session, button_id, auto_play = FALSE) {
         )
     )
 }
-
-#' Create Hero Electrified Button
-#'
-#' Convenience wrapper for hero section with default positioning and id.
-#'
-#' @inheritParams electrified_button
-#' @export
-hero_electrified_button <- function(id = "hero_enter_btn",
-                                    text = "ENTER",
-                                    onclick = "window.bslib.navSelect('topnav', 'leagues'); return false;",
-                                    position = "bottom-center",
-                                    ...) {
-    # Button with hero defaults
-    electrified_button(
-        id = id,
-        text = text,
-        onclick = onclick,
-        position = position,
-        ...
-    )
-}
