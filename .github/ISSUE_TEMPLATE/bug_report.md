@@ -2,7 +2,7 @@
 name: "Bug Report"
 about: Report a bug
 title: "[BUG] <short description>"
-labels: bug
+labels: 'bug'
 ---
 
 ## Bug Summary
