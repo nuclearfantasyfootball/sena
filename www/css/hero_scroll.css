@@ -60,18 +60,27 @@
 }
 
 .third .bg {
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* keeps same as hero */
+  padding: 2rem;     /* breathing room on small screens */
 }
 
 .fourth .bg {
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* keeps same as hero */
+  padding: 2rem;     /* breathing room on small screens */
 }
 
 .fifth .bg {
-  background-size: cover;
-  background-position: 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* keeps same as hero */
+  padding: 2rem;     /* breathing room on small screens */
 }
 
 /* Customize the block and section headings ---------------- */

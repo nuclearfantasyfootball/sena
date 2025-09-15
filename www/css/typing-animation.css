@@ -10,28 +10,13 @@
   border-right: 3px solid;
   width: 0; /* start collapsed */
   
-  /* Remove automatic animation - we'll trigger it via JS */
-  animation: blink .5s step-end infinite alternate;
-}
-
-/* Add state classes for manual control */
-.typing-animation.typing-ready {
-  animation: blink .5s step-end infinite alternate;
-}
-
-.typing-animation.typing-active {
-  animation: typing 3s steps(var(--steps)) forwards,
-             blink .5s step-end infinite alternate;
-}
-
-.typing-animation.typing-complete {
-  width: 100%;
-  animation: blink .5s step-end infinite alternate;
+  /* Steps in number of characters; Defined in section 3 mod_home.R */
+  animation: typing 2s steps(var(--steps)), blink .5s step-end infinite alternate;
 }
 
 @keyframes typing {
-  to {
-    width: 100%;
+  from {
+    width: 0
   }
 }
     
