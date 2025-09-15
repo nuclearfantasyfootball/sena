@@ -14,7 +14,7 @@ home_page_ui <- function(id) {
 
         # Section 1 - Hero
         tags$section(
-            class = "first",
+            class = "first nff-backdrop",
             tags$div(
                 class = "outer",
                 tags$div(
@@ -122,8 +122,8 @@ home_page_ui <- function(id) {
                         class = "bg",
                         # Title at the top
                         tags$h2(
-                            class = "section-heading development-title",
-                            style = "position: fixed; top: 56px; left: 5%; transform: none; z-index: 100;",
+                            class = "development-title typing-animation",
+                            style = "position: fixed; top: 56px; left: 5%; transform: none; z-index: 100; --steps: 11;",
                             "DEVELOPMENT"
                         ),
                         # Full-height card container with more bottom padding

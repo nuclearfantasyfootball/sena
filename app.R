@@ -122,6 +122,7 @@ build_head_tags <- function(config) {
     tags$link(rel = "stylesheet", href = "css/electrified_button.css"),
     tags$link(rel = "stylesheet", href = "css/scroll_indicator.css"), # Scroll animation
     tags$link(rel = "stylesheet", href = "css/development.css"), # Development
+    tags$link(rel = "stylesheet", href = "css/typing-animation.css"), # Typing animation
 
     # JavaScript
     tags$script(src = "js/main.js", defer = NA),

@@ -1,0 +1,52 @@
+/* ========================== NUCLEARFF STYLESHEET ========================== */
+/* ------------------------- Author: Nolan MacDonald------------------------- */
+/* ------------------------ CSS for Typing Animation ------------------------ */
+
+.typing-animation {
+  font-size: clamp(1.2rem, 2.5vw, 3rem);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  width: 0; /* start collapsed */
+  
+  /* Remove automatic animation - we'll trigger it via JS */
+  animation: blink .5s step-end infinite alternate;
+}
+
+/* Add state classes for manual control */
+.typing-animation.typing-ready {
+  animation: blink .5s step-end infinite alternate;
+}
+
+.typing-animation.typing-active {
+  animation: typing 3s steps(var(--steps)) forwards,
+             blink .5s step-end infinite alternate;
+}
+
+.typing-animation.typing-complete {
+  width: 100%;
+  animation: blink .5s step-end infinite alternate;
+}
+
+@keyframes typing {
+  to {
+    width: 100%;
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+body {
+  text-align: center;
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+  padding: 20px;
+}
