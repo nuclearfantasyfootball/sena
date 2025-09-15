@@ -4,7 +4,12 @@
     const cards = document.querySelectorAll('.glass-effect');
     
     cards.forEach(card => {
-      // Add subtle parallax on mouse move
+      // Skip tilt effect if card has 'no-tilt' class
+      if (card.classList.contains('no-tilt')) {
+        return; // Skip this card entirely
+      }
+      
+      // Add subtle parallax on mouse move (only for cards without no-tilt)
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;

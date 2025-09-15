@@ -193,3 +193,39 @@ create_league_list_item <- function(league) {
         )
     )
 }
+
+#' Create Animated Scroll Indicator
+#'
+#' Creates an animated scroll indicator with arrows and text
+#'
+#' @param id Character string. Unique ID for the indicator
+#' @param text Character string. Text to display below arrows (default: "SCROLL")
+#' @param onclick Character string. JavaScript to execute on click
+#' @return HTML tags for scroll indicator
+#' @export
+scroll_indicator <- function(id = "scroll_indicator",
+                             text = "SCROLL",
+                             onclick = "window.gotoSection(currentIndex + 1, 1); return false;") {
+    tags$div(
+        id = id,
+        class = "scroll-indicator",
+        onclick = onclick,
+        role = "button",
+        tabindex = "0",
+        `aria-label` = paste("Scroll to next section"),
+
+        # Arrow animation container
+        tags$div(
+            class = "scroll-box",
+            tags$span(),
+            tags$span(),
+            tags$span()
+        ),
+
+        # Text below arrows
+        tags$div(
+            class = "scroll-text",
+            text
+        )
+    )
+}

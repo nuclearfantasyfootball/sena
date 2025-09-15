@@ -308,17 +308,47 @@ function setNavHeightVar() {
 document.addEventListener("DOMContentLoaded", () => {
   const brand = document.getElementById("brandHome");
   if (!brand) return;
+  
   brand.addEventListener("click", (e) => {
     e.preventDefault();
-    if (window.bslib && typeof window.bslib.navSelect === 'function') {
-      window.bslib.navSelect("topnav", "home");
-    } else {
-      const homeLink = document.querySelector('.navbar .nav-link[data-value="home"]');
-      if (homeLink) homeLink.click();
-      if (window.Shiny && typeof Shiny.setInputValue === 'function') {
-        Shiny.setInputValue("topnav", "home", { priority: "event" });
+    
+    // Always navigate to home first, then handle section reset
+    const currentTab = document.querySelector('.navbar .nav-link.active[data-value]');
+    const isOnHome = currentTab && currentTab.getAttribute('data-value') === 'home';
+    
+    if (!isOnHome) {
+      // Navigate to home tab first
+      if (window.bslib && typeof window.bslib.navSelect === 'function') {
+        window.bslib.navSelect("topnav", "home");
+      } else {
+        const homeLink = document.querySelector('.navbar .nav-link[data-value="home"]');
+        if (homeLink) homeLink.click();
+        if (window.Shiny && typeof Shiny.setInputValue === 'function') {
+          Shiny.setInputValue("topnav", "home", { priority: "event" });
+        }
       }
     }
+    
+    // Always attempt to reset to first section with proper delay
+    setTimeout(() => {
+      if (typeof window.gotoSection === 'function') {
+        window.gotoSection(0, 1);
+      } else if (window.currentIndex !== undefined) {
+        // Fallback: trigger the scroll system directly
+        const scrollContainer = document.querySelector('.scroll-container');
+        if (scrollContainer) {
+          // Re-initialize if needed
+          if (typeof initScrollSections === 'function') {
+            initScrollSections();
+            setTimeout(() => {
+              if (typeof window.gotoSection === 'function') {
+                window.gotoSection(0, 1);
+              }
+            }, 200);
+          }
+        }
+      }
+    }, isOnHome ? 100 : 300); // Shorter delay if already on home
   });
 });
 

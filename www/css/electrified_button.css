@@ -20,7 +20,7 @@
 
 .position-bottom-right {
   position: absolute !important;
-  bottom: 5%;
+  bottom: 10%;
   right: 5%;
   z-index: 100;
 }

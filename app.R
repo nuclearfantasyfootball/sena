@@ -53,7 +53,7 @@ build_ui <- function() {
         leagues_page_ui("leagues")
       ),
 
-      # Formats panel ---------------------------------------------------
+      # FAQ panel with integrated article display -------------------
       nav_panel(
         "FAQ",
         value = "faq",
@@ -71,6 +71,7 @@ build_ui <- function() {
         value = "faab_demo",
         faab_demo_ui("faab_demo")
       ),
+
       # Navbar spacing before adding social links
       nav_spacer(),
 
@@ -124,12 +125,17 @@ build_head_tags <- function(config) {
     tags$link(rel = "stylesheet", href = "css/backdrop.css"), # Backgrounds
     tags$link(rel = "stylesheet", href = "css/card_effects.css"), # Card styles
     tags$link(rel = "stylesheet", href = "css/electrified_button.css"),
+    tags$link(rel = "stylesheet", href = "css/scroll_indicator.css"), # Scroll animation
+    tags$link(rel = "stylesheet", href = "css/development.css"), # Development
+
     # JavaScript
     tags$script(src = "js/main.js", defer = NA),
     tags$script(src = "js/hero_scroll.js", defer = NA),
     tags$script(src = "js/backdrop.js", defer = NA), # Background effects
     tags$script(src = "js/glass_effects.js", defer = NA), # Liquid glass effects
     tags$script(src = "js/electrified_button.js", defer = NA),
+
+    # Custom message handlers
     tags$script(HTML("
     Shiny.addCustomMessageHandler('nff:navChanged', function(tab) {
       // Tag document state for CSS if you want it
@@ -148,13 +154,19 @@ build_head_tags <- function(config) {
         sc.style.display = '';
       }
     });
+
+    // Smooth scroll to top for article navigation
+    Shiny.addCustomMessageHandler('scrollToTop', function(message) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   ")),
 
     # GA track page_view on tab change
     tags$script(HTML("
       Shiny.addCustomMessageHandler('nff:navChanged', function(tab) {
-        // ...your existing code (hide home scroller, etc.)...
-
         // GA page view for SPA navigation
         if (window.gtag) {
           var pagePath = '/' + tab;
@@ -241,9 +253,10 @@ build_server <- function() {
     # Module: Leagues page
     selected_league <- leagues_page_server("leagues")
 
-    # Module: FAQ page
-    faq_state <- faq_page_server("faq")
+    # Module: FAQ page with integrated article display
+    faq_state <- faq_page_server("faq", parent_session = session)
 
+    # Module: FAAB Demo
     faab_demo_state <- faab_demo_server("faab_demo")
 
     # Module: Data tools

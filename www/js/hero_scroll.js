@@ -7,6 +7,24 @@ let currentIndex = -1;
 let wrap, animating = false;
 let scrollObserver = null; // Track observer instance
 
+window.resetToFirstSection = function() {
+  if (typeof window.gotoSection === 'function') {
+    window.gotoSection(0, 1);
+  } else {
+    // If scroll sections aren't initialized, do it now
+    setTimeout(() => {
+      if (typeof initScrollSections === 'function') {
+        initScrollSections();
+        setTimeout(() => {
+          if (typeof window.gotoSection === 'function') {
+            window.gotoSection(0, 1);
+          }
+        }, 150);
+      }
+    }, 100);
+  }
+};
+
 function initScrollSections() {
   // Check if GSAP is loaded
   if (typeof gsap === 'undefined') {
@@ -100,7 +118,34 @@ function initScrollSections() {
     }
 
     currentIndex = index;
+    
+    // Store current index globally for access
+    window.currentIndex = currentIndex;
   };
+
+  // Reset to first section on home
+  window.resetToFirstSection = function() {
+    if (typeof gotoSection === 'function') {
+      gotoSection(0, 1); // Go to first section (index 0) with forward direction
+    }
+  };
+
+  // Reinitialize when switching tabs (Shiny integration)
+  if (window.Shiny) {
+    Shiny.addCustomMessageHandler('tabChanged', function(message) {
+      if (message === 'home') {
+        enableHeroScroll();
+        // Ensure we start at first section when coming to home
+        setTimeout(() => {
+          if (typeof window.resetToFirstSection === 'function') {
+            window.resetToFirstSection();
+          }
+        }, 200);
+      } else {
+        disableHeroScroll();
+      }
+    });
+  }
 
   // Create Observer for scroll/swipe - ONLY when home tab is active
   function createScrollObserver() {
@@ -123,19 +168,9 @@ function initScrollSections() {
   }
 
   // Start with first section
-  // Initial setup - make first section visible WITHOUT animation
-  gsap.set(sections[0], { autoAlpha: 1, zIndex: 1 });
-  gsap.set(outerWrappers[0], { yPercent: 0 });
-  gsap.set(innerWrappers[0], { yPercent: 0 });
-  gsap.set(images[0], { yPercent: 0 });
-  if (headings[0]) {
-    gsap.set(headings[0], { autoAlpha: 1, y: 0 });
-  }
-  currentIndex = 0; // Set current index without animation
-
-  // Remove the gotoSection(0, 1) call - we're setting up section 0 manually
+  gotoSection(0, 1);
   createScrollObserver();
-
+  
   console.log('Scroll sections initialized');
 }
 

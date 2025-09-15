@@ -2,9 +2,6 @@
 #'
 #' Create the home/landing page with scroll sections
 #'
-#' One of the important features is the electrified button in the hero section.
-#' This button uses SVG and JavaScript to create an animated, electrified effect.
-#'
 #' @param id Character string. Module namespace ID
 #' @return UI element for home page
 #' @export
@@ -36,13 +33,18 @@ home_page_ui <- function(id) {
                             text = "EXPLORE",
                             position = "bottom-right",
                             onclick = "setTimeout(() => window.gotoSection(1), 50); return false;"
+                        ),
+                        # Scroll indicator - positioned below electrified button
+                        scroll_indicator(
+                            id = ns("scroll_indicator"),
+                            text = "",
+                            onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
                         )
                     )
                 )
             )
         ),
 
-        # Section 2 - Welcome
         # Section 2 - Welcome
         tags$section(
             class = "second nff-backdrop",
@@ -52,12 +54,12 @@ home_page_ui <- function(id) {
                     class = "inner",
                     tags$div(
                         class = "bg",
-                        # Title + Card block
                         tags$div(
                             class = "section-block",
                             tags$h2(
                                 class = "section-heading",
-                                "Welcome to", tags$br(), "Elite Fantasy"
+                                "Reach critical mass.", tags$br(),
+                                "Create unstoppable momentum."
                             ),
                             bslib::card(
                                 class = "glass-effect section-card",
@@ -66,6 +68,11 @@ home_page_ui <- function(id) {
                                     tags$p("This card now features an advanced liquid glass effect with distortion and multiple layers."),
                                     tags$p("The effect responds to both light and dark themes with appropriate tinting.")
                                 )
+                            ),
+                            scroll_indicator(
+                                id = ns("scroll_indicator_2"),
+                                text = "",
+                                onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
                             )
                         ),
                         # SVG filter for liquid glass distortion
@@ -77,7 +84,6 @@ home_page_ui <- function(id) {
                                     x = "0%", y = "0%",
                                     width = "100%", height = "100%",
                                     filterUnits = "objectBoundingBox",
-                                    # Turbulence for liquid effect
                                     tags$feTurbulence(
                                         type = "fractalNoise",
                                         baseFrequency = "0.008 0.008",
@@ -85,13 +91,11 @@ home_page_ui <- function(id) {
                                         seed = "3",
                                         result = "turbulence"
                                     ),
-                                    # Smooth the turbulence
                                     tags$feGaussianBlur(
                                         `in` = "turbulence",
                                         stdDeviation = "2",
                                         result = "blur"
                                     ),
-                                    # Displacement for warping
                                     tags$feDisplacementMap(
                                         `in` = "SourceGraphic",
                                         in2 = "blur",
@@ -107,7 +111,7 @@ home_page_ui <- function(id) {
             )
         ),
 
-        # Section 3 - Features
+        # Section 3 - Development
         tags$section(
             class = "third nff-backdrop",
             tags$div(
@@ -116,11 +120,35 @@ home_page_ui <- function(id) {
                     class = "inner",
                     tags$div(
                         class = "bg",
+                        # Title at the top
                         tags$h2(
-                            class = "section-heading",
-                            "Advanced",
-                            tags$br(),
-                            "Analytics"
+                            class = "section-heading development-title",
+                            style = "position: fixed; top: 56px; left: 5%; transform: none; z-index: 100;",
+                            "DEVELOPMENT"
+                        ),
+                        # Full-height card container with more bottom padding
+                        tags$div(
+                            class = "development-card-container",
+                            style = "position: fixed; top: calc(56px + 4rem); bottom: 9%; left: 5% !important; right: 5% !important; transform: none; z-index: 10;",
+                            bslib::card(
+                                class = "glass-effect section-card no-tilt",
+                                style = "height: 100%; overflow-y: auto;",
+                                bslib::card_body(
+                                    tags$h4("Development Resources"),
+                                    tags$p("This full-height card contains development information and resources."),
+                                    tags$p("The card now has more space from the bottom of the viewport."),
+                                    # Add your actual development content here
+                                    tags$div(
+                                        class = "development-content",
+                                        # Your existing development content...
+                                    )
+                                )
+                            )
+                        ),
+                        scroll_indicator(
+                            id = ns("scroll_indicator_3"),
+                            text = "",
+                            onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
                         )
                     )
                 )
@@ -136,11 +164,35 @@ home_page_ui <- function(id) {
                     class = "inner",
                     tags$div(
                         class = "bg",
+                        # Title at the top
                         tags$h2(
-                            class = "section-heading",
-                            "Join Our",
-                            tags$br(),
-                            "Community"
+                            class = "section-heading development-title",
+                            style = "position: fixed; top: 56px; left: 5%; transform: none; z-index: 100;",
+                            "JOIN US"
+                        ),
+                        # Full-height card container with more bottom padding
+                        tags$div(
+                            class = "development-card-container",
+                            style = "position: fixed; top: calc(56px + 4rem); bottom: 9%; left: 5% !important; right: 5% !important; transform: none; z-index: 10;",
+                            bslib::card(
+                                class = "glass-effect section-card",
+                                style = "height: 100%; overflow-y: auto;",
+                                bslib::card_body(
+                                    tags$h4("Development Resources"),
+                                    tags$p("This full-height card contains development information and resources."),
+                                    tags$p("The card now has more space from the bottom of the viewport."),
+                                    # Add your actual development content here
+                                    tags$div(
+                                        class = "development-content",
+                                        # Your existing development content...
+                                    )
+                                )
+                            )
+                        ),
+                        scroll_indicator(
+                            id = ns("scroll_indicator_4"),
+                            text = "",
+                            onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
                         )
                     )
                 )
@@ -148,7 +200,6 @@ home_page_ui <- function(id) {
         ),
 
         # Section 5 - Get Started
-        # Section 5 - Get Started (modified)
         tags$section(
             class = "fifth nff-backdrop",
             tags$div(
@@ -168,6 +219,42 @@ home_page_ui <- function(id) {
     )
 }
 
+#' Create Animated Scroll Indicator
+#'
+#' Creates an animated scroll indicator with arrows and text
+#'
+#' @param id Character string. Unique ID for the indicator
+#' @param text Character string. Text to display below arrows (default: "SCROLL")
+#' @param onclick Character string. JavaScript to execute on click
+#' @return HTML tags for scroll indicator
+#' @keywords internal
+scroll_indicator <- function(id = "scroll_indicator",
+                             text = "SCROLL",
+                             onclick = "window.gotoSection(currentIndex + 1, 1); return false;") {
+    tags$div(
+        id = id,
+        class = "scroll-indicator",
+        onclick = onclick,
+        role = "button",
+        tabindex = "0",
+        `aria-label` = paste("Scroll to next section"),
+
+        # Arrow animation container
+        tags$div(
+            class = "scroll-box",
+            tags$span(),
+            tags$span(),
+            tags$span()
+        ),
+
+        # Text below arrows
+        tags$div(
+            class = "scroll-text",
+            text
+        )
+    )
+}
+
 #' Home Page Module Server
 #'
 #' Server logic for home page interactions
@@ -183,14 +270,14 @@ home_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
             # Scroll sections
             session$sendCustomMessage("tabChanged", "home")
             # Initialize Electrified button
-            # Important! Remember to initialize in module with unique ID
             init_electrified_button(session,
                 session$ns("dashboard_action_btn"),
                 auto_play = TRUE # Enable auto-play on load
             )
+            # Start typing animation for development section
+            session$sendCustomMessage("startTypingAnimation", session$ns("typing_title"))
         }, once = TRUE)
 
-        # No need for button observers - look in main.js
         list(page_loaded = reactive(TRUE))
     })
 }
