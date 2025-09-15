@@ -1,6 +1,6 @@
 ---
 name: "Bug Report"
-about: Report a bug in the Python package
+about: Report a bug
 title: "[BUG] <short description>"
 labels: bug
 ---
