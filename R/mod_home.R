@@ -135,11 +135,11 @@ home_page_ui <- function(id) {
                                 navset_pill(
                                     id = ns("dev_tabs"),
                                     nav_panel(
-                                        title = "Overview",
-                                        icon = bsicons::bs_icon("info-circle"),
+                                        title = "OVERVIEW",
+                                        icon = bsicons::bs_icon("code"),
                                         tags$div(
                                             class = "p-3",
-                                            tags$h4("Development Overview"),
+                                            tags$h4("Overview"),
                                             tags$p("Information about the development process and methodology."),
                                             tags$ul(
                                                 tags$li("Modern R Shiny architecture"),
@@ -151,7 +151,7 @@ home_page_ui <- function(id) {
                                         )
                                     ),
                                     nav_panel(
-                                        title = "Tech Stack",
+                                        title = "SENA",
                                         icon = bsicons::bs_icon("stack"),
                                         tags$div(
                                             class = "p-3",
@@ -185,7 +185,7 @@ home_page_ui <- function(id) {
                                         )
                                     ),
                                     nav_panel(
-                                        title = "Resources",
+                                        title = "OTIS",
                                         icon = bsicons::bs_icon("book"),
                                         tags$div(
                                             class = "p-3",
@@ -236,7 +236,7 @@ home_page_ui <- function(id) {
                                         )
                                     ),
                                     nav_panel(
-                                        title = "Contact",
+                                        title = "GERALD",
                                         icon = bsicons::bs_icon("envelope"),
                                         tags$div(
                                             class = "p-3",

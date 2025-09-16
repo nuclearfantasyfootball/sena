@@ -6,7 +6,7 @@
 .third .development-title {
   position: fixed !important;
   top: calc(var(--nff-nav-h, 56px)) !important;
-  left: 5% !important;
+  left: 8% !important;
   z-index: 100 !important;
   width: auto !important;
   margin: 0 !important;
@@ -48,6 +48,7 @@
 
 /* Style the h4 titles in tab content */
 .centered-nav-pills .tab-content h4 {
+    text-align: left !important;
     margin-top: -4rem; /* Remove top margin */
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
@@ -55,6 +56,19 @@
     font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     text-transform: uppercase;
     padding-bottom: 0rem;
+}
+
+/* Align card body text to the left */
+.centered-nav-pills .tab-content p {
+    text-align: left !important;
+}
+
+.centered-nav-pills .tab-content ul {
+    text-align: left !important;
+}
+
+.centered-nav-pills .tab-content li {
+    text-align: left !important;
 }
 
 /* Dark theme title color */
@@ -73,6 +87,7 @@
 .centered-nav-pills .nav-pills .nav-link {
     transition: all 0.3s ease; /* Smooth transitions like your other elements */
     border-radius: 0.5rem; /* Match app border radius */
+    text-transform: uppercase !important;
 }
 
 /* Dark theme nav pill hover effects - matching navbar style */
