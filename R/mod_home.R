@@ -55,11 +55,10 @@ home_page_ui <- function(id) {
                     tags$div(
                         class = "bg",
                         tags$div(
-                            class = "section-block",
+                            class = "section-block section-block-left-half",
                             tags$h2(
                                 class = "section-heading",
-                                "Reach critical mass.", tags$br(),
-                                "Create unstoppable momentum."
+                                "Every Decision Sets Off a Chain Reaction"
                             ),
                             bslib::card(
                                 class = "glass-effect section-card",
@@ -73,37 +72,6 @@ home_page_ui <- function(id) {
                                 id = ns("scroll_indicator_2"),
                                 text = "",
                                 onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
-                            )
-                        ),
-                        # SVG filter for liquid glass distortion
-                        tags$svg(
-                            style = "position: absolute; width: 0; height: 0;",
-                            tags$defs(
-                                tags$filter(
-                                    id = "liquid-glass-distortion",
-                                    x = "0%", y = "0%",
-                                    width = "100%", height = "100%",
-                                    filterUnits = "objectBoundingBox",
-                                    tags$feTurbulence(
-                                        type = "fractalNoise",
-                                        baseFrequency = "0.008 0.008",
-                                        numOctaves = "2",
-                                        seed = "3",
-                                        result = "turbulence"
-                                    ),
-                                    tags$feGaussianBlur(
-                                        `in` = "turbulence",
-                                        stdDeviation = "2",
-                                        result = "blur"
-                                    ),
-                                    tags$feDisplacementMap(
-                                        `in` = "SourceGraphic",
-                                        in2 = "blur",
-                                        scale = "12",
-                                        xChannelSelector = "R",
-                                        yChannelSelector = "G"
-                                    )
-                                )
                             )
                         )
                     )

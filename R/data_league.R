@@ -17,7 +17,7 @@ create_league_data <- function(name,
                                details = "",
                                status_class = NULL) {
     # Validate status
-    valid_statuses <- c("FULL", "OPEN", "STARTUP", "ORPHAN")
+    valid_statuses <- c("FULL", "FILLED", "LOCKED", "OPEN", "STARTUP", "ORPHAN")
     if (!status %in% valid_statuses) {
         stop(sprintf(
             "Invalid status. Must be one of: %s",
@@ -60,7 +60,7 @@ get_league_data <- function(type, source = "config") {
                     name = "Nuclear Football",
                     url = "https://sleeper.com/leagues/1240509989819273216",
                     logo = "logos/redraft-logo.png",
-                    status = "FULL",
+                    status = "FILLED",
                     details = "10 TEAM | PPR | 3 FLEX"
                 )
             ),
@@ -69,7 +69,7 @@ get_league_data <- function(type, source = "config") {
                     name = "NUCLEARFF DYNASTY",
                     url = "https://sleeper.com/leagues/1190192546172342272",
                     logo = "logos/dynasty-logo.png",
-                    status = "FULL",
+                    status = "FILLED",
                     details = "12 TEAM | PPR | SUPERFLEX"
                 )
             ),
@@ -78,21 +78,21 @@ get_league_data <- function(type, source = "config") {
                     name = "NUCLEARFF GUILLOTINE $10",
                     url = "https://sleeper.com/leagues/1240503074590568448",
                     logo = "logos/guillotine-logo.png",
-                    status = "FULL",
+                    status = "FILLED",
                     details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
                 ),
                 create_league_data(
                     name = "NUCLEARFF CHOPPED $10 02",
                     url = "https://sleeper.com/leagues/1260089054490275840",
                     logo = "logos/guillotine-logo.png",
-                    status = "FULL",
+                    status = "FILLED",
                     details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
                 ),
                 create_league_data(
                     name = "NUCLEARFF CHOPPED $25",
                     url = "https://sleeper.com/leagues/1240503074590568448",
                     logo = "logos/guillotine-logo.png",
-                    status = "FULL",
+                    status = "FILLED",
                     details = "$25 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
                 )
             ),

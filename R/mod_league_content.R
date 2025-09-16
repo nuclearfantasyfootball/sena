@@ -8,23 +8,21 @@ create_redraft_content <- function() {
     config <- app_config()
 
     tags$div(
-        league_hero_row(config$external_resources$logo_url, "Redraft"),
         create_stat_cards(
             list(
                 "12" = "Active Leagues",
                 "156" = "Total Teams",
-                "$50" = "Avg Buy-in",
-                "89%" = "Return Rate"
+                "$50" = "Avg Buy-in"
             )
         ),
-        tags$hr(class = "my-4"),
+        tags$hr(class = "league-section-divider"),
         create_league_accordion("redraft"),
         create_league_list("redraft", list(
             list(
-                name = "Nuclear Football",
+                name = "NUCLEARFF REDRAFT",
                 url = "https://sleeper.com/leagues/1240509989819273216",
-                logo = "logos/redraft-logo.png",
-                status = "FULL",
+                logo = "logos/Redraft/Redraft-Radioactive-Hex.png",
+                status = "FILLED",
                 details = "10 TEAM | PPR | 3 FLEX"
             )
         ))
@@ -41,7 +39,6 @@ create_dynasty_content <- function() {
     config <- app_config()
 
     tags$div(
-        league_hero_row(config$external_resources$logo_url, "Dynasty"),
         create_stat_cards(
             list(
                 "8" = "Active Dynasties",
@@ -50,14 +47,14 @@ create_dynasty_content <- function() {
                 "94%" = "Retention Rate"
             )
         ),
-        tags$hr(class = "my-4"),
+        tags$hr(class = "league-section-divider"),
         create_league_accordion("dynasty"),
         create_league_list("dynasty", list(
             list(
                 name = "NUCLEARFF DYNASTY",
                 url = "https://sleeper.com/leagues/1190192546172342272",
                 logo = "logos/dynasty-logo.png",
-                status = "FULL",
+                status = "FILLED",
                 details = "12 TEAM | PPR | SUPERFLEX"
             )
         ))
@@ -74,7 +71,6 @@ create_chopped_content <- function() {
     config <- app_config()
 
     tags$div(
-        league_hero_row(config$external_resources$logo_url, "Chopped"),
         create_stat_cards(
             list(
                 "3" = "Active Leagues",
@@ -82,29 +78,29 @@ create_chopped_content <- function() {
                 "Week 9" = "Avg Elimination"
             )
         ),
-        tags$hr(class = "my-4"),
+        tags$hr(class = "league-section-divider"),
         create_league_accordion("chopped"),
         create_league_list("chopped", list(
             list(
-                name = "NUCLEARFF GUILLOTINE $10",
-                url = "https://sleeper.com/leagues/1240503074590568448",
-                logo = "logos/guillotine-logo.png",
-                status = "FULL",
-                details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
+                name = "NUCLEARFF CHOPPED OG $10",
+                url = "https://sleeper.com/leagues/1262207133378695168",
+                logo = "logos/Chopped/NUCLEARFF-Chopped-Blue-Transparent.png",
+                status = "FILLED",
+                details = "16 TEAM | PPR | 6PT PASS TD"
             ),
             list(
                 name = "NUCLEARFF CHOPPED $10 02",
-                url = "https://sleeper.com/leagues/1260089054490275840",
-                logo = "logos/guillotine-logo.png",
-                status = "FULL",
-                details = "$10 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
+                url = "https://sleeper.com/leagues/1261897006209581056",
+                logo = "logos/Chopped/NUCLEARFF-Chopped-Pink-Transparent.png",
+                status = "FILLED",
+                details = "16 TEAM | PPR | 6PT PASS TD"
             ),
             list(
-                name = "NUCLEARFF CHOPPED $25",
-                url = "https://sleeper.com/leagues/1240503074590568448",
-                logo = "logos/guillotine-logo.png",
-                status = "FULL",
-                details = "$25 ENTRY | 16 TEAM | PPR | 6PT PASS TD"
+                name = "NUCLEARFF $25 CHOPPED",
+                url = "https://sleeper.com/leagues/1262195970007912448",
+                logo = "logos/Chopped/NUCLEARFF-Chopped-Green-Transparent.png",
+                status = "FILLED",
+                details = "16 TEAM | PPR | 6PT PASS TD"
             )
         ))
     )
@@ -120,22 +116,21 @@ create_survivor_content <- function() {
     config <- app_config()
 
     tags$div(
-        league_hero_row(config$external_resources$logo_url, "Survivor"),
         create_stat_cards(
             list(
                 "W" = "Winning is survival",
                 "infinite" = "Teams"
             )
         ),
-        tags$hr(class = "my-4"),
+        tags$hr(class = "league-section-divider"),
         create_league_accordion("survivor"),
         create_league_list("survivor", list(
             list(
-                name = "|NUCLEARFF Survivor (Pick 'Em) 2025",
+                name = "NUCLEARFF Survivor (Pick 'Em) 2025",
                 url = "https://sleeper.com/leagues/1256760468719030272",
-                logo = "logos/survivor-logo.png",
-                status = "OPEN",
-                status_class = "success",
+                logo = "logos/Survivor/Survivor-Diamond-Fire-Logo.png",
+                status = "LOCKED",
+                status_class = "danger",
                 details = "$10 ENTRY | PICK 'EM"
             )
         ))

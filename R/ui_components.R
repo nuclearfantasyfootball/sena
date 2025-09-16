@@ -100,14 +100,13 @@ create_league_accordion <- function(type,
     })
 
     card(
-        card_header(tags$h5("League Configuration", class = "mb-0")),
+        # card_header(tags$h5("League Configuration", class = "mb-0")),
         card_body(
             do.call(accordion, c(
                 list(id = paste0(type, "_accordion"), class = "league-accordion"),
                 panels
             ))
-        ),
-        class = "mb-4"
+        )
     )
 }
 
@@ -154,27 +153,36 @@ create_league_list_item <- function(league) {
     } else {
         switch(league$status,
             "FULL" = "danger",
+            "FILLED" = "danger",
+            "LOCKED" = "danger",
             "STARTUP" = "success",
             "ORPHAN" = "warning",
             "info" # Default
         )
     }
 
-    is_full <- identical(league$status, "FULL")
+    is_full <- league$status %in% c("FULL", "FILLED")
+    is_locked <- identical(league$status, "LOCKED")
 
     tags$a(
         href = league$url,
         class = paste(
             "list-group-item list-group-item-action league-item",
-            if (is_full) "is-full" else ""
+            if (is_full || is_locked) "is-full" else ""
         ),
         # Tooltip attributes for full leagues
-        `data-bs-toggle` = if (is_full) "tooltip" else NULL,
-        `data-bs-title` = if (is_full) "This league is full" else NULL,
-        `data-bs-placement` = if (is_full) "top" else NULL,
-        `data-bs-container` = if (is_full) "body" else NULL,
-        `aria-disabled` = if (is_full) "true" else NULL,
-        tabindex = if (is_full) "0" else NULL,
+        `data-bs-toggle` = if (is_full || is_locked) "tooltip" else NULL,
+        `data-bs-title` = if (is_full) {
+            "League has been filled!"
+        } else if (is_locked) {
+            "League has been locked!"
+        } else {
+            NULL
+        },
+        `data-bs-placement` = if (is_full || is_locked) "top" else NULL,
+        `data-bs-container` = if (is_full || is_locked) "body" else NULL,
+        `aria-disabled` = if (is_full || is_locked) "true" else NULL,
+        tabindex = if (is_full || is_locked) "0" else NULL,
         # Content
         tags$img(src = league$logo, alt = league$name, class = "league-logo"),
         tags$div(

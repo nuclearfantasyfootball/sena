@@ -12,6 +12,7 @@
   height: calc(100vh - 56px);
   overflow: hidden;
   background: #000; /* Fallback background */
+  z-index: 10;
 }
 
 /* Sections setup */
@@ -50,13 +51,69 @@
   background-position: center;
 }
 
-/* Center the whole block within the section viewport */
+/* Left-half layout for section 2 */
 .second .bg {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start !important; /* Force left alignment */
   align-items: center;
-  min-height: 100vh; /* keeps same as hero */
-  padding: 2rem;     /* breathing room on small screens */
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.second .section-block.section-block-left-half {
+  width: 50% !important; /* Constrain to left half */
+  max-width: 50% !important;
+  align-items: flex-start !important; /* Override the flex-end from original */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 1rem !important;
+}
+
+* Update title alignment for left-half layout */
+.second .section-block-left-half .section-heading {
+  text-align: left !important; /* Align title to left instead of center */
+  width: 100% !important;
+  margin: 0 !important;
+  align-self: flex-start !important; /* Override the center alignment */
+  font-size: clamp(1.75rem, 4vw, 3rem) !important; /* Maintain responsive sizing */
+}
+
+/* Card styling for left-half layout */
+.second .section-block-left-half .section-card {
+  width: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Mobile responsiveness for left-half layout */
+@media (max-width: 768px) {
+  .second .bg {
+    justify-content: center !important; /* Center on mobile */
+    padding: 1.25rem;
+  }
+  
+  .second .section-block.section-block-left-half {
+    width: 90% !important; /* Use more space on mobile */
+    max-width: 90% !important;
+    align-items: center !important; /* Center on mobile */
+  }
+  
+  .second .section-block-left-half .section-heading {
+    text-align: center !important; /* Center on mobile for better readability */
+    align-self: center !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .second .bg {
+    padding: 1rem;
+  }
+  
+  .second .section-block.section-block-left-half {
+    width: 95% !important;
+    max-width: 95% !important;
+  }
 }
 
 .third .bg {
@@ -110,6 +167,22 @@
   align-self: center;  /* Centers just the heading */
 }
 
+/* Position content block in the left column */
+.section-block-left-half {
+  width: 50%; /* Constrain to left half */
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Update title alignment for left-half layout */
+.section-block-left-half .section-heading {
+  text-align: left; /* Align title to left instead of center */
+  width: 100%;
+  margin: 0;
+}
+
 /* Card fills the container width */
 .section-card {
   width: 100%;
@@ -118,10 +191,34 @@
   background: transparent;      /* keep your glass bg */
 }
 
-/* Mobile nicety: reduce gap and padding if desired */
+/* Card styling for left-half layout */
+.section-block-left-half .section-card {
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+
+/* Mobile responsiveness for left-half layout */
 @media (max-width: 768px) {
-  .second .bg { padding: 1.25rem; }
-  .section-block { gap: 0.75rem; }
+  .second .bg {
+    grid-template-columns: 1fr; /* Stack on mobile */
+    padding: 1.25rem;
+  }
+  
+  .section-block-left-half {
+    grid-column: 1;
+  }
+  
+  .section-block-left-half .section-heading {
+    text-align: center; /* Center on mobile for better readability */
+  }
+}
+
+@media (max-width: 480px) {
+  .second .bg {
+    padding: 1rem;
+  }
 }
 
 /* Typography */

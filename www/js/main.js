@@ -360,7 +360,7 @@ document.addEventListener('click', function (e) {
   if (Tip) {
     const tip = Tip.getOrCreateInstance(a, {
       trigger: 'manual',
-      title: a.getAttribute('data-bs-title') || 'This league is full',
+      title: a.getAttribute('data-bs-title') || 'League has been filled!',
       placement: a.getAttribute('data-bs-placement') || 'top-end',
       container: a,
       customClass: 'nff-tt',
@@ -383,7 +383,7 @@ document.addEventListener('keydown', function (e) {
     if (Tip) {
       const tip = Tip.getOrCreateInstance(a, {
         trigger: 'manual',
-        title: a.getAttribute('data-bs-title') || 'This league is full',
+        title: a.getAttribute('data-bs-title') || 'League has been filled!',
         placement: 'top-end',
         container: a,
         customClass: 'nff-tt',
@@ -460,6 +460,30 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+});
+
+// Add debugging for home page initialization
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM loaded - checking home page");
+    
+    // Debug home page elements
+    const scrollContainer = document.querySelector('.scroll-container');
+    const sections = document.querySelectorAll('.scroll-container section');
+    const firstSection = document.querySelector('.scroll-container .first');
+    
+    console.log('Scroll container:', scrollContainer);
+    console.log('Sections found:', sections.length);
+    console.log('First section:', firstSection);
+    
+    if (firstSection) {
+        const style = window.getComputedStyle(firstSection);
+        console.log('First section visibility:', {
+            display: style.display,
+            visibility: style.visibility,
+            opacity: style.opacity,
+            zIndex: style.zIndex
+        });
+    }
 });
 
 // =================== Exports ===================
