@@ -1,0 +1,187 @@
+/* ========================== NUCLEARFF STYLESHEET ========================== */
+/* ------------------------- Author: Nolan MacDonald------------------------- */
+
+/* ---------------------------- Typing Animation ---------------------------- */
+.typing-animation {
+  font-size: clamp(1.2rem, 2.5vw, 3rem);
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 3px solid;
+  width: 0; /* start collapsed */
+  
+  /* Steps in number of characters; Defined in section 3 mod_home.R */
+  animation: typing 2s steps(var(--steps)), blink .5s step-end infinite alternate;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+body {
+  text-align: center;
+}
+
+.info {
+  position: absolute;
+  bottom: 0;
+  padding: 20px;
+}
+
+/* ---------------------------- Glitch Animation ---------------------------- */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(2rem, 5vw, 4rem); /* Responsive sizing */
+  font-weight: 700;
+  color: #fff;
+  animation: glitch 1s linear infinite;
+}
+
+/* Main glitch keyframes */
+@keyframes glitch {
+  2%, 64% {
+    transform: translate(2px, 0) skew(0deg);
+  }
+  4%, 60% {
+    transform: translate(-2px, 0) skew(0deg);
+  }
+  62% {
+    transform: translate(0, 0) skew(5deg);
+  }
+}
+
+/* Pseudo-elements for layered glitch effect */
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+.glitch-text::before {
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  color: #f0f; /* magenta accent */
+}
+
+@keyframes glitchTop {
+  2%, 64% {
+    transform: translate(2px, -2px);
+  }
+  4%, 60% {
+    transform: translate(-2px, 2px);
+  }
+  62% {
+    transform: translate(13px, -1px) skew(-13deg);
+  }
+}
+
+.glitch-text::after {
+  animation: glitchBottom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  color: #0ff; /* cyan accent */
+}
+
+@keyframes glitchBottom {
+  2%, 64% {
+    transform: translate(-2px, 0);
+  }
+  4%, 60% {
+    transform: translate(-2px, 0);
+  }
+  62% {
+    transform: translate(-22px, 5px) skew(21deg);
+  }
+}
+
+/* ---------------------------- Glitch Animation ---------------------------- */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: inherit; /* use whatever your section-heading sets */
+  font-size: clamp(2rem, 8vw, 6rem);
+  line-height: 1.1;
+  animation: glitch 1s linear infinite !important;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: inherit;   /* inherit original text color */
+  pointer-events: none;
+}
+
+/* Top slice */
+.glitch-text::before {
+  animation: glitchTop 1s linear infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+/* Bottom slice */
+.glitch-text::after {
+  animation: glitchBottom 1.5s linear infinite;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch {
+  2%, 64%   { transform: translate(2px, 0) skew(0deg); }
+  4%, 60%   { transform: translate(-2px, 0) skew(0deg); }
+  62%       { transform: translate(0, 0) skew(5deg); }
+}
+
+@keyframes glitchTop {
+  2%, 64%   { transform: translate(2px, -2px); }
+  4%, 60%   { transform: translate(-2px, 2px); }
+  62%       { transform: translate(13px, -1px) skew(-13deg); }
+}
+
+@keyframes glitchBottom {
+  2%, 64%   { transform: translate(-2px, 0); }
+  4%, 60%   { transform: translate(-2px, 0); }
+  62%       { transform: translate(-22px, 5px) skew(21deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glitch-text,
+  .glitch-text::before,
+  .glitch-text::after {
+    animation: none !important;
+  }
+}
+
+.fourth .glitch-title {
+  position: fixed !important;
+  top: calc(var(--nav-offset)) !important;
+  left: 6% !important;
+  z-index: 100 !important;
+  width: auto !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-size: var(--base-font-size) !important;
+  font-weight: 600 !important;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: 0em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important; /* Reduced from 1.2 to tighten */
+}

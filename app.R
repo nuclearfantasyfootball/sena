@@ -9,6 +9,7 @@ library(DT)
 library(htmltools)
 library(bsicons)
 library(commonmark)
+library(sass)
 
 DEV_MODE <- TRUE
 
@@ -122,7 +123,14 @@ build_head_tags <- function(config) {
     tags$link(rel = "stylesheet", href = "css/electrified_button.css"),
     tags$link(rel = "stylesheet", href = "css/scroll_indicator.css"), # Scroll animation
     tags$link(rel = "stylesheet", href = "css/development.css"), # Development
-    tags$link(rel = "stylesheet", href = "css/typing-animation.css"), # Typing animation
+    tags$link(rel = "stylesheet", href = "css/text_animation.css"), # Text animation
+
+    # SASS compiled styles
+    tags$style(
+      sass::sass(
+        input = sass::sass_file("www/scss/text_styles.scss")
+      )
+    ),
 
     # JavaScript
     tags$script(src = "js/main.js", defer = NA),

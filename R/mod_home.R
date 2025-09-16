@@ -57,7 +57,8 @@ home_page_ui <- function(id) {
                         tags$div(
                             class = "section-block section-block-left-half",
                             tags$h2(
-                                class = "section-heading",
+                                class = "section-heading chrome",
+                                `data-text` = "Every Decision Sets Off a Chain Reaction",
                                 "Every Decision Sets Off a Chain Reaction"
                             ),
                             bslib::card(
@@ -272,9 +273,9 @@ home_page_ui <- function(id) {
                         class = "bg",
                         # Title at the top
                         tags$h2(
-                            class = "section-heading development-title",
-                            style = "position: fixed; top: 56px; left: 5%; transform: none; z-index: 100;",
-                            "JOIN US"
+                            class = "glitch-title glitch-text",
+                            `data-text` = "Get Started",
+                            "Get Started"
                         ),
                         # Full-height card container with more bottom padding
                         tags$div(
@@ -311,7 +312,7 @@ home_page_ui <- function(id) {
                         class = "bg",
                         tags$h2(
                             class = "section-heading",
-                            "Get Started"
+                            "Testing..."
                         )
                     )
                 )
