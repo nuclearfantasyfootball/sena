@@ -4,12 +4,12 @@
 /* Shiny navbar compatibility */
 .scroll-container {
   position: fixed;
-  top: 56px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100vh;
   width: 100%;
-  height: calc(100vh - 56px);
   overflow: hidden;
   background: #000; /* Fallback background */
   z-index: 10;

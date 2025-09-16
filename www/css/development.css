@@ -1,12 +1,13 @@
 :root {
-  --development-spacing: -2rem; /* Reduce gap to card */
+  --development-spacing: 0.25rem; /* Reduce gap to card */
   --base-font-size: clamp(2rem, 5vw, 3.5rem);
+  --nav-offset: calc(var(--nff-nav-h, 56px) + 1rem); /* distance below navbar */
 }
 
 .third .development-title {
   position: fixed !important;
-  top: calc(var(--nff-nav-h, 56px)) !important;
-  left: 8% !important;
+  top: calc(var(--nav-offset)) !important;
+  left: 6% !important;
   z-index: 100 !important;
   width: auto !important;
   margin: 0 !important;
@@ -22,10 +23,10 @@
 .development-card-container {
   position: fixed !important;
   /* Flexible distance from top with --base-font-size */
-  top: calc(var(--nff-nav-h, 56px) + var(--base-font-size) + var(--development-spacing)) !important;
+  top: calc(var(--nav-offset) + var(--base-font-size) + var(--development-spacing)) !important;
   left: 5% !important;
   right: 5% !important;
-  bottom: 10% !important;
+  bottom: 5% !important;
   margin: 0 !important;
   padding: 0 !important;
 }

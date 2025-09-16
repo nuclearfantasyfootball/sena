@@ -91,7 +91,7 @@ home_page_ui <- function(id) {
                         # Title at the top
                         tags$h2(
                             class = "development-title typing-animation",
-                            style = "position: fixed; top: 20px !important; left: 5%; transform: none; z-index: 100; --steps: 12;",
+                            style = "position: fixed; left: 5%; transform: none; z-index: 100; --steps: 12;",
                             "DEVELOPMENT"
                         ),
                         # Full-height card container with more bottom padding

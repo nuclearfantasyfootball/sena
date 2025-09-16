@@ -287,23 +287,56 @@ body {
 
 /* =================== Navbar =================== */
 .navbar {
-  backdrop-filter: blur(10px);
-  padding: 2px 5px !important;
-  min-height: 56px;
-  font-weight: 600;
+  position: fixed;
+  top: 0;
+  overflow: visible;
+  background: transparent !important;
+  border: none !important;
+  backdrop-filter: blur(10px) brightness(1.1) saturate(1.8);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  font-weight: 700;
 }
 
-/* Dark mode - black background */
-.nff-dark .navbar,
-[data-bs-theme="dark"] .navbar {
-  background: #000 !important;
+/* Glass tint layer */
+.navbar::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  display: none !important;
 }
 
-/* Light mode - white background */
-.nff-light .navbar,
-[data-bs-theme="light"] .navbar {
-  background: #ffffff !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+/* Dark theme glass tinting */
+[data-bs-theme="dark"] .navbar::after {
+  background: linear-gradient(180deg, 
+    rgba(14, 14, 14, 0.35) 0%,
+    rgba(14, 14, 14, 0.25) 50%,
+    rgba(206, 15, 160, 0.08) 100%);
+  border-bottom: 1px solid rgba(206, 15, 160, 0.15);
+}
+
+/* Light theme glass tinting */
+[data-bs-theme="light"] .navbar::after {
+  background: linear-gradient(180deg, 
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(15, 160, 206, 0.05) 100%);
+  border-bottom: 1px solid rgba(15, 160, 206, 0.1);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+}
+
+/* Ensure navbar content is above glass layer */
+.navbar .container-fluid {
+  position: relative;
+  z-index: 2;
+}
+
+/* Enhanced text readability */
+.navbar .nav-link,
+.navbar .navbar-brand {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
 }
 
 .navbar .container-fluid {
@@ -333,7 +366,7 @@ body {
 .navbar-nav .nav-link {
   display: flex;
   align-items: center;
-  height: 56px;
+  /* height: 56px; */
   text-decoration: none !important;
   border-bottom: none !important;
 }
@@ -341,13 +374,13 @@ body {
 /* Dark mode - white text */
 .nff-dark .navbar-nav .nav-link,
 [data-bs-theme="dark"] .navbar-nav .nav-link {
-  color: var(--bs-body-color) !important;
+  color: #ffffff !important;
 }
 
 /* Light mode - dark text */
 .nff-light .navbar-nav .nav-link,
 [data-bs-theme="light"] .navbar-nav .nav-link {
-  color: var(--bs-body-color) !important;
+  color: #000000 !important;
 }
 
 /* Remove underlines from all nav elements */
@@ -368,6 +401,7 @@ body {
 .nff-dark .navbar .nav-link.active,
 .nff-dark .navbar .nav-link.show {
   color: var(--nff-dark-primary) !important;
+  font-weight: 700;
 }
 
 .nff-light .navbar .nav-link:hover,
@@ -375,6 +409,7 @@ body {
 .nff-light .navbar .nav-link.active,
 .nff-light .navbar .nav-link.show {
   color: var(--nff-light-primary) !important;
+  font-weight: 700;
 }
 
 /* Icon button (theme toggle) */
@@ -396,7 +431,7 @@ body {
 /* Light mode - gray icon by default */
 .nff-light .nav-icon-btn,
 [data-bs-theme="light"] .nav-icon-btn {
-  color: #495057 !important;
+  color: #000000 !important;
 }
 
 .nav-icon-btn:hover {

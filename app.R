@@ -118,7 +118,7 @@ build_head_tags <- function(config) {
     tags$link(rel = "stylesheet", href = "css/style.css"),
     tags$link(rel = "stylesheet", href = "css/hero_scroll.css"),
     tags$link(rel = "stylesheet", href = "css/backdrop.css"), # Backgrounds
-    tags$link(rel = "stylesheet", href = "css/card_effects.css"), # Card styles
+    tags$link(rel = "stylesheet", href = "css/glass_effects.css"), # Liquid glass
     tags$link(rel = "stylesheet", href = "css/electrified_button.css"),
     tags$link(rel = "stylesheet", href = "css/scroll_indicator.css"), # Scroll animation
     tags$link(rel = "stylesheet", href = "css/development.css"), # Development
