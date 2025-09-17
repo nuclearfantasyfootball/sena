@@ -9,8 +9,7 @@ leagues_page_ui <- function(id) {
     ns <- NS(id)
 
     tags$div(
-        class = "league-content-section",
-        style = "padding: 0rem;",
+        class = "league-content-section nff-backdrop",
 
         # Single card with pill navigation
         bslib::card(

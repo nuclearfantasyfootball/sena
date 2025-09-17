@@ -9,7 +9,7 @@ html, body {
 }
 
 body { 
-  padding-top: 56px; /* space for fixed navbar */
+  padding-top: 0;
 }
 
 /* Root variables for consistent theming */
@@ -295,6 +295,7 @@ body {
   backdrop-filter: blur(10px) brightness(1.1) saturate(1.8);
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.2);
   font-weight: 700;
+  z-index: 1030;
 }
 
 /* Glass tint layer */
@@ -314,6 +315,7 @@ body {
     rgba(14, 14, 14, 0.25) 50%,
     rgba(206, 15, 160, 0.08) 100%);
   border-bottom: 1px solid rgba(206, 15, 160, 0.15);
+  display: none !important;
 }
 
 /* Light theme glass tinting */
@@ -324,6 +326,7 @@ body {
     rgba(15, 160, 206, 0.05) 100%);
   border-bottom: 1px solid rgba(15, 160, 206, 0.1);
   box-shadow: 0 2px 20px rgba(0,0,0,0.03);
+  display: none !important;
 }
 
 /* Ensure navbar content is above glass layer */
@@ -559,15 +562,6 @@ body {
 }
 
 /* =================== Leagues Page Styles =================== */
-/* Ensure Leagues content clears the navbar */
-.tab-pane#leagues .league-content-section {
-  padding-top: calc(var(--nff-nav-h) + 0.5rem) !important;
-}
-
-.tab-pane#leagues .leagues-sidebar {
-  padding-top: calc(var(--nff-nav-h) + 1.5rem) !important;
-}
-
 /* League hero row */
 .league-hero-row {
   display: flex;
@@ -695,11 +689,6 @@ body {
   line-height: 1.1;
   margin: 0;
   white-space: nowrap;
-}
-
-/* League Content Section */
-.league-content-section {
-  padding: 0rem;
 }
 
 /* =================== CUSTOM LEAGUE PAGE SPACING =================== */
@@ -1425,11 +1414,6 @@ body {
   overflow: visible;
 }
 
-/* Add some top padding so content never hides under the fixed navbar */
-.tab-pane#leagues {
-  padding-top: calc(var(--nff-nav-h) + 0.5rem);
-}
-
 /* Alignment and Spacing - Non-Home ----------------------------------------- */
 
 /* Ensure the Tools content section has proper spacing */
@@ -1444,28 +1428,12 @@ body {
 
 /* Consistent tab content spacing - accounts for fixed navbar */
 .tab-content {
-  padding-top: 0; /* Reset default */
+  padding-top: var(--nff-nav-h, 56px);
 }
 
 /* Home tab - no padding needed due to hero sections */
 .tab-pane#home {
-  padding-top: 0;
-}
-
-/* Leagues tab - existing spacing */
-.tab-pane#leagues {
-  padding-top: calc(var(--nff-nav-h) + 0.5rem);
-}
-
-/* Tools tab - match Leagues spacing */
-.tab-pane#tools {
-  padding-top: calc(var(--nff-nav-h) + 0.5rem);
-}
-
-/* Optional: Add this class for any future tabs */
-.tab-pane:not(#home) {
-  padding-top: calc(var(--nff-nav-h) + 0.5rem);
-  min-height: calc(100vh - var(--nff-nav-h));
+  padding-top: 0 !important;
 }
 
 /* =================== FAQ Article Styling =================== */
@@ -1676,58 +1644,30 @@ body {
   border-top: 1px solid var(--bs-border-color);
 }
 
-/* League page card styling ------------------------------------------------- */
+/* =================== League Page Content Positioning =================== */
 .league-content-section {
-    padding-top: calc(var(--nff-nav-h) + 0.5rem);
-    min-height: calc(100vh - var(--nff-nav-h));
+  position: fixed;
+  top: var(--nff-nav-h, 56px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+
 }
 
-/* Remove bottom margin from nav pills */
+/* Keep your existing nav pills styling */
 .league-content-section .nav-pills {
-    justify-content: center !important;
-    border-bottom: none;
-    padding-bottom: 0 !important;
-    margin-bottom: 0.5rem !important; /* Spacing between stat cards*/
+  justify-content: center !important;
+  border-bottom: none;
+  padding-bottom: 0 !important;
+  margin-bottom: 0.5rem !important;
 }
 
-/* Remove top padding from tab content */
-.league-content-section .tab-content {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
-
-/* Remove top padding from individual tab panes */
-.league-content-section .tab-pane {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
-
-/* Ensure stat cards have no top margin */
-.league-content-section .league-stats-grid {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-/* Remove any spacing from the div containing stat cards */
-.league-content-section .tab-pane > div:first-child {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-}
-
-/* Remove default Bootstrap tab content spacing */
-.league-content-section .tab-content .tab-pane.active {
-    padding-top: 0 !important;
-    margin-top: 0 !important;
-}
-
-/* Style the nav pills consistently */
 .league-content-section .nav-pills .nav-link {
-    text-transform: uppercase;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-/* Remove any leftover sidebar styles */
-.leagues-sidebar {
-    display: none !important;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: all 0.3s ease;
 }

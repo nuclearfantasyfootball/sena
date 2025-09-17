@@ -44,13 +44,14 @@
 
 /* Remove gap between tabs and content, style the h4 titles */
 .centered-nav-pills .tab-content {
-    padding-top: 0; /* Remove the gap */
+    padding-top: 0.5rem; /* Add space below tabs - increased from 0 */
+    margin-top: 0rem; /* Additional top margin for separation */
 }
 
 /* Style the h4 titles in tab content */
 .centered-nav-pills .tab-content h4 {
     text-align: left !important;
-    margin-top: -4rem; /* Remove top margin */
+    margin-top: 0rem; /* Remove top margin */
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
     font-weight: 600;

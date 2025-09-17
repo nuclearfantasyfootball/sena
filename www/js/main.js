@@ -428,6 +428,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enable scrolling on non-home tabs
   if (window.Shiny) {
     Shiny.addCustomMessageHandler('tabChanged', function(tab) {
+      // Recalculate navbar height when switching tabs
+      setTimeout(() => {
+        setNavHeightVar();
+      }, 100);
       const body = document.body;
       const html = document.documentElement;
       const scrollContainer = document.querySelector('.scroll-container');
