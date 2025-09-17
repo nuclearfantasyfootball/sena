@@ -1642,7 +1642,7 @@ body {
   border-top: 1px solid var(--bs-border-color);
 }
 
-/* =================== League Page Content Positioning =================== */
+/* =================== League Page =================== */
 .league-content-section {
   position: fixed;
   top: var(--nff-nav-h, 56px);
@@ -1689,4 +1689,58 @@ body {
 /* Only apply to non-leagues tabs */
 .tab-content > .tab-pane:not(#leagues) {
   padding-top: var(--nff-nav-h, 56px);
+}
+
+/* =================== Tools Page =================== */
+.tools-content-section {
+  position: fixed;
+  top: var(--nff-nav-h, 56px);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+  z-index: -1;
+
+}
+/* Tools page backdrop and positioning */
+.tools-content-section.nff-backdrop {
+  position: fixed;
+  top: 0 !important;  /* Start from top for backdrop */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  z-index: 1;
+  
+  /* Push content below navbar */
+  padding-top: var(--nff-nav-h, 56px);
+  min-height: 100vh;
+}
+
+/* Ensure Tools content doesn't double-space */
+.tools-content-section.nff-backdrop > .league-hero-row:first-child {
+  margin-top: 0 !important;
+}
+
+/* Override any container constraints for full-width backdrop */
+.tools-content-section.nff-backdrop::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Tighter spacing between Tools title and data explorer */
+.tools-content-section .league-hero-row {
+  margin-bottom: 0rem;  /* Override just for Tools page */
 }

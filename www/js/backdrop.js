@@ -1,8 +1,7 @@
-// www/js/backdrop.js  (replace contents with this scoped version)
+// www/js/backdrop.js
 (function () {
   function biasFor(el, isLight) {
     const r = el.getBoundingClientRect();
-    // your original bias, scaled per-element
     const bx = isLight ? -0.12 * r.width :  0.10 * r.width;
     const by = isLight ?  0.10 * r.height : -0.08 * r.height;
     el.style.setProperty('--posX', Math.round(bx));
@@ -23,32 +22,32 @@
     const isLight = (document.documentElement.getAttribute('data-bs-theme') === 'light');
     targets.forEach(el => biasFor(el, isLight));
 
-    // passive move handler on the document so it works even if mouse is over text
     const onMove = (e) => {
       targets.forEach(el => updateVars(el, e.clientX, e.clientY));
     };
     document.addEventListener('pointermove', onMove, { passive: true });
 
-    // re-bias when the viewport changes a lot (e.g., orientation/resize)
     const onResize = () => targets.forEach(el => biasFor(el, isLight));
     window.addEventListener('resize', onResize);
   }
 
+  // Make init globally accessible
+  window.initBackdrop = init;
+
   if (document.readyState !== 'loading') init();
   else document.addEventListener('DOMContentLoaded', init);
 
-  // Optional: listen for theme re-application to re-bias
   window.addEventListener('nff:theme-applied', () => {
-    // re-init to re-bias on theme change
     init();
   });
 })();
 
-// Re-initialize when Leagues tab is shown
+// Re-initialize when dynamic content loads
 if (window.Shiny) {
   $(document).on('shiny:value shiny:visualchange', function(event) {
-    if (event.target.id === 'leagues-league_tabs') {
-      init(); // Re-run backdrop initialization
+    if (event.target.id === 'leagues-league_tabs' || 
+        event.target.id.includes('data_table')) {
+      if (window.initBackdrop) window.initBackdrop();
     }
   });
 }

@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.Shiny) {
     Shiny.addCustomMessageHandler('tabChanged', function(tab) {
       // Toggle backdrop body class based on tab
-      document.body.classList.toggle('has-backdrop', tab === 'leagues');
+      document.body.classList.toggle('has-backdrop', tab === 'leagues' || tab === 'tools');
       // Recalculate navbar height when switching tabs
       setTimeout(() => {
         setNavHeightVar();
