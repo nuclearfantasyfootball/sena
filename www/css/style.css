@@ -38,7 +38,6 @@ body {
 /* Light theme body */
 [data-bs-theme="light"] body,
 .nff-light body {
-  background-color: #ffffff !important;
   color: #212529;
 }
 
@@ -80,7 +79,6 @@ body {
 /* Dark theme body */
 [data-bs-theme="dark"] body,
 .nff-dark body {
-  background-color: var(--nff-dark-bg) !important;
   color: var(--nff-dark-text);
 }
 
@@ -1655,6 +1653,7 @@ body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch; /* Better scrolling on iOS */
+  z-index: 1;
 
 }
 
@@ -1670,4 +1669,24 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   transition: all 0.3s ease;
+}
+
+/* Special handling for leagues page backdrop */
+.league-content-section.nff-backdrop {
+  /* Extend to full viewport */
+  top: 0 !important;
+  /* Use padding to push content below navbar */
+  padding-top: var(--nff-nav-h, 56px);
+  /* Ensure backdrop fills viewport */
+  min-height: 100vh;
+}
+
+/* Ensure first card doesn't double-space */
+.league-content-section.nff-backdrop > .card:first-child {
+  margin-top: 0 !important;
+}
+
+/* Only apply to non-leagues tabs */
+.tab-content > .tab-pane:not(#leagues) {
+  padding-top: var(--nff-nav-h, 56px);
 }

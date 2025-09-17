@@ -428,6 +428,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enable scrolling on non-home tabs
   if (window.Shiny) {
     Shiny.addCustomMessageHandler('tabChanged', function(tab) {
+      // Toggle backdrop body class based on tab
+      document.body.classList.toggle('has-backdrop', tab === 'leagues');
       // Recalculate navbar height when switching tabs
       setTimeout(() => {
         setNavHeightVar();

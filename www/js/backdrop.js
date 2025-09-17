@@ -43,3 +43,12 @@
     init();
   });
 })();
+
+// Re-initialize when Leagues tab is shown
+if (window.Shiny) {
+  $(document).on('shiny:value shiny:visualchange', function(event) {
+    if (event.target.id === 'leagues-league_tabs') {
+      init(); // Re-run backdrop initialization
+    }
+  });
+}

@@ -9,27 +9,15 @@ leagues_page_ui <- function(id) {
     ns <- NS(id)
 
     tags$div(
-        class = "league-content-section nff-backdrop",
+        class = "league-backdrop-wrapper nff-backdrop league-content-section",
 
-        # Single card with pill navigation
+        # content goes here
         bslib::card(
             class = "section-card centered-nav-pills",
             style = "height: auto; min-height: 80vh;",
-
-            # Card header with title
-            # card_header(
-            #     tags$h4(
-            #         class = "mb-0 text-center",
-            #         "FORMATS"
-            #     )
-            # ),
-
-            # Card body with navset_pill
             card_body(
                 navset_pill(
                     id = ns("league_tabs"),
-
-                    # Redraft panel
                     nav_panel(
                         title = tags$span(
                             bs_icon("arrow-repeat"),
@@ -38,8 +26,6 @@ leagues_page_ui <- function(id) {
                         value = "redraft",
                         uiOutput(ns("redraft_content"))
                     ),
-
-                    # Dynasty panel
                     nav_panel(
                         title = tags$span(
                             bs_icon("trophy"),
@@ -48,8 +34,6 @@ leagues_page_ui <- function(id) {
                         value = "dynasty",
                         uiOutput(ns("dynasty_content"))
                     ),
-
-                    # Chopped panel
                     nav_panel(
                         title = tags$span(
                             bs_icon("scissors"),
@@ -58,8 +42,6 @@ leagues_page_ui <- function(id) {
                         value = "chopped",
                         uiOutput(ns("chopped_content"))
                     ),
-
-                    # Survivor panel
                     nav_panel(
                         title = tags$span(
                             bs_icon("fire"),

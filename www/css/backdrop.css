@@ -43,6 +43,7 @@
 /* If a section uses the dynamic backdrop, ensure it’s clean */
 .nff-backdrop {
   background-attachment: scroll; /* avoid fixed stacking issues */
+  z-index: 0;
 }
 .nff-backdrop .bg {
   position: relative;  /* keep headings clickable above backdrop */
