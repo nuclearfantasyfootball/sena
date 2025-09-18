@@ -1,0 +1,15 @@
+---
+title: "An Introduction to Forming Fantasy Football Rosters"
+subtitle: "Understanding roster construction and player selection"
+tagline: "How Are Rosters Assembled?"
+author: "NuclearFF Team"
+created: "2024-02-05"
+updated: "2024-11-28"
+category: "rosters"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+## Fantasy Football Rosters
+
+This is a smoke test. If you can see this, the render path works.

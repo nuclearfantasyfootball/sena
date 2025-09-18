@@ -1,0 +1,15 @@
+---
+title: "League Median Weekly Additional Matchup"
+subtitle: "A setting for an extra game each week against the league median score"
+tagline: "What is Extra Game Against League Median?"
+author: "NuclearFF Team"
+created: "2024-02-05"
+updated: "2024-11-28"
+category: "scoring"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+## League Median
+
+This is a smoke test. If you can see this, the render path works.

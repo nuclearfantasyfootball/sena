@@ -1,0 +1,51 @@
+# FAQ Section Order and Structure
+# Under each category, the articles are specified by their tagline.
+# The order that articles are listed is how they appear on the FAQ page.
+# To change the order of categories, simply rearrange the categories below.
+
+categories:
+  - name: general # Internal reference to category
+    title: GENERAL # Display name on FAQ page
+    icon: football
+    # Articles are loaded by reference by tagline
+    articles:
+      - "What Are the Common League Types and Formats?"
+      
+  - name: drafting # Internal reference to category
+    title: DRAFTING # Display name on FAQ page
+    icon: ranking-star
+    # Articles are loaded by reference by tagline
+    articles:
+      - "How do you Approach Drafting?"
+      
+  - name: rosters # Internal reference to category
+    title: ROSTERS # Display name on FAQ page
+    icon: users-rays
+    # Articles are loaded by reference by tagline
+    articles:
+      - "How Are Rosters Assembled?"
+      - "What is a Taxi Squad?"
+
+  - name: scoring # Internal reference to category
+    title: SCORING # Display name on FAQ page
+    icon: magnifying-glass-chart
+    # Articles are loaded by reference by tagline
+    articles:
+      - "What is Extra Game Against League Median?"
+
+  - name: trading # Internal reference to category
+    title: TRADING # Display name on FAQ page
+    icon: handshake-angle
+    # Articles are loaded by reference by tagline
+    articles:
+      - "How Do Trade Deadlines Work?"
+      - "How Does Draft Pick Trading Work?"
+      - "What Happens to a Trade if it is on the Weekend?"
+
+  - name: waivers # Internal reference to category
+    title: WAIVER WIRE # Display name on FAQ page
+    icon: user-plus
+    # Articles are loaded by reference by tagline
+    articles:
+      - "How Does the Waiver Wire Work?"
+      - "What is FAAB?"

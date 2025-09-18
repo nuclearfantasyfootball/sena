@@ -16,7 +16,7 @@ create_redraft_content <- function() {
             )
         ),
         tags$hr(class = "league-section-divider"),
-        create_league_accordion("redraft"),
+        create_league_accordion("redraft", sections = "overview"),
         create_league_list("redraft", list(
             list(
                 name = "NUCLEARFF REDRAFT",
@@ -43,12 +43,11 @@ create_dynasty_content <- function() {
             list(
                 "8" = "Active Dynasties",
                 "3.2" = "Avg Years Running",
-                "$75" = "Avg Buy-in",
-                "94%" = "Retention Rate"
+                "$75" = "Avg Buy-in"
             )
         ),
         tags$hr(class = "league-section-divider"),
-        create_league_accordion("dynasty"),
+        create_league_accordion("dynasty", sections = "overview"),
         create_league_list("dynasty", list(
             list(
                 name = "NUCLEARFF DYNASTY",
@@ -79,7 +78,7 @@ create_chopped_content <- function() {
             )
         ),
         tags$hr(class = "league-section-divider"),
-        create_league_accordion("chopped"),
+        create_league_accordion("chopped", sections = "overview"),
         create_league_list("chopped", list(
             list(
                 name = "NUCLEARFF CHOPPED OG $10",
@@ -123,7 +122,7 @@ create_survivor_content <- function() {
             )
         ),
         tags$hr(class = "league-section-divider"),
-        create_league_accordion("survivor"),
+        create_league_accordion("survivor", sections = "overview"),
         create_league_list("survivor", list(
             list(
                 name = "NUCLEARFF Survivor (Pick 'Em) 2025",

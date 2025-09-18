@@ -42,15 +42,142 @@ create_article_link <- function(ns, article_id, title, description = NULL) {
                     class = "flex-grow-1",
                     tags$span(class = "faq-article-title fw-bold", title)
                 ),
-                bs_icon("chevron-right", class = "faq-article-arrow ms-2")
+                icon("chevron-right", class = "faq-article-arrow ms-2")
             )
         )
     )
 }
 
-#' FAQ Page Module Server
+#' Extract Metadata from R Markdown File
 #'
-#' Server logic for the FAQ page with integrated article navigation
+#' Reads YAML frontmatter from an Rmd file using rmarkdown's built-in parser
+#'
+#' @param rmd_file Character. Path to the R Markdown file
+#' @return List containing metadata fields
+#' @keywords internal
+extract_rmd_metadata <- function(rmd_file) {
+    if (!file.exists(rmd_file)) {
+        return(default_metadata())
+    }
+
+    tryCatch(
+        {
+            # Use rmarkdown's built-in YAML parser - most reliable approach
+            metadata <- rmarkdown::yaml_front_matter(rmd_file)
+
+            # Ensure required fields with defaults
+            list(
+                title = metadata$title %||% "Untitled Article",
+                subtitle = metadata$subtitle %||% NULL,
+                tagline = metadata$tagline %||% metadata$title %||% "Untitled Article",
+                author = metadata$author %||% "NuclearFF Team",
+                created = as.character(metadata$created %||% metadata$date %||% Sys.Date()),
+                updated = as.character(metadata$updated %||% metadata$date %||% Sys.Date()),
+                author_avatar = metadata$author_avatar %||% "logos/nuclearff-logo.png",
+                category = metadata$category %||% "general" # For organizing into accordion sections
+            )
+        },
+        error = function(e) {
+            warning("Error reading metadata from ", rmd_file, ": ", e$message)
+            default_metadata()
+        }
+    )
+}
+
+#' Default Metadata
+#'
+#' Returns default metadata structure
+#'
+#' @return List with default metadata
+#' @keywords internal
+default_metadata <- function() {
+    list(
+        title = "Article Coming Soon",
+        subtitle = NULL,
+        tagline = "Article Coming Soon",
+        author = "NuclearFF Team",
+        created = as.character(Sys.Date()),
+        updated = as.character(Sys.Date()),
+        author_avatar = "logos/nuclearff-logo.png",
+        category = "general"
+    )
+}
+
+#' Get All FAQ Articles
+#'
+#' Scans the FAQ directory and returns metadata for all articles
+#'
+#' @param faq_dir Character. Directory containing FAQ Rmd files
+#' @return Named list of article metadata, keyed by article ID
+#' @keywords internal
+get_all_faq_articles <- function(faq_dir = "content/faq") {
+    if (!dir.exists(faq_dir)) {
+        warning("FAQ directory does not exist: ", faq_dir)
+        return(list())
+    }
+
+    # Find all Rmd files in the FAQ directory
+    rmd_files <- list.files(faq_dir, pattern = "\\.Rmd$", full.names = TRUE)
+
+    if (length(rmd_files) == 0) {
+        warning("No Rmd files found in: ", faq_dir)
+        return(list())
+    }
+
+    articles <- list()
+
+    for (file_path in rmd_files) {
+        # Generate article ID from filename (without extension)
+        article_id <- tools::file_path_sans_ext(basename(file_path))
+
+        # Extract metadata from the file
+        metadata <- extract_rmd_metadata(file_path)
+        metadata$rmd_file <- file_path
+        metadata$article_id <- article_id
+
+        articles[[article_id]] <- metadata
+    }
+
+    return(articles)
+}
+
+#' Create Article Link from Metadata
+#'
+#' Helper function to create a clickable article link using metadata
+#'
+#' @param ns Namespace function
+#' @param article_id Character. Unique ID for the article
+#' @param metadata List. Article metadata containing tagline
+#' @return HTML div containing article link
+#' @keywords internal
+create_article_link_from_metadata <- function(ns, article_id, metadata) {
+    tagline <- metadata$tagline %||% metadata$title %||% "Untitled Article"
+
+    tags$div(
+        class = "faq-article-item",
+        tags$a(
+            href = "#",
+            class = "faq-article-link text-decoration-none d-block py-2 px-3",
+            `data-article-id` = article_id,
+            onclick = sprintf(
+                "Shiny.setInputValue('%s', '%s', {priority: 'event'})",
+                ns("article_clicked"), article_id
+            ),
+            tags$div(
+                class = "d-flex justify-content-between align-items-center",
+                tags$div(
+                    class = "flex-grow-1",
+                    tags$span(class = "faq-article-title fw-bold", tagline)
+                ),
+                icon("chevron-right", class = "faq-article-arrow ms-2")
+            )
+        )
+    )
+}
+
+#' FAQ Page Module Server (Updated)
+#'
+#' Server logic for the FAQ page with Rmd metadata reading
 #'
 #' @param id Character string. Module namespace ID
 #' @param parent_session Parent session for navigation (optional)
@@ -62,43 +189,23 @@ faq_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
         current_view <- reactiveVal("list") # "list" or "article"
         selected_article <- reactiveVal(NULL)
 
-        # Article data repository
+        # Get all FAQ articles from directory - reactive for dynamic updates
+        all_articles <- reactive({
+            get_all_faq_articles("content/faq")
+        })
+
+        # Article data repository - now reads from Rmd files
         article_data <- reactive({
-            if (is.null(selected_article())) {
-                return(NULL)
+            req(selected_article())
+
+            article_id <- selected_article()
+            articles <- all_articles()
+
+            if (article_id %in% names(articles)) {
+                return(articles[[article_id]])
+            } else {
+                return(default_metadata())
             }
-
-            articles <- list(
-                "draft-strategy" = list(
-                    title = "Drafting Strategy for Beginners",
-                    subtitle = "A comprehensive guide to fantasy football draft fundamentals",
-                    author = "NuclearFF Team",
-                    author_avatar = "logos/nuclearff-logo.png",
-                    created = "2024-01-15",
-                    updated = "2024-12-15",
-                    rmd_file = "content/faq/draft-strategy.Rmd"
-                ),
-                "faab-bidding" = list(
-                    title = "FAAB Budget and Bidding",
-                    subtitle = "Free Agent Acquisition Budget strategy and best practices",
-                    author = "NuclearFF Team",
-                    author_avatar = "logos/nuclearff-logo.png",
-                    created = "2024-02-05",
-                    updated = "2024-11-28",
-                    rmd_file = "content/faq/faab-bidding.Rmd"
-                ),
-                "waiver-strategy" = list(
-                    title = "Navigating Waivers and Strategy",
-                    subtitle = "Strategic thinking about waiver wire pickups and timing",
-                    author = "NuclearFF Team",
-                    author_avatar = "logos/nuclearff-logo.png",
-                    created = "2024-02-10",
-                    updated = "2024-11-25",
-                    rmd_file = "content/faq/waiver-strategy.Rmd"
-                )
-            )
-
-            articles[[selected_article()]] %||% NULL
         })
 
         # Main content output - switches between FAQ list and article
@@ -107,8 +214,8 @@ faq_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
                 # Article view
                 render_article_view(session$ns, article_data())
             } else {
-                # FAQ list view
-                render_faq_list(session$ns)
+                # FAQ list view - now dynamically generated
+                render_dynamic_faq_list(session$ns, all_articles())
             }
         })
 
@@ -131,106 +238,10 @@ faq_page_server <- function(id, parent_session = getDefaultReactiveDomain()) {
         list(
             page_loaded = reactive(TRUE),
             current_view = current_view,
-            selected_article = selected_article
+            selected_article = selected_article,
+            available_articles = all_articles
         )
     })
-}
-
-#' Render FAQ List View
-#' @keywords internal
-render_faq_list <- function(ns) {
-    card(
-        full_screen = TRUE,
-        card_header(
-            tags$h4(
-                class = "mb-0",
-                ""
-            )
-        ),
-        card_body(
-            class = "p-4",
-            tags$div(
-                class = "text-center mb-4",
-                tags$h2("Frequently Asked Questions"),
-                tags$p(
-                    class = "lead text-muted",
-                    "Find answers to common fantasy football questions organized by topic."
-                )
-            ),
-
-            # FAQ Accordion
-            accordion(
-                id = "faq_accordion",
-                class = "faq-accordion",
-                accordion_panel(
-                    title = tags$span(
-                        bs_icon("pencil-square"),
-                        tags$span(class = "ms-2", "DRAFTING")
-                    ),
-                    value = "drafting",
-                    tags$div(
-                        class = "faq-article-list",
-                        create_article_link(
-                            ns, "draft-strategy",
-                            "What is the best draft strategy for beginners?"
-                        ),
-                        create_article_link(
-                            ns, "auction-drafts",
-                            "How do auction drafts work?"
-                        ),
-                        create_article_link(
-                            ns, "draft-preparation",
-                            "How should I prepare for my fantasy draft?"
-                        )
-                    )
-                ),
-                accordion_panel(
-                    title = tags$span(
-                        bs_icon("cash-stack"),
-                        tags$span(class = "ms-2", "WAIVERS AND FAAB")
-                    ),
-                    value = "waivers",
-                    tags$div(
-                        class = "faq-article-list",
-                        create_article_link(
-                            ns, "waiver-priority",
-                            "How does waiver priority work?"
-                        ),
-                        create_article_link(
-                            ns, "faab-bidding",
-                            "What is FAAB and how do I use it effectively?"
-                        ),
-                        create_article_link(
-                            ns, "waiver-strategy",
-                            "When should I use my waiver priority?"
-                        )
-                    )
-                ),
-                accordion_panel(
-                    title = tags$span(
-                        bs_icon("calculator"),
-                        tags$span(class = "ms-2", "SCORING")
-                    ),
-                    value = "scoring",
-                    tags$div(
-                        class = "faq-article-list",
-                        create_article_link(
-                            ns, "ppr-vs-standard",
-                            "What's the difference between PPR and Standard scoring?"
-                        ),
-                        create_article_link(
-                            ns, "superflex-scoring",
-                            "How does Superflex scoring work?"
-                        ),
-                        create_article_link(
-                            ns, "idp-scoring",
-                            "What is IDP scoring?"
-                        )
-                    )
-                )
-            )
-        )
-    )
 }
 
 #' Render Article View
@@ -306,7 +317,7 @@ render_article_view <- function(ns, article_data) {
                         class = "article-nav-buttons mt-5",
                         actionButton(
                             ns("back_to_faq"),
-                            "Back to FAQ",
+                            "Back",
                             class = "btn btn-outline-secondary btn-sm w-100",
                             icon = icon("arrow-left")
                         )
@@ -363,4 +374,289 @@ render_rmd_content <- function(rmd_file) {
             tags$p("This article is currently being written and will be available soon.")
         )
     }
+}
+
+#' Updated Dynamic FAQ List Renderer
+#'
+#' Renders FAQ list with proper ordering from config
+#'
+#' @param ns Namespace function
+#' @param articles List of all articles
+#' @keywords internal
+render_dynamic_faq_list <- function(ns, articles) {
+    if (length(articles) == 0) {
+        return(tags$div(
+            class = "alert alert-info",
+            "No FAQ articles found. Please add Rmd files to content/faq/ directory."
+        ))
+    }
+
+    # Load ordering configuration
+    config <- load_faq_order_config()
+
+    # Order articles according to config
+    ordered_categories <- order_articles_by_config(articles, config)
+
+    card(
+        full_screen = TRUE,
+        card_header(
+            tags$h4(class = "mb-0", "")
+        ),
+        card_body(
+            class = "p-4",
+
+            # Dynamic FAQ Accordion with proper ordering
+            do.call(accordion, c(
+                list(
+                    id = "faq_accordion",
+                    class = "faq-accordion"
+                ),
+                # Generate accordion panels in configured order
+                lapply(names(ordered_categories), function(cat_name) {
+                    cat_articles <- ordered_categories[[cat_name]]
+                    cat_info <- get_category_info(cat_name, config)
+
+                    accordion_panel(
+                        title = tags$span(
+                            cat_info$icon,
+                            tags$span(class = "ms-2", cat_info$title)
+                        ),
+                        value = cat_name,
+                        tags$div(
+                            class = "faq-article-list",
+                            # Generate article links in specified order
+                            lapply(names(cat_articles), function(article_id) {
+                                create_article_link_from_metadata(
+                                    ns,
+                                    article_id,
+                                    cat_articles[[article_id]]
+                                )
+                            })
+                        )
+                    )
+                })
+            ))
+        )
+    )
+}
+
+#' Load FAQ Order Configuration
+#'
+#' Reads the FAQ order configuration file to determine category and article ordering
+#'
+#' @param config_file Character. Path to the configuration file
+#' @return List containing ordered categories and articles
+#' @export
+load_faq_order_config <- function(config_file = "content/faq/faq_order.yml") {
+    if (!file.exists(config_file)) {
+        warning("FAQ order config file not found: ", config_file)
+        return(get_default_faq_order())
+    }
+
+    tryCatch(
+        {
+            # Use rmarkdown's YAML parser for consistency
+            config <- rmarkdown::yaml_front_matter(config_file)
+
+            # If no frontmatter, try reading as pure YAML
+            if (length(config) == 0) {
+                config <- yaml::yaml.load_file(config_file)
+            }
+
+            return(config)
+        },
+        error = function(e) {
+            warning("Error reading FAQ order config: ", e$message)
+            return(get_default_faq_order())
+        }
+    )
+}
+
+#' Get Default FAQ Order
+#'
+#' Returns default ordering if no config file exists
+#'
+#' @return List with default category order
+#' @keywords internal
+get_default_faq_order <- function() {
+    list(
+        categories = list(
+            list(
+                name = "general",
+                title = "GENERAL",
+                icon = "football",
+                articles = list()
+            ),
+            list(
+                name = "drafting",
+                title = "DRAFTING",
+                icon = "ranking-star",
+                articles = list()
+            ),
+            list(
+                name = "rosters",
+                title = "ROSTERS",
+                icon = "users-rays",
+                articles = list()
+            ),
+            list(
+                name = "scoring",
+                title = "SCORING",
+                icon = "magnifying-glass-chart",
+                articles = list()
+            ),
+            list(
+                name = "trading",
+                title = "TRADING",
+                icon = "handshake-angle",
+                articles = list()
+            ),
+            list(
+                name = "waivers",
+                title = "WAIVER WIRE",
+                icon = "user-plus",
+                articles = list()
+            )
+        )
+    )
+}
+
+#' Order Articles According to Configuration
+#'
+#' Takes discovered articles and orders them according to the config file
+#'
+#' @param articles List. All discovered articles from Rmd files
+#' @param config List. Configuration from faq_order file
+#' @return List of ordered articles by category
+#' @keywords internal
+order_articles_by_config <- function(articles, config) {
+    if (!"categories" %in% names(config)) {
+        # Fallback to simple category grouping
+        return(split(articles, sapply(articles, function(x) x$category %||% "general")))
+    }
+
+    ordered_categories <- list()
+
+    for (cat_config in config$categories) {
+        cat_name <- cat_config$name
+
+        # Get all articles for this category
+        cat_articles <- articles[sapply(articles, function(x) {
+            (x$category %||% "general") == cat_name
+        })]
+
+        if (length(cat_articles) == 0) {
+            next # Skip empty categories
+        }
+
+        # Order articles within category if specified
+        if ("articles" %in% names(cat_config) && length(cat_config$articles) > 0) {
+            ordered_articles <- list()
+
+            # First, add articles in specified order
+            for (article_ref in cat_config$articles) {
+                # Find article by tagline or article ID
+                matching_article <- find_article_by_reference(cat_articles, article_ref)
+                if (!is.null(matching_article)) {
+                    ordered_articles <- append(ordered_articles, matching_article, length(ordered_articles))
+                    # Remove from remaining articles
+                    cat_articles <- cat_articles[!names(cat_articles) %in% names(matching_article)]
+                }
+            }
+
+            # Add any remaining articles not specified in order
+            ordered_articles <- append(ordered_articles, cat_articles, length(ordered_articles))
+            cat_articles <- ordered_articles
+        }
+
+        if (length(cat_articles) > 0) {
+            ordered_categories[[cat_name]] <- cat_articles
+        }
+    }
+
+    # Add any categories not specified in config
+    remaining_categories <- setdiff(
+        unique(sapply(articles, function(x) x$category %||% "general")),
+        names(ordered_categories)
+    )
+
+    for (cat_name in remaining_categories) {
+        cat_articles <- articles[sapply(articles, function(x) {
+            (x$category %||% "general") == cat_name
+        })]
+        if (length(cat_articles) > 0) {
+            ordered_categories[[cat_name]] <- cat_articles
+        }
+    }
+
+    return(ordered_categories)
+}
+
+#' Get Category Info with Config Override
+#'
+#' Gets category display info, allowing config file to override defaults
+#'
+#' @param cat_name Character. Category name
+#' @param config List. Configuration object
+#' @return List with title and icon
+#' @keywords internal
+get_category_info <- function(cat_name, config) {
+    # Default category info
+    default_info <- list(
+        "general" = list(title = "GENERAL", icon = "football"),
+        "drafting" = list(title = "DRAFTING", icon = "ranking-star"),
+        "rosters" = list(title = "ROSTERS", icon = "users-rays"),
+        "scoring" = list(title = "SCORING", icon = "magnifying-glass-chart"),
+        "trading" = list(title = "TRADING", icon = "handshake-angle"),
+        "waivers" = list(title = "WAIVER WIRE", icon = "user-plus")
+    )
+
+    # Check if config overrides this category
+    if ("categories" %in% names(config)) {
+        for (cat_config in config$categories) {
+            if (cat_config$name == cat_name) {
+                return(list(
+                    title = cat_config$title %||% default_info[[cat_name]]$title %||% toupper(cat_name),
+                    icon = icon(cat_config$icon %||% default_info[[cat_name]]$icon %||% "football")
+                ))
+            }
+        }
+    }
+
+    # Fall back to defaults
+    info <- default_info[[cat_name]] %||% list(title = toupper(cat_name), icon = "football")
+    return(list(
+        title = info$title,
+        icon = icon(info$icon)
+    ))
+}
+
+#' Find Article by Reference
+#'
+#' Finds an article by tagline, title, or article ID
+#'
+#' @param articles List. Articles to search
+#' @param reference Character. Reference to match (tagline, title, or ID)
+#' @return List with single article or NULL
+#' @keywords internal
+find_article_by_reference <- function(articles, reference) {
+    # Try exact match on article ID first
+    if (reference %in% names(articles)) {
+        result <- list()
+        result[[reference]] <- articles[[reference]]
+        return(result)
+    }
+
+    # Try matching tagline or title
+    for (article_id in names(articles)) {
+        article <- articles[[article_id]]
+        if (identical(article$tagline, reference) ||
+            identical(article$title, reference)) {
+            result <- list()
+            result[[article_id]] <- article
+            return(result)
+        }
+    }
+
+    return(NULL)
 }

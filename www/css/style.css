@@ -693,23 +693,23 @@ body {
 
 /* Main league page container */
 .league-page-container {
-  padding: 1.5rem;
+  padding: 0rem;
 }
 
 /* Hero section spacing */
 .league-hero-row {
-  margin-bottom: 1.25rem;
+  margin-bottom: 0rem;
 }
 
 /* Stats cards section */
 .league-stats-section {
-  margin-bottom: 1rem;
+  margin-bottom: 0rem;
 }
 
 /* Custom section divider - replace Bootstrap my-4 */
 .league-section-divider {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0rem;
+  margin-bottom: 0rem !important;
   border: none;
   height: 1px;
   opacity: 0.25;
@@ -727,7 +727,7 @@ body {
 
 /* League configuration (accordion) section */
 .league-config-section {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0rem;
 }
 
 /* Remove default Bootstrap card margins from accordion */
@@ -737,7 +737,7 @@ body {
 
 /* Tighter accordion spacing */
 .league-config-section .card-header {
-  padding: 0.75rem 1rem;
+  padding: 0rem 0rem;
 }
 
 .league-config-section .card-body {
@@ -750,7 +750,7 @@ body {
 
 /* League list section */
 .league-list-section {
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
 }
 
 /* Tighter spacing for league list items */
@@ -795,6 +795,7 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   margin-top: 0 !important; /* No top margin */
+  margin-bottom: 0 !important; /* No bottom margin */
 }
 
 /* Stat Cards */
@@ -1440,6 +1441,18 @@ body {
   padding-right: 0 !important;
   padding-top: 0rem !important;
   padding-bottom: 0rem !important;
+  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+}
+
+/* Target accordion buttons in FAQ specifically */
+#faq_accordion .accordion-button,
+.faq-content-section .accordion-button,
+.tab-pane#faq .accordion-button {
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
 }
 
 /* FAQ article list container */
@@ -1452,12 +1465,6 @@ body {
   margin: 0 !important;
 }
 
-/* Make FAQ article titles uppercase */
-.faq-article-title {
-  text-transform: uppercase !important;
-  letter-spacing: 0em; /* Add letter spacing for readability */
-}
-
 /* Individual FAQ article items - remove wrapper styling */
 .faq-article-item {
   border: none !important;
@@ -1465,17 +1472,63 @@ body {
   padding: 0;
 }
 
-/* FAQ article links - styled exactly like DataTable page buttons */
+.faq-article-title {
+    text-transform: uppercase !important;
+    letter-spacing: 0em;
+    text-align: left !important; /* Force left alignment */
+    font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif !important;
+    font-weight: 600 !important; /* Montserrat 600 weight */
+    font-size: 0.95rem; /* Slightly smaller for better readability */
+    line-height: 1.4;
+}
+
+/* FAQ article link container - ensure proper alignment */
 .faq-article-link {
-  border: 1px solid; /* Keep border to separate articles */
-  border-radius: 0rem !important; /* Remove rounded corners for edge-to-edge look */
-  border-left: none !important;
-  border-right: none !important;
-  margin: 0 !important;
-  text-decoration: none !important;
-  display: block !important;
-  transition: all 0.2s ease;
-  padding: 0.5rem 0.5rem !important; /* Ensure padding is applied */
+    border: 1px solid;
+    border-radius: 0rem !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin: 0 !important;
+    text-decoration: none !important;
+    display: block !important;
+    transition: all 0.2s ease;
+    padding: 0.75rem 1rem !important; /* Increased padding for better spacing */
+    text-align: left !important; /* Ensure container is left-aligned */
+}
+
+/* Inner flex container - left align content */
+.faq-article-link .d-flex {
+    justify-content: flex-start !important; /* Override Bootstrap's space-between */
+    align-items: center !important;
+    text-align: left !important;
+}
+
+/* Article title container - ensure left alignment */
+.faq-article-link .flex-grow-1 {
+    text-align: left !important;
+    flex-grow: 1;
+    margin-right: 1rem; /* Space between title and arrow */
+}
+
+/* FAQ article arrow - position to the right */
+.faq-article-arrow {
+    opacity: 0.7;
+    margin-left: auto !important; /* Push arrow to far right */
+    flex-shrink: 0; /* Don't let arrow shrink */
+}
+
+/* Override any Bootstrap text-center classes */
+.faq-article-list .faq-article-item,
+.faq-article-list .faq-article-link,
+.faq-article-list .faq-article-title {
+    text-align: left !important;
+}
+
+/* Ensure accordion body doesn't center content */
+.faq-accordion .accordion-body {
+    text-align: left !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 /* Force remove Bootstrap's link underlines */
@@ -1485,69 +1538,160 @@ body {
   text-decoration: none !important;
 }
 
-/* Dark theme - base state matching pagination buttons */
+/* Dark theme - base state */
 [data-bs-theme="dark"] .faq-article-link {
-  background-color: var(--nff-dark-surface) !important; /* var(--nff-dark-bg) */
-  border-color: rgba(206, 15, 160, 0.3) !important;
-  color: var(--nff-dark-text) !important;
+    background-color: var(--nff-dark-surface) !important;
+    border-color: rgba(206, 15, 160, 0.3) !important;
+    color: var(--nff-dark-text) !important;
 }
 
 [data-bs-theme="dark"] .faq-article-link .faq-article-title {
-  color: var(--nff-dark-text) !important;
-  font-weight: 600;
+    color: var(--nff-dark-text) !important;
+    font-weight: 600 !important; /* Maintain Montserrat 400 */
 }
 
 [data-bs-theme="dark"] .faq-article-link .faq-article-arrow {
-  color: var(--nff-dark-primary) !important;
-  opacity: 0.8;
+    color: var(--nff-dark-primary) !important;
+    opacity: 0.7;
 }
 
-/* Dark theme - hover state (pink tint like pagination) */
+/* Dark theme - hover state */
 [data-bs-theme="dark"] .faq-article-link:hover {
-  background-color: rgba(206, 15, 160, 0.2) !important;
-  border-color: var(--nff-dark-primary) !important;
+    background-color: rgba(206, 15, 160, 0.2) !important;
+    border-color: var(--nff-dark-primary) !important;
 }
 
 [data-bs-theme="dark"] .faq-article-link:hover .faq-article-title,
 [data-bs-theme="dark"] .faq-article-link:hover .faq-article-arrow {
-  color: var(--nff-dark-text) !important;
+    color: var(--nff-dark-text) !important;
 }
 
-/* Light theme - base state matching pagination buttons */
+[data-bs-theme="dark"] .faq-article-link:hover .faq-article-arrow {
+    opacity: 1;
+}
+
+/* Light theme - base state */
 [data-bs-theme="light"] .faq-article-link {
-  background-color: #ffffff !important;
-  border-color: rgba(15, 160, 206, 0.3) !important;  
-  color: #212529 !important;
+    background-color: #ffffff !important;
+    border-color: rgba(15, 160, 206, 0.3) !important;  
+    color: #212529 !important;
 }
 
 [data-bs-theme="light"] .faq-article-link .faq-article-title {
-  color: var(--nff-light-text) !important;
-  font-weight: 600;
+    color: #212529 !important;
+    font-weight: 600 !important; /* Maintain Montserrat 400 */
 }
 
 [data-bs-theme="light"] .faq-article-link .faq-article-arrow {
-  color: var(--nff-light-primary) !important;
-  opacity: 0.8;
+    color: var(--nff-light-primary) !important;
+    opacity: 0.7;
 }
 
-/* Light theme - hover state (blue tint like pagination) */
+/* Light theme - hover state */
 [data-bs-theme="light"] .faq-article-link:hover {
-  background-color: rgba(15, 160, 206, 0.3) !important;
-  border-color: var(--nff-light-primary) !important;
+    background-color: rgba(15, 160, 206, 0.3) !important;
+    border-color: var(--nff-light-primary) !important;
 }
 
 [data-bs-theme="light"] .faq-article-link:hover .faq-article-title,
 [data-bs-theme="light"] .faq-article-link:hover .faq-article-arrow {
-  color: var(--nff-light-text) !important;
+    color: #212529 !important;
 }
 
-/* Remove any conflicting accordion body styling for FAQ items */
-.accordion-body .faq-article-list {
-  background-color: transparent !important;
+[data-bs-theme="light"] .faq-article-link:hover .faq-article-arrow {
+    opacity: 1;
 }
 
-.accordion-body .faq-article-item {
-  background-color: transparent !important;
+/* Remove any conflicting styles */
+.faq-article-link:hover,
+.faq-article-link:focus,
+.faq-article-link:active {
+    text-decoration: none !important;
+}
+
+/* FAQ section spacing on leagues page */
+.league-backdrop-wrapper .faq-content-section {
+  margin-top: 0rem;
+  padding-top: 0rem;
+  border-top: none !important;
+}
+
+/* Remove bottom margin from leagues card when followed by FAQ */
+.league-backdrop-wrapper .card.section-card {
+  margin-bottom: 0 !important;
+}
+
+/* Or more specifically target the centered-nav-pills card */
+.league-backdrop-wrapper .card.centered-nav-pills {
+  margin-bottom: 0 !important;
+}
+
+/* Remove spacing between stat cards and nav pills */
+.league-backdrop-wrapper .nav-pills {
+  margin-top: 0 !important;
+}
+
+/* Remove spacing in leagues card body */
+.league-backdrop-wrapper .card-body > *:first-child {
+  margin-top: 0 !important;
+}
+
+.league-backdrop-wrapper .card-body > * + * {
+  margin-top: 0 !important;
+}
+
+/* Ensure FAQ content is visible in the backdrop wrapper */
+.league-backdrop-wrapper .faq-content-section .card {
+  background-color: var(--bs-card-bg);
+  border: 0px solid var(--bs-card-border-color);
+  margin-bottom: 0rem;
+}
+
+/* FAQ title spacing */
+.league-backdrop-wrapper .faq-content-section .card-header h4 {
+  color: var(--nff-accent);
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* Remove spacing between leagues content and FAQ */
+.league-backdrop-wrapper .faq-content-section {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* Also remove any margin from the FAQ card itself */
+.league-backdrop-wrapper .faq-content-section .card {
+  margin-top: 0 !important;
+  margin-bottom: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .faq-article-link {
+        padding: 0.625rem 0.75rem !important;
+    }
+    
+    .faq-article-title {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .faq-article-link {
+        padding: 0.5rem 0.625rem !important;
+    }
+    
+    .faq-article-title {
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+    
+    .faq-article-link .flex-grow-1 {
+        margin-right: 0.75rem;
+    }
 }
 
 /* =============================== FAAB DEMO =============================== */
@@ -1662,7 +1806,7 @@ body {
   justify-content: center !important;
   border-bottom: none;
   padding-bottom: 0 !important;
-  margin-bottom: 0.5rem !important;
+  margin-bottom: 0rem !important;
 }
 
 .league-content-section .nav-pills .nav-link {
@@ -1684,11 +1828,6 @@ body {
 /* Ensure first card doesn't double-space */
 .league-content-section.nff-backdrop > .card:first-child {
   margin-top: 0 !important;
-}
-
-/* Only apply to non-leagues tabs */
-.tab-content > .tab-pane:not(#leagues) {
-  padding-top: var(--nff-nav-h, 56px);
 }
 
 /* =================== Tools Page =================== */

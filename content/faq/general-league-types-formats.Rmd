@@ -1,0 +1,15 @@
+---
+title: "Different Types of Fantasy Leagues and Their Formats"
+subtitle: "Understand fantasy football different league types and alternative formats"
+tagline: "What Are the Common League Types and Formats?"
+author: "NuclearFF Team"
+created: "2024-02-05"
+updated: "2024-11-28"
+category: "general"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+## League Types
+
+This is a smoke test. If you can see this, the render path works.

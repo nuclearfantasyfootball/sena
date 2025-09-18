@@ -1,0 +1,15 @@
+---
+title: "Potential Implications of Trades Made on the Weekend" 
+subtitle: "Understanding the nuances of weekend trades"
+tagline: "What Happens to a Trade if it is on the Weekend?"
+author: "NuclearFF Team"
+created: "2024-02-05"
+updated: "2024-11-28"
+category: "trades"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+## Potential Implications Weekend Trades
+
+This is a smoke test. If you can see this, the render path works.

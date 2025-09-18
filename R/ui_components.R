@@ -67,22 +67,6 @@ create_league_accordion <- function(type,
         overview = list(
             title = "OVERVIEW",
             icon = bs_icon("chevron-double-right") # Direct icon usage
-        ),
-        roster = list(
-            title = "Roster",
-            icon = bs_icon("person-fill-gear")
-        ),
-        draft = list(
-            title = "Draft",
-            icon = bs_icon("table")
-        ),
-        scoring = list(
-            title = "Scoring",
-            icon = bs_icon("clipboard2-data")
-        ),
-        transactions = list(
-            title = "Transactions",
-            icon = bs_icon("wallet2")
         )
     )
 
@@ -129,7 +113,7 @@ create_league_list <- function(type, leagues) {
     )
 
     bslib::card(
-        bslib::card_header(title),
+        # bslib::card_header(title),
         bslib::card_body(
             tags$div(
                 class = "list-group",

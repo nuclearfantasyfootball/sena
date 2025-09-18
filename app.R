@@ -55,11 +55,11 @@ build_ui <- function() {
       ),
 
       # FAQ panel with integrated article display -------------------
-      nav_panel(
-        "FAQ",
-        value = "faq",
-        faq_page_ui("faq")
-      ),
+      # nav_panel(
+      #   "FAQ",
+      #   value = "faq",
+      #   faq_page_ui("faq")
+      # ),
 
       # Tools panel---------------------------------------------------
       nav_panel(
@@ -258,7 +258,7 @@ build_server <- function() {
     selected_league <- leagues_page_server("leagues")
 
     # Module: FAQ page with integrated article display
-    faq_state <- faq_page_server("faq", parent_session = session)
+    # faq_state <- faq_page_server("faq", parent_session = session)
 
     # Module: Data tools
     data_state <- data_tools_server("data_tools", data = reactive(iris))

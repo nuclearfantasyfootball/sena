@@ -1,0 +1,14 @@
+---
+title: "Dynasty Leagues Taxi Squads Explained"
+subtitle: "Understanding the role of taxi squads in dynasty leagues"
+tagline: "What is a Taxi Squad?"
+author: "NuclearFF Team"
+created: "2024-02-10"
+updated: "2024-11-25"
+category: "waivers"
+output: html_fragment
+---
+
+## Taxi Squads
+
+This is a smoke test. If you can see this, the render path works.

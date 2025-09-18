@@ -52,7 +52,9 @@ leagues_page_ui <- function(id) {
                     )
                 )
             )
-        )
+        ),
+        # FAQ section with consistent ID
+        faq_page_ui(ns("faq_leagues")) # Use namespaced ID
     )
 }
 
@@ -91,6 +93,9 @@ leagues_page_server <- function(id) {
         observeEvent(input$league_tabs, {
             logEvent("league_tab_changed", league = input$league_tabs)
         })
+
+        # Initialize FAQ with matching namespaced ID
+        faq_state <- faq_page_server("faq_leagues", parent_session = session)
 
         return(selected_league)
     })

@@ -1,0 +1,15 @@
+---
+title: "An Introduction to Drafts and Potential Strategies"
+subtitle: "A beginner's guide to fantasy football drafting"
+tagline: "How do you Approach Drafting?"
+author: "NuclearFF Team"
+created: "2024-02-05"
+updated: "2024-11-28"
+category: "drafting"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+## Drafts Overview
+
+This is a smoke test. If you can see this, the render path works.
