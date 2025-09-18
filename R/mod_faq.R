@@ -409,7 +409,8 @@ render_dynamic_faq_list <- function(ns, articles) {
             do.call(accordion, c(
                 list(
                     id = "faq_accordion",
-                    class = "faq-accordion"
+                    class = "faq-accordion",
+                    open = FALSE # Ensure no panels are open by default
                 ),
                 # Generate accordion panels in configured order
                 lapply(names(ordered_categories), function(cat_name) {
@@ -422,6 +423,7 @@ render_dynamic_faq_list <- function(ns, articles) {
                             tags$span(class = "ms-2", cat_info$title)
                         ),
                         value = cat_name,
+                        # Do NOT add 'open = TRUE' here
                         tags$div(
                             class = "faq-article-list",
                             # Generate article links in specified order
