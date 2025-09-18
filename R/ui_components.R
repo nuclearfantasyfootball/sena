@@ -21,7 +21,7 @@ create_stat_cards <- function(stats) {
             }
 
             tags$div(
-                class = "stat-card",
+                class = "stat-card glass-effect",
                 value_node,
                 tags$div(class = "stat-label", label)
             )

@@ -565,10 +565,17 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  margin: 1.5rem 0 1rem 0;
+  gap: 0.0rem;
+  margin: 0rem 0 0rem 0;
 }
 
+.card-body {
+  padding: 0;
+}
+
+.bslib-mb-spacing {
+  margin-bottom: 0;
+}
 .league-hero-row .hero-logo {
   height: 64px;
   width: auto;
@@ -698,7 +705,8 @@ body {
 
 /* Hero section spacing */
 .league-hero-row {
-  margin-bottom: 0rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
 /* Stats cards section */
@@ -708,7 +716,7 @@ body {
 
 /* Custom section divider - replace Bootstrap my-4 */
 .league-section-divider {
-  margin-top: 0rem;
+  margin-top: 1rem;
   margin-bottom: 0rem !important;
   border: none;
   height: 1px;
@@ -809,21 +817,6 @@ body {
   align-items: center;
 }
 
-.stat-card:hover {
-  transform: translateY(-2px);
-}
-
-/* Dark theme stat cards */
-.nff-dark .stat-card {
-  background-color: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(206, 15, 160, 0.3);
-}
-
-/* Light theme stat cards */
-.nff-light .stat-card {
-  background-color: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(15, 160, 206, 0.3);
-}
 
 .stat-value {
   font-size: 2rem;
@@ -832,6 +825,9 @@ body {
   display: grid;
   place-items: center;
   text-align: center;
+  background: transparent !important; /* Let glass-effect handle background */ 
+  position: relative; /* Ensure proper stacking context */
+  z-index: 10; /* Above glass layers */
 }
 
 .nff-dark .stat-value {
@@ -952,8 +948,8 @@ body {
 
 /* Card overrides for dark theme */
 .nff-dark .card {
-  background-color: var(--nff-dark-surface);
-  border-color: rgba(255, 255, 255, 0.12);
+  background-color: none;
+  border-color: none;
 }
 
 .nff-dark .card-header {
@@ -967,8 +963,8 @@ body {
 
 /* Card overrides for light theme */
 .nff-light .card {
-  background-color: #ffffff;
-  border-color: rgba(0, 0, 0, 0.12);
+  background-color: none;
+  border-color: none;
 }
 
 .nff-light .card-header {
@@ -1647,6 +1643,12 @@ body {
   margin-bottom: 0rem;
 }
 
+/* FAQ title spacing on leagues page IMPORTANT! ============================= */
+.league-backdrop-wrapper .card.centered-nav-pills + .league-hero-row {
+  margin-top: 1rem !important; /* No space above */
+  margin-bottom: 1rem !important; /* 2rem space below */
+}
+
 /* FAQ title spacing */
 .league-backdrop-wrapper .faq-content-section .card-header h4 {
   color: var(--nff-accent);
@@ -1807,6 +1809,7 @@ body {
   border-bottom: none;
   padding-bottom: 0 !important;
   margin-bottom: 0rem !important;
+  margin-top: 1rem !important;
 }
 
 .league-content-section .nav-pills .nav-link {

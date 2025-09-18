@@ -8,12 +8,16 @@
       if (card.classList.contains('no-tilt')) {
         return; // Skip this card entirely
       }
+
+      let isHovered = false;
       
       // Add subtle parallax on mouse move (only for cards without no-tilt)
       card.addEventListener('mousemove', (e) => {
         const rect = card.getBoundingClientRect();
         const x = (e.clientX - rect.left) / rect.width;
         const y = (e.clientY - rect.top) / rect.height;
+
+        const isStatCard = card.classList.contains('stat-card');
         
         // Subtle transform based on mouse position
         const tiltX = (y - 0.5) * 5;
