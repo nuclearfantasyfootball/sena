@@ -53,6 +53,16 @@ leagues_page_ui <- function(id) {
                 )
             )
         ),
+        # Add FAQ title with hero row effect
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "FAQ logo",
+                class = "hero-logo"
+            ),
+            tags$span("FAQ", class = "hero-text")
+        ),
         # FAQ section with consistent ID
         faq_page_ui(ns("faq_leagues")) # Use namespaced ID
     )

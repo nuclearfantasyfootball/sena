@@ -17,6 +17,17 @@ create_redraft_content <- function() {
         ),
         tags$hr(class = "league-section-divider"),
         create_league_accordion("redraft", sections = "overview"),
+        # Add LEAGUES title before league list
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "Leagues logo",
+                class = "hero-logo"
+            ),
+            tags$span("LEAGUES", class = "hero-text")
+        ),
+        # List of leagues
         create_league_list("redraft", list(
             list(
                 name = "NUCLEARFF REDRAFT",
@@ -48,6 +59,17 @@ create_dynasty_content <- function() {
         ),
         tags$hr(class = "league-section-divider"),
         create_league_accordion("dynasty", sections = "overview"),
+        # Add LEAGUES title before league list
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "Leagues logo",
+                class = "hero-logo"
+            ),
+            tags$span("LEAGUES", class = "hero-text")
+        ),
+        # List of leagues
         create_league_list("dynasty", list(
             list(
                 name = "NUCLEARFF DYNASTY",
@@ -79,6 +101,17 @@ create_chopped_content <- function() {
         ),
         tags$hr(class = "league-section-divider"),
         create_league_accordion("chopped", sections = "overview"),
+        # Add LEAGUES title before league list
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "Leagues logo",
+                class = "hero-logo"
+            ),
+            tags$span("LEAGUES", class = "hero-text")
+        ),
+        # List of leagues
         create_league_list("chopped", list(
             list(
                 name = "NUCLEARFF CHOPPED OG $10",
@@ -123,6 +156,17 @@ create_survivor_content <- function() {
         ),
         tags$hr(class = "league-section-divider"),
         create_league_accordion("survivor", sections = "overview"),
+        # Add LEAGUES title before league list
+        tags$div(
+            class = "league-hero-row",
+            tags$img(
+                src = "https://raw.githubusercontent.com/NuclearAnalyticsLab/nuclearff/refs/heads/main/inst/logos/png/nuclearff-2color.png",
+                alt = "Leagues logo",
+                class = "hero-logo"
+            ),
+            tags$span("LEAGUES", class = "hero-text")
+        ),
+        # List of leagues
         create_league_list("survivor", list(
             list(
                 name = "NUCLEARFF Survivor (Pick 'Em) 2025",
