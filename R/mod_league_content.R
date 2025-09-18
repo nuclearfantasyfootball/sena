@@ -32,7 +32,7 @@ create_redraft_content <- function() {
             list(
                 name = "NUCLEARFF REDRAFT",
                 url = "https://sleeper.com/leagues/1240509989819273216",
-                logo = "logos/Redraft/Redraft-Radioactive-Hex.png",
+                logo = "logos/Redraft/Redraft-Radioactive-Hex-Transparent.png",
                 status = "FILLED",
                 details = "10 TEAM | PPR | 3 FLEX"
             )
@@ -74,7 +74,7 @@ create_dynasty_content <- function() {
             list(
                 name = "NUCLEARFF DYNASTY",
                 url = "https://sleeper.com/leagues/1190192546172342272",
-                logo = "logos/dynasty-logo.png",
+                logo = "logos/Dynasty/Dynasty-Fission-Lightning-Transparent.png",
                 status = "FILLED",
                 details = "12 TEAM | PPR | SUPERFLEX"
             )
@@ -171,7 +171,7 @@ create_survivor_content <- function() {
             list(
                 name = "NUCLEARFF Survivor (Pick 'Em) 2025",
                 url = "https://sleeper.com/leagues/1256760468719030272",
-                logo = "logos/Survivor/Survivor-Diamond-Fire-Logo.png",
+                logo = "logos/Survivor/Survivor-Diamond-Fire-Transparent.png",
                 status = "LOCKED",
                 status_class = "danger",
                 details = "$10 ENTRY | PICK 'EM"
