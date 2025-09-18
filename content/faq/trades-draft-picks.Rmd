@@ -5,7 +5,7 @@ tagline: "How Does Draft Pick Trading Work?"
 author: "NuclearFF Team"
 created: "2024-02-05"
 updated: "2024-11-28"
-category: "trades"
+category: "trading"
 author_avatar: "logos/nuclearff-logo.png"
 output: html_fragment
 ---

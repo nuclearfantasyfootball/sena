@@ -8,16 +8,16 @@
 #' @examples
 #' md_file("www/md/overview.md")
 md_file <- function(path) {
-    if (!file.exists(path)) {
-        return(tags$div(
-            class = "text-danger small",
-            sprintf("Markdown file not found: %s (wd: %s)", path, getwd())
-        ))
-    }
-    txt <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"),
-        collapse = "\n"
-    )
-    HTML(commonmark::markdown_html(txt))
+  if (!file.exists(path)) {
+    return(tags$div(
+      class = "text-danger small",
+      sprintf("Markdown file not found: %s (wd: %s)", path, getwd())
+    ))
+  }
+  txt <- paste(readLines(path, warn = FALSE, encoding = "UTF-8"),
+    collapse = "\n"
+  )
+  HTML(commonmark::markdown_html(txt))
 }
 
 #' Nuclear FF Infinity SVG
@@ -28,8 +28,8 @@ md_file <- function(path) {
 #' @return HTML span containing animated SVG
 #' @export
 nff_infinity_svg <- function(size = 80) {
-    height <- round(size * 0.325)
-    HTML(sprintf('
+  height <- round(size * 0.325)
+  HTML(sprintf('
     <span class="nff-inf" style="display:inline-block;width:%dpx;height:%dpx;">
       <svg viewBox="0 0 200 80" width="100%%" height="100%%" aria-hidden="true" focusable="false">
         <style>
@@ -62,4 +62,25 @@ nff_infinity_svg <- function(size = 80) {
              C 160 70, 120 70, 100 40" />
       </svg>
     </span>', size, height))
+}
+
+#' Create Styled Blockquote
+#'
+#' Creates a styled blockquote for use in R Markdown articles.
+#' Note that using this in R Markdown is slower than HTML.
+#'
+#' @param text Character string. The blockquote text
+#' @param class Character string. Additional CSS class (optional)
+#' @return HTML blockquote element
+#' @export
+nff_blockquote <- function(text, class = "") {
+  additional_class <- if (nzchar(class)) paste0(" ", class) else ""
+
+  HTML(sprintf(
+    '<blockquote class="nff-blockquote%s">
+      <p>%s</p>
+    </blockquote>',
+    additional_class,
+    text
+  ))
 }

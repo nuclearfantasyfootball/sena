@@ -399,9 +399,7 @@ render_dynamic_faq_list <- function(ns, articles) {
 
     card(
         full_screen = TRUE,
-        card_header(
-            tags$h4(class = "mb-0", "")
-        ),
+        # No card_header() only card_body()
         card_body(
             class = "p-4",
 
