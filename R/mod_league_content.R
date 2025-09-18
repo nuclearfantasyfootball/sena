@@ -74,7 +74,7 @@ create_dynasty_content <- function() {
             list(
                 name = "NUCLEARFF DYNASTY",
                 url = "https://sleeper.com/leagues/1190192546172342272",
-                logo = "logos/Dynasty/Dynasty-Fission-Lightning-Transparent.png",
+                logo = "logos/Dynasty/Dynasty-Fission-Lightning-Circle-Transparent.png",
                 status = "FILLED",
                 details = "12 TEAM | PPR | SUPERFLEX"
             )
