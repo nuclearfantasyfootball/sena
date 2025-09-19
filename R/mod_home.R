@@ -299,24 +299,6 @@ home_page_ui <- function(id) {
                     )
                 )
             )
-        ),
-
-        # Section 5 - Get Started
-        tags$section(
-            class = "fifth nff-backdrop",
-            tags$div(
-                class = "outer",
-                tags$div(
-                    class = "inner",
-                    tags$div(
-                        class = "bg",
-                        tags$h2(
-                            class = "section-heading",
-                            "Testing..."
-                        )
-                    )
-                )
-            )
         )
     )
 }
