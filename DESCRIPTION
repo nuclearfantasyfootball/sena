@@ -3,19 +3,21 @@ Title: Shiny Essentials for NuclearFF Applications (SENA)
 Version: 0.0.0.9000
 Authors@R: person("Nolan", "MacDonald", email = "nolan@nuclearfantasyfootball.com",
   role = c("aut", "cre"))
-Description: SENA is built with Shiny capabilities to build NUCLEARFF applications
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+Description: Shiny modules for the Nuclear Fantasy Football app with CSS and JS
+  utilities.
+License: `use_mit_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports:
+  bslib,
   bsicons,
   DBI,
   DT,
   dplyr,
   gt,
   htmltools,
+  jsonlite,
   pak,
   purrr,
   readr,
@@ -24,3 +26,12 @@ Imports:
   shiny,
   shinyWidgets,
   tidyr
+Suggests:
+    testthat (>= 3.0.0),
+    shinytest2,
+    knitr,
+    rmarkdown,
+    pkgdown,
+    covr
+URL: https://github.com/nuclearfantasyfootball/sena
+BugReports: https://github.com/nuclearfantasyfootball/sena/issues

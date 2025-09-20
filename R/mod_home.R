@@ -138,10 +138,17 @@ welcome_section <- function(ns) {
                         bslib::card(
                             class = "glass-effect section-card",
                             bslib::card_body(
-                                tags$h4("Enhanced Glass Effect"),
+                                tags$h4(
+                                    "Reach critical mass.",
+                                    tags$br(),
+                                    "Create unstoppable momentum."
+                                ),
                                 # Keep copy short to avoid overflow on smaller devices
-                                tags$p("Advanced distortion with light/dark adaptation."),
-                                tags$p("Multi-layered, interactive liquid visuals.")
+                                tags$p(
+                                    "Fantasy football is a game of cascading consequences.",
+                                    tags$br(),
+                                    "Every decision you make from draft day to championship week fuels a chain reaction across your roster, league, and season."
+                                )
                             )
                         ),
                         create_scroll_indicator(ns, "2")
