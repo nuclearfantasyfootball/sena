@@ -1,0 +1,39 @@
+---
+title: "The 24-Hour Rule for Free Agents"
+subtitle: "Adding and dropping players via free agency"
+tagline: "What is the 24-Hour Rule for Free Agents?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "rosters"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Free Agents
+
+Typically in fantasy football leagues, players are added from the waiver wire.
+
+<blockquote>
+Players acquired through free agency must remain on a roster for at least 24 hours before being dropped to waivers. Teams can still drop the player within the 
+24-hour period, however, the player will return directly to free agency
+instead of moving to waivers.
+</blockquote>
+
+The 24-hour rule is implemented on Sleeper by default.
+The rule is put in place to prevent teams from adding and dropping several
+players prior to a game, resulting in those players being unavailable to the
+league.
+
+## Example of the 24-Hour Rule
+
+For example, if a team adds a player via free agency on Sunday morning prior to
+kickoff, the team must keep the player on their roster for at least 24 hours
+prior to dropping the player to waivers.
+
+If a team adds a player on Sunday at 10:00 AM ET, and then drops that player at
+11:00 AM ET on the same day, the player will return to free agency instead of
+moving to waivers.
+
+If a team added a player *from waivers* on Sunday at 10:00 AM ET, and then drops that player at 11:00 AM ET on the same day, the player will move to back to the
+waiver wire.
