@@ -1,0 +1,14 @@
+---
+title: "The Waiver Wire and How It Works"
+subtitle: "The different types of waiver wire processes and how they function"
+tagline: "How Does the Waiver Wire Work?"
+author: "Nolan MacDonald"
+created: "2025-09-23"
+updated: "2025-09-23"
+category: "waivers"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Waiver Wire
+

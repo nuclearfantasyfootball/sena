@@ -2,14 +2,62 @@
 title: "A How-To Guide for FAAB Bidding" 
 subtitle: "Free Agent Acquisition Budget strategy and best practices"
 tagline: "What is FAAB and How Does It Work?"
-author: "NuclearFF Team"
-created: "2024-02-05"
-updated: "2024-11-28"
+author: "Nolan MacDonald"
+created: "2025-09-23"
+updated: "2025-09-23"
 category: "waivers"
 author_avatar: "logos/nuclearff-logo.png"
 output: html_fragment
 ---
 
-## Free Agent Acquisition Budget (FAAB)
+# Free Agent Acquisition Budget (FAAB)
 
-This is a smoke test. If you can see this, the render path works.
+FAAB or Free Agent Acquisition Budget is an alternative to traditional waivers.
+FAAB provides teams with a season long budget (e.g., $100) to acquire free agents through a blind bidding process.
+Rather than relying on the waiver process where order determines which team has priority to acquire a player, FAAB allows all teams to have an opportunity to add players through a blind bidding process.
+Each week waivers will process on day(s) and time(s) that are defined in the league settings.
+When waivers process, team managers win the player with the highest FAAB bid.
+
+<blockquote>
+FAAB bidding is a more strategic and fair approach to acquiring players off the
+waiver wire in fantasy football.
+</blockquote>
+
+Sleeper leagues default budget is set to $100 FAAB for redraft leagues. 
+Some leagues may have different budgets (e.g., $1000), such as the default
+for Chopped leagues, or in the case that FAAB is defined by the league
+commissioner.
+Minimum bid amounts can be defined as well, but are set as $0 FAAB by default.
+The FAAB amounts do not roll over automatically from season-to-season and 
+it should never reset.
+
+# Managing Multiple Bids
+
+In the case of a team setting multiple waiver claims, waiver priorities are set by the bid amount.
+For example, a manager has a roster spot available and would like to acquire a RB.
+The manager can bid on multiple players, which are prioritized by the bid amount.
+In this case, the manager would acquire the RB they placed the highest FAAB bid value on if all other league teams were outbid.
+If the team did not win the RB they assigned with the highest bid/priority, they can still win other RBs if they have a higher FAAB bid than other teams.
+
+If a team bids the same FAAB amount on multiple players, the waiver priority
+can be adjusted on the Sleeper app under **Team > Transactions**.
+
+# FAAB Bid Tiebreaker
+
+If two or more teams bid the same amount, the tiebreaker is determined by 
+waiver wire priority, acting as rolling waivers.
+Waiver wire priority is listed in the league standings next to each team.
+
+The waiver priority starts based on the draft order. 
+For dynasty leagues, it is based on your most recent draft order. 
+This results in teams that had the 1st overall pick receiving the lowest waiver priority.
+Teams with the last pick would be given first priority on waivers.
+When a player is successfully claimed through waivers, the team’s waiver priority will be moved to the end of the queue and all other teams are moved up.
+Note that free agent acquisitions are not the same as waivers, and acquiring a player through free agency will not affect the priority order.
+
+# Invalid Waiver Claims
+
+In some instances, you may see teams that had entered a higher bid but lost the claim. These teams will have **(Invalid)** listed next to them. 
+Invalid waiver claims can be due to a number of reasons, such as not enough FAAB, or not enough roster space due to already acquiring another player.
+Invalid claims can also occur when a team attempts to drop a player paired with the FAAB bid, but the player was already dropped from a previous acquisition from a winning FAAB bid.
+Teams could still have an open roster spot to add the player, however, the bid would be unsuccessful because the dropped player defined in the bid is required to be a part of it. 

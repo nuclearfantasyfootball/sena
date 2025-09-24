@@ -1,7 +1,7 @@
 ---
 title: "Potential Implications of Trades Made on the Weekend" 
 subtitle: "Understanding the nuances of weekend trades"
-tagline: "What Happens to a Trade if it is on the Weekend?"
+tagline: "What Happens to a Trade on the Weekend?"
 author: "NuclearFF Team"
 created: "2024-02-05"
 updated: "2024-11-28"

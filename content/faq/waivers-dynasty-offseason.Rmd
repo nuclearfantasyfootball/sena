@@ -1,0 +1,39 @@
+---
+title: "Waivers in the Off-Season"
+subtitle: "Consider how waivers operate in leagues during the off-season"
+tagline: "How Do Waivers Change in the Off-Season?"
+author: "Nolan MacDonald"
+created: "2025-09-23"
+updated: "2025-09-23"
+category: "waivers"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Off-Season Waivers
+
+During the off-season, waivers are still processed for dynasty and keeper
+leagues.
+Redraft leagues reset rosters after the season, so waivers are not processed
+until the new season begins.
+Once a league's championship has been decided, the league off-season begins
+once the league is renewed for the next season.
+*Any moves made after the championship is decided, if allowed, will not be
+recorded when a league is transitioned to the next season.*
+
+<blockquote>
+In dynasty and keeper leagues, year-round player movement is allowed,
+beginning with the transition of a league to a new season.
+</blockquote>
+
+# Processing Off-Season Waivers
+
+Off-season waivers may vary in frequency depending on the league settings.
+Check the league settings to determine when waivers are processed.
+This can vary from daily, several times per week, or weekly.
+
+Typically in NUCLEARFF leagues, waivers in the off-season are processed
+once per week. 
+This allows teams to make roster moves without the need to check daily,
+as the off-season is not as active as the regular season.
+
