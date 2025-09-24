@@ -128,7 +128,7 @@ welcome_section <- function(ns) {
                 tags$div(
                     class = "bg",
                     tags$div(
-                        class = "section-block section-block-left-half",
+                        class = "section-block",
                         # The duplicated text is used to drive a CSS chrome/glitch effect
                         tags$h2(
                             class = "section-heading chrome",
@@ -139,6 +139,7 @@ welcome_section <- function(ns) {
                             class = "glass-effect section-card",
                             bslib::card_body(
                                 tags$h4(
+                                    tags$br(),
                                     "Reach critical mass.",
                                     tags$br(),
                                     "Create unstoppable momentum."
@@ -147,7 +148,9 @@ welcome_section <- function(ns) {
                                 tags$p(
                                     "Fantasy football is a game of cascading consequences.",
                                     tags$br(),
-                                    "Every decision you make from draft day to championship week fuels a chain reaction across your roster, league, and season."
+                                    "Every decision you make from draft day to championship week fuels a chain reaction across your roster, league, and season.",
+                                    tags$br(),
+                                    tags$br()
                                 )
                             )
                         ),
@@ -213,11 +216,33 @@ development_section <- function(ns) {
 development_overview <- function() {
     nav_panel(
         title = "OVERVIEW",
-        icon = bsicons::bs_icon("code"),
+        icon = icon("code"),
         tags$div(
             class = "p-3",
-            tags$h4("Overview"),
-            tags$p("Placeholder content for the development overview tab.")
+            # Title and logo container with content in right column
+            tags$div(
+                style = "display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; min-height: 100px;",
+                # LEFT COLUMN: Logo only
+                tags$a(
+                    href = "https://github.com/nuclearfantasyfootball",
+                    target = "_blank",
+                    class = "text-decoration-none",
+                    style = "display: block; width: 100%; align-self: start;",
+                    tags$img(
+                        src = "logos/packages/NuclearFF-Packages.png",
+                        alt = "NUCLEARFF R Packages",
+                        style = "width: 100%; height: auto; object-fit: contain; display: block; vertical-align: top;"
+                    )
+                ),
+                # RIGHT COLUMN: Title AND content together
+                tags$div(
+                    tags$h4("OVERVIEW", class = "mb-0"),
+                    tags$div(
+                        style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
+                        tags$p("Placeholder content for the development tab.")
+                    )
+                )
+            )
         )
     )
 }
@@ -231,11 +256,66 @@ development_overview <- function() {
 development_sena <- function() {
     nav_panel(
         title = "SENA",
-        icon = bsicons::bs_icon("stack"),
+        icon = icon("sitemap"),
         tags$div(
             class = "p-3",
-            tags$h4("SENA"),
-            tags$p("Placeholder content for the development tab.")
+            # Title and logo container with content in left column
+            tags$div(
+                style = "display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; min-height: 100px;",
+                # LEFT COLUMN: Title AND content together
+                tags$div(
+                    tags$h4("SENA", class = "mb-0"),
+                    tags$div(
+                        style = "margin-top: 0.5rem; text-align: left;", # Exactly 0.5rem below the title
+                        tags$p(
+                            HTML(
+                                "SENA (<strong>S</strong>hiny <strong>E</strong>ssentials for <strong>N</strong>uclearFF <strong>A</strong>pplications) is a modular R package designed to accelerate UI development in Shiny apps. It provides reusable components, layout utilities, and module scaffolding for rapid prototyping within the Nuclear Fantasy Football ecosystem."
+                            )
+                        ),
+                        # CREATED badge alone
+                        tags$div(
+                            style = "margin-top: 0.5rem;", # Space above badges
+                            HTML('<img src="https://img.shields.io/github/created-at/nuclearfantasyfootball/sena?style=for-the-badge&logo=github&label=Created&labelColor=%23181717">')
+                        ),
+                        tags$br(),
+                        # Language badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/languages/count/nuclearfantasyfootball/sena?style=for-the-badge&logo=github&labelColor=%23181717">',
+                                '<img src="https://img.shields.io/github/languages/top/nuclearfantasyfootball/sena?style=for-the-badge&logo=github&labelColor=%23181717">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Issues badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/issues/nuclearfantasyfootball/sena?style=for-the-badge&logo=github&labelColor=%23181717">',
+                                '<img src="https://img.shields.io/github/issues-pr/nuclearfantasyfootball/sena?style=for-the-badge&logo=github&labelColor=%23181717">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Versioning badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/r-package/v/nuclearfantasyfootball/sena?style=for-the-badge&logo=r&label=Version&labelColor=%23276DC3">',
+                                '<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=for-the-badge&label=Lifecycle&labelColor=%23181717">'
+                            ))
+                        )
+                    )
+                ),
+                # RIGHT COLUMN: Logo only
+                tags$a(
+                    href = "https://github.com/nuclearfantasyfootball/sena",
+                    target = "_blank",
+                    class = "text-decoration-none",
+                    style = "display: block; width: 100%; align-self: start;",
+                    tags$img(
+                        src = "logos/packages/Sena-Package-Transparent.png",
+                        alt = "SENA R Package Logo",
+                        style = "width: 100%; height: auto; object-fit: contain; display: block; vertical-align: top;"
+                    )
+                )
+            )
         )
     )
 }
@@ -248,14 +328,39 @@ development_sena <- function() {
 development_otis <- function() {
     nav_panel(
         title = "OTIS",
-        icon = bsicons::bs_icon("book"),
+        icon = icon("share-nodes"),
         tags$div(
             class = "p-3",
-            tags$h4("OTIS"),
-            tags$p("Placeholder content for the development tab.")
+            # Title and logo container with content in right column
+            tags$div(
+                style = "display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; min-height: 100px;",
+                # LEFT COLUMN: Logo only
+                tags$a(
+                    href = "https://github.com/nuclearfantasyfootball/otis",
+                    target = "_blank",
+                    class = "text-decoration-none",
+                    style = "display: block; width: 100%; align-self: start;",
+                    tags$img(
+                        src = "logos/packages/Otis-Package-Transparent.png",
+                        alt = "OTIS R Package Logo",
+                        style = "width: 100%; height: auto; object-fit: contain; display: block; vertical-align: top;"
+                    )
+                ),
+                # RIGHT COLUMN: Title AND content together
+                tags$div(
+                    tags$h4("OTIS", class = "mb-0"),
+                    tags$div(
+                        style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
+                        tags$p("Placeholder content for the development tab.")
+                    )
+                )
+            )
         )
     )
 }
+
+
+
 
 #' Development GERALD Tab
 #'
@@ -265,11 +370,33 @@ development_otis <- function() {
 development_gerald <- function() {
     nav_panel(
         title = "GERALD",
-        icon = bsicons::bs_icon("envelope"),
+        icon = icon("cube"),
         tags$div(
             class = "p-3",
-            tags$h4("GERALD"),
-            tags$p("Placeholder content for the development tab.")
+            # Title and logo container with content in left column
+            tags$div(
+                style = "display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; min-height: 100px;",
+                # LEFT COLUMN: Title AND content together
+                tags$div(
+                    tags$h4("GERALD", class = "mb-0"),
+                    tags$div(
+                        style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
+                        tags$p("Placeholder content for the development tab.")
+                    )
+                ),
+                # RIGHT COLUMN: Logo only
+                tags$a(
+                    href = "https://github.com/nuclearfantasyfootball/gerald",
+                    target = "_blank",
+                    class = "text-decoration-none",
+                    style = "display: block; width: 100%; align-self: start;",
+                    tags$img(
+                        src = "logos/packages/Gerald-Package-Transparent.png",
+                        alt = "GERALD R Package Logo",
+                        style = "width: 100%; height: auto; object-fit: contain; display: block; vertical-align: top;"
+                    )
+                )
+            )
         )
     )
 }
