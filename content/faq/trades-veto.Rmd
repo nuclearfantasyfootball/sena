@@ -1,0 +1,46 @@
+---
+title: "Approving or Denying Trades via Veto"
+subtitle: "League votes to approve or deny a trade with a veto"
+tagline: "When Accepting a Trade, Can the Trade Be Vetoed?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "trades"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Accepting a Trade
+
+Trades within a league are allowed for teams to ideally both benefit from 
+swapping players or draft picks.
+Typically, teams may have opinions on the fairness of the trade and have
+the option to approve or deny the trade via league majority vote.
+This is also known as a *trade veto*, and if enabled in league settings,
+a poll to approve or deny the trade is automatically populated in the league
+chat on Sleeper.
+Although a trade can be vetoed with majority votes from other teams, it is
+ultimately up to the commissioner.
+The commissioner can approve or deny the trade prior to the poll expiring.
+
+# Trade Vetoes
+
+Trade value for players are opinionated, and at times others may view a team
+clearly won a trade and gained an advantage.
+Regardless if a team won or lost a trade, the trade should be approved 
+as both teams accepted the terms hoping to improve their roster or draft capital.
+By allowing the trade veto polling process, this allows for possible 
+influence of each team's opinion on the trade and could result in a team
+getting cold feet from others opinions.
+
+<blockquote>
+In leagues coordinated by Nuclear Fantasy Football, trade vetoes are disabled.
+Opinions from other teams in a league are dogmatic, and it is ultimately
+up to the parties involved to determine if they wanted to move forward when they
+accepted the trade.
+</blockquote>
+
+There is one case where a trade can be vetoed.
+If the trade is viewed as collusion and so lopsided that it does not appear
+both owners realistically viewed it as a benefit, then it is up to the league
+commissioner to make the decision on a trade veto.
