@@ -5,7 +5,7 @@ tagline: "What is the 24-Hour Rule for Free Agents?"
 author: "Nolan MacDonald"
 created: "2025-09-24"
 updated: "2025-09-24"
-category: "rosters"
+category: "waivers"
 author_avatar: "logos/nuclearff-logo.png"
 output: html_fragment
 ---
