@@ -269,7 +269,13 @@ development_sena <- function() {
                         style = "margin-top: 0.5rem; text-align: left;", # Exactly 0.5rem below the title
                         tags$p(
                             HTML(
-                                "SENA (<strong>S</strong>hiny <strong>E</strong>ssentials for <strong>N</strong>uclearFF <strong>A</strong>pplications) is a modular R package designed to accelerate UI development in Shiny apps. It provides reusable components, layout utilities, and module scaffolding for rapid prototyping within the Nuclear Fantasy Football ecosystem."
+                                paste0(
+                                    '<strong><span style="color: #ce0fa0;">S</span></strong>hiny ',
+                                    '<strong><span style="color: #ce0fa0;">E</span></strong>ssentials for ',
+                                    '<strong><span style="color: #ce0fa0;">N</span></strong>uclearFF ',
+                                    '<strong><span style="color: #ce0fa0;">A</span></strong>pplications, or SENA, is a modular R package designed to accelerate UI development in Shiny apps. ',
+                                    "It provides reusable components, layout utilities, and module scaffolding for rapid prototyping within the Nuclear Fantasy Football ecosystem."
+                                )
                             )
                         ),
                         # CREATED badge alone
@@ -351,7 +357,18 @@ development_otis <- function() {
                     tags$h4("OTIS", class = "mb-0"),
                     tags$div(
                         style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
-                        tags$p("Placeholder content for the development tab.")
+                        tags$p(
+                            HTML(
+                                paste0(
+                                    '<strong><span style="color: #0fa0ce;">O</span></strong>ptimized ',
+                                    '<strong><span style="color: #0fa0ce;">T</span></strong>oolkit ',
+                                    '<strong><span style="color: #0fa0ce;">I</span></strong>ntegrating ',
+                                    '<strong><span style="color: #0fa0ce;">S</span></strong>leeper, ',
+                                    "or OTIS, is an R package utilized to pull and parse data from the Sleeper API. ",
+                                    "OTIS pulls from all Sleeper API endpoints and wrangles the data into easy to read information. "
+                                )
+                            )
+                        )
                     )
                 )
             )
@@ -381,7 +398,21 @@ development_gerald <- function() {
                     tags$h4("GERALD", class = "mb-0"),
                     tags$div(
                         style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
-                        tags$p("Placeholder content for the development tab.")
+                        tags$p(
+                            HTML(
+                                paste0(
+                                    '<strong><span style="color: #9d0fce;">G</span></strong>ridiron ',
+                                    '<strong><span style="color: #9d0fce;">E</span></strong>ngine for ',
+                                    '<strong><span style="color: #9d0fce;">R</span></strong>esearch, ',
+                                    '<strong><span style="color: #9d0fce;">A</span></strong>nalytics, and ',
+                                    '<strong><span style="color: #9d0fce;">L</span></strong>eague ',
+                                    '<strong><span style="color: #9d0fce;">D</span></strong>ata, ',
+                                    "or GERALD, is an R package utilized to obtain NFL information and statistics. ",
+                                    "GERALD is utilized for NFL and fantasy football analytics with up-to-date ",
+                                    "league data. "
+                                )
+                            )
+                        )
                     )
                 ),
                 # RIGHT COLUMN: Logo only
