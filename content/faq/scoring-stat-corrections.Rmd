@@ -1,0 +1,40 @@
+---
+title: "Stat Corrections and Finalizing Matchups"
+subtitle: "When stat corrections can happen and potential outcomes"
+tagline: "Why Were a Player's Stats Changed?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "scoring"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Stat Corrections
+
+If you are trying to determine why a player's stats changed it likely means that you
+are in a very tight weekly matchup.
+Regardless, orrections to game statistics for a player can be changed throughout the week
+on Sleeper.
+Sleeper can add corrections up to and including Thursdays, although the platform
+notes that most corrections happen on Monday and Tuesday.
+Stat corrections happen, and although not common, can impact the result of a team's weekly matchup.
+If using Sleeper, the weekly report does not imply that a matchup is final, 
+and corrections can occur after the report is posted.
+
+<blockquote>
+Sleeper can make stat corrections up to including Thursdays, although most occur on
+Monday and Tuesday.
+In addition, a weekly NFL stat correction list is published, although these may 
+not be the only corrections needed in Sleeper.
+</blockquote>
+
+Each week an [NFL stat correction list](https://fantasy.nfl.com/research/statcorrections?position=O&sort=pts&statCategory=stats&statSeason=2020&statType=weekStats&statWeek=1) is published.
+Official stat corrections are released weekly by the NFL League Office and the official statistician of the NFL, Elias Sports Bureau.
+Sleeper stat corrections could match the NFL public stat correction list, 
+but they are not always the same.
+Sleeper obtains data from a separate data provider that may have their own errors.
+In this case, Sleeper and their provider will make corrections to match NFL stats.
+
+*If a team wants to view the stat corrections, navigate to your league settings and
+select "Stat Corrections" to view any weekly adjustments.*
