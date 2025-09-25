@@ -1,0 +1,27 @@
+---
+title: "Player Points and What Counts"
+subtitle: "Understand how players on your roster can score and lose points"
+tagline: "Why Did My Player Lose Points for a Special Teams Fumble?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "scoring"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Scoring Settings
+
+In a league's scoring settings, there is typically a penalty for fumbles lost.
+In Sleeper, this is located in the scoring settings category "Miscellaneous".
+Miscellaneous lists points for a fumble and fumble lost.
+Fumbles and fumbles lost are applicable to all plays, not just offensive 
+plays.
+
+<blockquote>
+Miscellaneous scoring setting apply to players for **ANY** type of play and is 
+not limited to offense.
+</blockquote>
+
+This means that if you start a player in your lineup and they lose a fumble on any play,
+including kick and punt returns, they will lose points if the settings list negative points. If a league decides to limit fumbles to just offense on Sleeper, the commissioner will have to manually adjust scores any time this occurs.
