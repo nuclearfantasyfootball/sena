@@ -1,0 +1,43 @@
+---
+title: "Slow Drafts"
+subtitle: "Drafting in a format in a longer timeframe"
+tagline: "What are Slow Drafts?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "drafting"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Slow Drafts
+
+When drafting, each team has a set amount of time to make their pick.
+In slow drafts, the amount of time to make a pick spans between 8-24 hours.
+Slow drafts allow teams in many different locations to conduct a draft without
+requiring everyone to meet at a certain time.
+
+Slow drafts allow for teams to pick whenever they are on the clock, as they
+do not need to wait the full 8-24 hours.
+If a team does not pick and the clock expires, a CPU auto-pick will make the
+selection.
+CPU auto-pick will follow a team's queue when making the pick if it has been setup.
+If no queue is setup, CPU auto-pick will consider a team's
+positional needs and select one of the higher-ranked players available.
+
+In addition, slow drafts have the option to auto-pause daily between certain times
+so that no clock runs.
+Teams can still pick if they are up to pick when the draft is paused.
+
+<blockquote>
+Slow drafts allow for teams to draft over a long period without everyone present
+to draft at a set time.
+</blockquote>
+
+Nuclear Fantasy Football slow drafts are typically set for pick time limits of 
+8 hours, and a draft auto-pause for 12 hours each evening.
+This format allows for flexibility where teams don't need to worry about sleeping
+or working through a pick.
+In addition, if a draft lasts for an extremely long time (15-30 days), 
+there is an option that is used to shorten the pick clock as long as all teams
+in the league are in agreement.
