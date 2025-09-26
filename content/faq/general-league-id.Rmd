@@ -1,0 +1,40 @@
+---
+title: "Determining Your Sleeper League ID"
+subtitle: "Where teams can find their Sleeper league ID"
+tagline: "How Do I Find My League ID?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "general"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# League ID
+
+A Sleeper league ID can be used to load league data and information.
+There are two ways you can obtain a Sleeper league ID.
+The first is by navigating to the Sleeper website, and the second is by navigating to general settings in a league in the Sleeper app.
+
+## Website 
+
+On web applications, navigate to the Sleeper website.
+Once you login, it will load up a league or navigate to one.
+The web address should now have a portion that shows an 18-digit numeric string,
+which is your Sleeper league ID.
+
+<blockquote>
+<span style="font-weight:bold; font-family:'Roboto Mono', monospace;">https://sleeper.com/leagues/</span>
+<span style="font-weight:bold; background-color:#ffde64; font-family:'Roboto Mono', monospace;">1190192546172342272</span>
+</blockquote>
+
+## Mobile App
+
+On the mobile app, go to a league after you log in.
+In the top right, there should be a settings button.
+Navigate to *General* and at the bottom of general settings should be an option that says *COPY LEAGUE ID*.
+
+<blockquote>
+<span style="font-weight:bold; font-family:'Roboto Mono', monospace;">COPY LEAGUE ID</span>
+<span style="font-weight:bold; font-family:'Roboto Mono', monospace; float:right;">1190192546172342272</span>
+</blockquote>
