@@ -1,0 +1,40 @@
+---
+title: "How Points For and Points Allowed Impact Standings"
+subtitle: "Points statistics impact and how they are determined"
+tagline: "What is PF, PA, and Max PF?"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
+category: "scoring"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Points For (PF) and Points Allowed (PA)
+
+Points For (PF) is the amount of points scored by a team in your league.
+PF is calculated weekly from the starting lineup of a team.
+Points Allowed (PA) is the amount of points scored against a team in your league.
+PA is the amount of points scored from the starting lineup of the opposing team in your league matchup.
+
+<blockquote>
+PF and PA are cumulative stats, where the sum PF and PA that each team has over the season is shown in the standings.
+PF is a tiebreaker in the standings, so if 2 teams finished the season with the same record, the team with the most PF will be seeded 1st in the playoffs.
+</blockquote>
+
+# Max Points For (Max PF)
+
+Max Points For (Max PF) is the maximum potential points or most points that a team could have scored.
+Max PF is calculated considering a team's starting lineup, and bench.
+The value for Max PF is the amount of points a team could have achieved in the best possible scenario when that team started every player on their roster with the highest amount of points for that week in the starting lineup.
+
+## Does Taxi Squad Count Towards Max PF
+
+If your league is a dynasty league, taxi squad also counts for Max PF by default on Sleeper.
+Some dynasty leagues do not count taxi squads as part of the max PF, as that is the development portion of a team's roster.
+Typically this happens in dynasty leagues that set rookie draft order by lowest max PF, where the lowest value is the 1st draft pick overall.
+This allows for dynasty leagues to be setup to reward the worst scoring teams with the highest draft picks and not just rely on the standings where teams could get a lucky win and lost the 1st pick overall.
+To not account for taxi squad scoring as part of the max PF, the league commissioner will typically calculate Max PF on their own and then announce the draft order.
+
+
+
