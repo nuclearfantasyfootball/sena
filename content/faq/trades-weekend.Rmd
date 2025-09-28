@@ -2,14 +2,29 @@
 title: "Potential Implications of Trades Made on the Weekend" 
 subtitle: "Understanding the nuances of weekend trades"
 tagline: "What Happens to a Trade on the Weekend?"
-author: "NuclearFF Team"
-created: "2024-02-05"
-updated: "2024-11-28"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
 category: "trading"
 author_avatar: "logos/nuclearff-logo.png"
 output: html_fragment
 ---
 
-## Potential Implications Weekend Trades
+# Potential Implications for Weekend Trades
 
-This is a smoke test. If you can see this, the render path works.
+There is a possibility that teams in a league will agree to a trade right before
+NFL games are scheduled to kickoff.
+The trade will process depending on the league setting, "Time to Review Pending Trades",
+which can be anywhere from no time at all, up to 3 days.
+One a trade is processed, this can create a unique situation on gamedays or weekends.
+
+<blockquote>
+If a trade is processed on gamedays or weekends, there is a unique situation where one party in the trade could use their newly acquired players and the other party cannot.
+Players cannot be used in the event that their game has already started.
+</blockquote>
+
+Processed trades will allow for any player *who has not yet played* to become available
+for the new team to utilize immediately.
+If a player has *already played that week*, then the player is locked into the original
+team's roster with the designation, "Off Roster".
+This means that the team acquiring a player who has played or their game has already started will not be able to use them or acquire any points they earned that week.
