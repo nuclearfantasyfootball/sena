@@ -1,0 +1,57 @@
+---
+title: "Dynasty Leagues Startup and Rookie Drafts"
+subtitle: "Understanding dynasty league drafts and what to expect"
+tagline: "How Do Dynasty Drafts Work?"
+author: "Nolan MacDonald"
+created: "2025-10-01"
+updated: "2025-10-01"
+category: "drafting"
+author_avatar: "logos/nuclearff-logo.png"
+output: html_fragment
+---
+
+# Dynasty Leagues
+
+Dynasty leagues operate differently than traditional redraft leagues.
+In a dynasty league, the players are retained year-over-year on a team's roster.
+This means that the dynasty league will not draft a completely new roster each off-season.
+Dynasty leagues allow you to get a general manager experience, where you evaluate rookie talent in yearly drafts, as well as determine what aging players to retain on your roster.
+In the dynasty format, teams will need to manage their roster considering player age, injuries, new teams, new contracts, and new roles.
+Dynasty leagues typically begin with a startup draft and then shift to rookie drafts every off-season.
+This creates a dynamic where players are typically moved more via trades and a greater focus is put on the rookie draft in the off-season to acquire new talent.
+
+
+<blockquote>
+Startup drafts can vary, commonly setup as a combined draft with rookies and veterans or separated into rookie and veteran drafts.
+</blockquote>
+
+The key difference in dynasty leagues is that the fantasy football league will operate year-round. There is a larger emphasis on picking up young talent in the off-season via the rookie draft and waivers.
+Dynasty drafts also have additional rounds to fill deeper benches and a taxi squad.
+
+# Dynasty Startup Drafts
+
+In dynasty startup drafts there are two common league setups that change how you draft your initial team in a new dynasty league.
+
+<blockquote>
+Dynasty startup drafts are typically setup to either draft both rookie and veteran players together, or separate the veterans into a separate draft so that teams can focus on building the foundation of their roster.
+</blockquote>
+
+The first common startup draft is setup to keep both veterans and rookies together in a 
+single draft. 
+This means that teams may select from all players, young and old, creating a free-for-all pool of players that allow teams to go and get their guy.
+The second draft setup that is common is to separate the rookie and veteran players into two drafts. 
+This allows for teams to create their core roster based on veteran players and then take a shot at the most recent rookie draft class.
+Dependent upon how a dynasty draft and league is setup, there are several different strategies that a team can implement dependent on the league's startup draft.
+This can depend on the league's standard, half-PPR, or PPR scoring format,
+if superflex is enabled, or additional flex spots.
+
+Your strategy is the most important process to follow, keeping consistent throughout the draft. The process can vary depending on scoring or roster positions, but remaining consistent keeps a team's roster building on track.
+
+# What to Expect Each Off-Season
+
+Each league's off-season begins once the commissioner has renewed the league for another season on Sleeper.
+A league's off-season begins after the Super Bowl, and gears up around the time of the NFL Draft.
+Typically, a league will conduct a rookie draft shortly after the NFL draft finishes, allowing for teams to draft their own rookie prospects to their teams.
+This is the common process to promote teams to do their own research on a player and rely less on narratives when training camp begins.
+*Note that this is different than traditional fantasy football drafting, as the rookie draft will occur around June or July each off-season, rather than late august like redraft leagues.*
+
