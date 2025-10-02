@@ -238,14 +238,31 @@ development_overview <- function() {
                 tags$div(
                     tags$h4("OVERVIEW", class = "mb-0"),
                     tags$div(
-                        style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
-                        tags$p("Placeholder content for the development tab.")
+                        style = "margin-top: 0.5rem;", # spacing below the title
+
+                        # README content (text only, no PNG logo)
+                        tags$p("Nuclear Fantasy Football (NUCLEARFF) utilizes several packages for data management and analyses."),
+                        tags$p("The packages are developed for data wrangling and analyses of college football prospects, the National Football League (NFL), and fantasy football."),
+                        tags$p("The three packages that form the framework of NUCLEARFF are currently in the early stages of development:"),
+                        tags$ul(
+                            tags$li(
+                                tags$strong("OTIS"), " – Optimized Toolkit Interfacing Sleeper. Provides functions for pulling, parsing, and analyzing Sleeper fantasy football data."
+                            ),
+                            tags$li(
+                                tags$strong("SENA"), " – Shiny Essentials for NuclearFF Applications. Contains Shiny modules and utilities for rapidly building interactive fantasy football dashboards and applications."
+                            ),
+                            tags$li(
+                                tags$strong("GERALD"), " – Gridiron Engine for Research, Analytics, and League Data. Focuses on statistical models, predictive analytics, and advanced insights using NFL and fantasy football data."
+                            )
+                        ),
+                        tags$p("Together, these packages create a modular and extensible framework for fantasy football analytics within the Nuclear Fantasy Football ecosystem.")
                     )
                 )
             )
         )
     )
 }
+
 
 #' Development SENA Tab
 #'
@@ -364,8 +381,8 @@ development_otis <- function() {
                                     '<strong><span style="color: #0fa0ce;">T</span></strong>oolkit ',
                                     '<strong><span style="color: #0fa0ce;">I</span></strong>ntegrating ',
                                     '<strong><span style="color: #0fa0ce;">S</span></strong>leeper, ',
-                                    "or OTIS, is an R package utilized to pull and parse data from the Sleeper API. ",
-                                    "OTIS pulls from all Sleeper API endpoints and wrangles the data into easy to read information. "
+                                    "(OTIS) is an R package that provides a convenient interface to the Sleeper Fantasy Football API. ",
+                                    "OTIS makes it easy to pull data from your fantasy football leagues on Sleeper, whether by username or league ID, and transform it into R-friendly formats for analysis, visualization, or integration into apps such as Shiny. "
                                 )
                             )
                         ),
