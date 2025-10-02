@@ -1,0 +1,48 @@
+
+
+
+<!-- MathJax Addition to Render LaTeX Equations -->
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<h1 id="extra-game-against-league-median">Extra Game Against League
+Median</h1>
+<p>An additional setting that can enabled in fantasy football leagues is
+extra game against league median, where each week teams have an
+additional matchup against the league median score. This means that in
+addition to a regular weekly matchup against another team, teams also
+have a matchup against the median score of all teams in the league.
+Enabling the option of an extra game each week against the league median
+applies to the regular season only.</p>
+<h1 id="impact-on-standings">Impact on Standings</h1>
+<p>Enabling an extra game each week against league median awards top
+performing teams with an additional win, while the teams scoring less
+than the median receive a loss. The purpose of implementing this setting
+is to reward high-scoring teams for the weekly performance, even if the
+team lost in a tough head-to-head matchup.</p>
+<blockquote>
+Extra game against league median helps create a more fair option for
+teams when they finish in the top half in weekly scoring, but still lost
+the head-to-head matchup.
+</blockquote>
+<p>Adding a league median minimizes the impact of luck in head-to-head
+matchups. Luck is still a factor in fantasy football, and enabling this
+setting does not eliminate luck, but it does create a more balanced
+approach to the league standings based on how they perform.</p>
+<h1 id="calculate-league-median">Calculate League Median</h1>
+<p>The league median is calculated by considering weekly scores of all
+teams in a league, and taking the average of the two teams in the middle
+of the scoring distribution. For example, in a 10-team league, the
+median is calculated by averaging the 5th and 6th highest scores of the
+week. If the 5th highest score for the week is 120 points and the 6th
+highest score is 115 points, the league median takes the average of
+these two scores.</p>
+<p><span class="math display">\[
+\text{League Median} = \frac{120 + 115}{2} = 117.5
+\]</span></p>
+<p>In this example, the league median score for the week is 117.5
+points. Teams that score above 117.5 points would win an extra matchup
+for the week, and teams that score below would lose, creating the
+possibility of a team going 2-0 in a week, 1-1, or 0-2.</p>
+<h2 id="possibility-of-a-tie">Possibility of a Tie</h2>
+<p>In the event that a team scores exactly the same as the league
+median, a tie is issued for the week. This is an extremely rare
+occurrence, but it is possible.</p>

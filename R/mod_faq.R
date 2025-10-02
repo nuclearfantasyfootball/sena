@@ -309,7 +309,7 @@ render_article_view <- function(ns, article_data) {
                     # Article content
                     tags$div(
                         class = "article-body",
-                        render_rmd_content(article_data$rmd_file)
+                        render_html_content(article_data$article_id)
                     ),
 
                     # Navigation
@@ -375,6 +375,22 @@ render_rmd_content <- function(rmd_file) {
         )
     }
 }
+
+#' Render Pre-Rendered HTML Content
+#' @keywords internal
+render_html_content <- function(article_id) {
+    html_file <- file.path("www/content/faq", paste0(article_id, ".html"))
+
+    if (file.exists(html_file)) {
+        includeHTML(html_file)
+    } else {
+        tags$div(
+            class = "alert alert-info",
+            "This article is not yet available."
+        )
+    }
+}
+
 
 #' Updated Dynamic FAQ List Renderer
 #'
@@ -659,4 +675,59 @@ find_article_by_reference <- function(articles, reference) {
     }
 
     return(NULL)
+}
+
+#' Render FAQ Articles to HTML
+#'
+#' Pre-renders all `.Rmd` articles from content/faq/ to www/content/faq/.
+#'
+#' @param input_dir Path to the source Rmd FAQ files.
+#' @param output_dir Path where rendered HTML files should be stored.
+#' @param quiet Logical, suppress rmarkdown output if TRUE.
+#' @return Invisibly returns a vector of rendered HTML file paths.
+#' @export
+render_faq_articles <- function(input_dir = here::here("content/faq"),
+                                output_dir = here::here("www/content/faq"),
+                                quiet = TRUE) {
+    # normalize paths (turns relative into absolute)
+    input_dir <- normalizePath(input_dir, mustWork = TRUE)
+    output_dir <- normalizePath(output_dir, mustWork = FALSE)
+
+    if (!dir.exists(output_dir)) {
+        dir.create(output_dir, recursive = TRUE)
+        message("Created output directory: ", output_dir)
+    }
+
+    rmd_files <- list.files(input_dir, "\\.Rmd$", full.names = TRUE)
+
+    if (length(rmd_files) == 0) {
+        warning("No Rmd files found in: ", input_dir)
+        return(invisible(character()))
+    }
+
+    out_files <- character(length(rmd_files))
+
+    for (i in seq_along(rmd_files)) {
+        rmd <- rmd_files[[i]]
+        out_file <- file.path(
+            output_dir,
+            paste0(tools::file_path_sans_ext(basename(rmd)), ".html")
+        )
+
+        rmarkdown::render(
+            input = rmd,
+            output_file = out_file,
+            output_format = rmarkdown::html_fragment(
+                self_contained = FALSE,
+                section_divs = FALSE
+            ),
+            quiet = quiet,
+            envir = new.env()
+        )
+
+        out_files[[i]] <- out_file
+        message("Rendered: ", basename(rmd), " → ", out_file)
+    }
+
+    invisible(out_files)
 }
