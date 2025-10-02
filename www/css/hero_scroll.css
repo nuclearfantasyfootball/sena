@@ -235,34 +235,6 @@
   z-index: 999;
 }
 
-/* CTA button */
-.scroll-cta {
-  font-family: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  border-radius: 0.5rem;
-  background: rgba(206, 15, 160, 0.9);
-  border: 2px solid #ce0fa0;
-  color: white;
-  transition: all 0.3s ease;
-  cursor: pointer;
-  z-index: 10;
-}
-
-.scroll-cta:hover {
-  background: #ce0fa0;
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(206, 15, 160, 0.4);
-}
-
-/* Clip text for animation */
-.clip-text {
-  overflow: hidden;
-}
-
 /* Ensure the Home scroller never blocks other tabs when hidden */
 .scroll-container[aria-hidden="true"] {
   display: none !important;   /* remove from flow & hit-testing */

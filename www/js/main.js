@@ -150,15 +150,40 @@ function initNavbarAutoCollapse() {
       link.addEventListener('click', () => handleNavbarCollapse());
     });
 
-    const setupThemeToggleCollapse = () => {
-      const themeToggle = document.querySelector('#toggle_theme, .nav-icon-btn');
-      if (themeToggle) {
-        themeToggle.addEventListener('click', () => handleNavbarCollapse());
-      } else {
-        setTimeout(setupThemeToggleCollapse, 500);
+    function onThemeClick() {
+      const curTheme = document.documentElement.getAttribute('data-bs-theme') || 'dark';
+      toggleTheme(curTheme === 'light' ? 'dark' : 'light');
+      if (typeof handleNavbarCollapse === 'function') {
+        handleNavbarCollapse();  // Optional: preserve mobile collapse behavior
       }
-    };
-    setupThemeToggleCollapse();
+    }
+
+    function bindThemeToggle() {
+      const selector = '#toggle_theme, .nav-icon-btn';
+      const tryBind = () => {
+        const btn = document.querySelector(selector);
+        if (!btn) {
+          setTimeout(tryBind, 500);
+          return;
+        }
+        btn.removeEventListener('click', onThemeClick);  // Prevent duplicates
+        btn.addEventListener('click', onThemeClick);
+      };
+      tryBind();
+    }
+
+    // Attach on DOM ready
+    document.addEventListener('DOMContentLoaded', () => {
+      bindThemeToggle();
+    });
+
+    // Re-bind on tab switch if using Shiny routing
+    if (window.Shiny) {
+      Shiny.addCustomMessageHandler('tabChanged', function(tab) {
+        setTimeout(bindThemeToggle, 500);
+      });
+    }
+
   };
 
   setupAutoCollapse();

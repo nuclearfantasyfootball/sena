@@ -127,16 +127,6 @@ body {
   background: radial-gradient(80% 60% at 50% 40%, rgba(0,0,0,.20), rgba(0,0,0,.60));
 }
 
-/* Hero minimal layout */
-.hero-section.hero-minimal { 
-  position: relative; 
-  min-height: 100vh; 
-}
-
-.hero-section.hero-minimal .hero-overlay { 
-  pointer-events: none; 
-}
-
 /* Hero center block */
 .hero-center {
   position: absolute; 
@@ -655,45 +645,6 @@ body {
 .nff-light .league-nav-btn.active {
   background-color: #0fa0ce;
   color: #fff;
-}
-
-/* League Format Toggle */
-.league-format-header {
-  display: flex;
-  align-items: center !important;
-}
-
-.league-format-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: .25rem;
-  border: 0;
-  background: transparent;
-  padding: .25rem 0;
-  color: inherit;
-  cursor: pointer;
-  width: auto;
-  margin-top: 1rem;
-  margin-bottom: -1.25rem !important;
-}
-
-.league-format-toggle .toggle-icon {
-  width: 1em;
-  height: 1em;
-  flex: 0 0 auto;
-  transition: transform .2s ease;
-}
-
-.league-format-toggle[aria-expanded="true"] .toggle-icon {
-  transform: rotate(90deg);
-}
-
-.league-format-toggle .toggle-text {
-  font-size: 1.125rem;
-  font-weight: 600;
-  line-height: 1.1;
-  margin: 0;
-  white-space: nowrap;
 }
 
 /* =================== CUSTOM LEAGUE PAGE SPACING =================== */
@@ -1695,39 +1646,6 @@ body {
         margin-right: 0.75rem;
     }
 }
-
-/* =============================== FAAB DEMO =============================== */
-/* Phone-style card + claims */
-.nff-phone { border-radius: 24px; box-shadow: 0 8px 28px rgba(0,0,0,.25); }
-.nff-claims-wrap { display: flex; flex-direction: column; }
-.nff-claim {
-  display: grid;
-  grid-template-columns: 1fr auto auto auto;
-  align-items: center;
-  gap: .5rem;
-  padding: .5rem .75rem;
-  border-bottom: 1px solid var(--bs-border-color);
-}
-.nff-claim:last-child { border-bottom: 0; }
-.nff-player { font-weight: 500; }
-.nff-bid, .nff-priority { font-weight: 600; }
-.nff-hint { font-size:.85rem; color: var(--bs-secondary-color); padding: .5rem .75rem; }
-
-/* Chips + status badges */
-.nff-chip {
-  font-size: .75rem; border-radius: 999px; padding: .1rem .5rem;
-  border: 1px dashed var(--bs-border-color);
-}
-.nff-chip-tie { opacity: .8; }
-
-.nff-status { padding: .15rem .55rem; border-radius: 999px; font-size: .8rem; font-weight: 600; }
-.nff-won     { background: rgba(16,185,129,.18); }   /* emerald-ish */
-.nff-outbid  { background: rgba(107,114,128,.18); }  /* gray-ish    */
-.nff-invalid { background: rgba(239,68,68,.18); }    /* red-ish     }
-
-/* Table container spacing */
-.nff-table-wrap { margin-top: .75rem; }
-.nff-legend { font-size: .9rem; color: var(--bs-secondary-color); margin-top: .5rem; }
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
