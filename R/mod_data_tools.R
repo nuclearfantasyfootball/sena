@@ -10,7 +10,7 @@ data_tools_ui <- function(id) {
 
     tagList(
         tags$div(
-            class = "tools-backdrop-wrapper nff-backdrop tools-content-section",
+            class = "tools-backdrop-wrapper tools-content-section",
 
             # Styled title for dataTable card
             tags$div(
