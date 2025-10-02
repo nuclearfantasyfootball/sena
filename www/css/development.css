@@ -26,7 +26,7 @@
   top: calc(var(--nav-offset) + var(--base-font-size) + var(--development-spacing)) !important;
   left: 5% !important;
   right: 5% !important;
-  bottom: 5% !important;
+  bottom: auto !important;
   margin: 0 !important;
   padding: 0 !important;
 }

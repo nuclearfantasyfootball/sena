@@ -190,7 +190,7 @@ development_section <- function(ns) {
                         class = "development-card-container",
                         bslib::card(
                             class = "glass-effect section-card no-tilt centered-nav-pills",
-                            style = "height: 100%; overflow-y: auto;",
+                            style = "height: auto; overflow-y: auto;",
                             # navset_pill groups related workstreams; each tab is a small helper
                             navset_pill(
                                 id = ns("dev_tabs"),
