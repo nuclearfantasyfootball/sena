@@ -254,8 +254,7 @@ development_overview <- function() {
                             tags$li(
                                 tags$strong("GERALD"), " – Gridiron Engine for Research, Analytics, and League Data. Focuses on statistical models, predictive analytics, and advanced insights using NFL and fantasy football data."
                             )
-                        ),
-                        tags$p("Together, these packages create a modular and extensible framework for fantasy football analytics within the Nuclear Fantasy Football ecosystem.")
+                        )
                     )
                 )
             )
@@ -423,8 +422,6 @@ development_otis <- function() {
 }
 
 
-
-
 #' Development GERALD Tab
 #'
 #' @title Development GERALD Tab
@@ -436,14 +433,15 @@ development_gerald <- function() {
         icon = icon("cube"),
         tags$div(
             class = "p-3",
-            # Title and logo container with content in left column
+            # Title and logo container with content in left column, logo in right (same as SENA)
             tags$div(
                 style = "display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: start; min-height: 100px;",
+
                 # LEFT COLUMN: Title AND content together
                 tags$div(
                     tags$h4("GERALD", class = "mb-0"),
                     tags$div(
-                        style = "margin-top: 0.5rem;", # Exactly 0.5rem below the title
+                        style = "margin-top: 0.5rem; text-align: left;", # identical to SENA
                         tags$p(
                             HTML(
                                 paste0(
@@ -454,44 +452,43 @@ development_gerald <- function() {
                                     '<strong><span style="color: #9d0fce;">L</span></strong>eague ',
                                     '<strong><span style="color: #9d0fce;">D</span></strong>ata, ',
                                     "or GERALD, is an R package utilized to obtain NFL information and statistics. ",
-                                    "GERALD is utilized for NFL and fantasy football analytics with up-to-date ",
-                                    "league data. "
+                                    "GERALD is used for NFL and fantasy football analytics with up-to-date league data."
                                 )
                             )
                         ),
                         # CREATED badge alone
                         tags$div(
-                            style = "margin-top: 0.5rem;", # Space above badges
-                            HTML('<img src="https://img.shields.io/github/created-at/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&color=%2300aeef&label=Created&labelColor=%23000&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">')
+                            style = "margin-top: 0.5rem;",
+                            HTML('<img src="https://img.shields.io/github/created-at/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&label=Created&labelColor=%23181717">')
                         ),
                         tags$br(),
                         # Language badges
                         tags$div(
                             HTML(paste(
-                                '<img src="https://img.shields.io/github/languages/count/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">',
-                                '<img src="https://img.shields.io/github/languages/top/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">'
+                                '<img src="https://img.shields.io/github/languages/count/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717">',
+                                '<img src="https://img.shields.io/github/languages/top/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717">'
                             ))
                         ),
                         tags$br(),
                         # Issues badges
                         tags$div(
                             HTML(paste(
-                                '<img src="https://img.shields.io/github/issues/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald%2Fissues">',
-                                '<img src="https://img.shields.io/github/issues-pr/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald%2Fpulls">'
+                                '<img src="https://img.shields.io/github/issues/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717">',
+                                '<img src="https://img.shields.io/github/issues-pr/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717">'
                             ))
                         ),
                         tags$br(),
                         # Versioning badges
                         tags$div(
                             HTML(paste(
-                                '<img src="https://img.shields.io/github/r-package/v/nuclearfantasyfootball/gerald?style=for-the-badge&logo=r&label=Version&labelColor=%23276DC3&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">',
-                                '<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=for-the-badge&label=Lifecycle&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">'
+                                '<img src="https://img.shields.io/github/r-package/v/nuclearfantasyfootball/gerald?style=for-the-badge&logo=r&label=Version&labelColor=%23276DC3">',
+                                '<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=for-the-badge&label=Lifecycle&labelColor=%23181717">'
                             ))
                         )
                     )
                 ),
 
-                # RIGHT COLUMN: Logo only
+                # RIGHT COLUMN: Logo only (same position as SENA)
                 tags$a(
                     href = "https://github.com/nuclearfantasyfootball/gerald",
                     target = "_blank",
@@ -507,6 +504,7 @@ development_gerald <- function() {
         )
     )
 }
+
 
 #' Community Section
 #'
