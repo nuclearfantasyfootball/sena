@@ -1,15 +1,10 @@
 /* =================== SCROLL INDICATOR STYLES =================== */
-/* Save this as www/css/scroll_indicator.css */
 
 /* Main container for scroll indicator */
-/* TODO CENTER THE SCROLL ARROW ON THE BOTTOM MIDDLE */
-/* TODO R MARKDOWN ARTICLES */
-/* TODO TRANSPARENT GLASS NAVBAR */
-/* TODO ADD QUOTE BLOCK FOR ARTICLES */
 .scroll-indicator {
   position: fixed !important;
-  bottom: 5% !important;  /* Positioned below the electrified button */
-  right: 5% !important;   /* Aligned with electrified button */
+  bottom: 3% !important;
+  right: 7% !important;
   z-index: 100;
   cursor: pointer;
   display: flex;
@@ -17,14 +12,14 @@
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  animation: fadeInScroll 1s ease-out 3s forwards; /* Use new animation */
+  animation: fadeInScroll 1s ease-out 3s forwards;
 }
 
 /* New animation without vertical translation */
 @keyframes fadeInScroll {
   from {
     opacity: 0;
-    transform: scale(0.8); /* Scale instead of translate */
+    transform: scale(0.8);
   }
   to {
     opacity: 1;
@@ -42,40 +37,21 @@
   height: 50px;
 }
 
-/* Individual arrows */
+/* Individual arrows - DOWNWARD (default) */
 .scroll-box span {
   width: 20px;
   height: 20px;
   display: block;
   border-right: 2px solid;
   border-bottom: 2px solid;
-  transform: rotate(45deg);
+  transform: rotate(45deg); /* Point down-right */
   margin: -10px;
-  animation: animateArrow 3s infinite;
+  animation: animateArrowDown 3s infinite;
   opacity: 0.5;
 }
 
-/* Dark mode arrow colors */
-[data-bs-theme="dark"] .scroll-box span {
-  border-color: #ffffff; /* Pink arrows in dark mode */
-}
-
-/* Light mode arrow colors */
-[data-bs-theme="light"] .scroll-box span {
-  border-color: #ffffff; /* Blue arrows in light mode */
-}
-
-/* Stagger animation delays */
-.scroll-box span:nth-child(2) {
-  animation-delay: -0.2s;
-}
-
-.scroll-box span:nth-child(3) {
-  animation-delay: -0.4s;
-}
-
-/* Arrow animation */
-@keyframes animateArrow {
+/* Downward arrow animation */
+@keyframes animateArrowDown {
   0% {
     opacity: 0;
     transform: rotate(45deg) translate(0, 0);
@@ -88,6 +64,25 @@
     opacity: 0;
     transform: rotate(45deg) translate(20px, 20px);
   }
+}
+
+/* Dark mode arrow colors */
+[data-bs-theme="dark"] .scroll-box span {
+  border-color: #ffffff;
+}
+
+/* Light mode arrow colors */
+[data-bs-theme="light"] .scroll-box span {
+  border-color: #ffffff;
+}
+
+/* Stagger animation delays */
+.scroll-box span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.scroll-box span:nth-child(3) {
+  animation-delay: -0.4s;
 }
 
 /* Scroll text below arrows */
@@ -103,13 +98,11 @@
 
 /* Dark mode text color */
 [data-bs-theme="dark"] .scroll-text {
-  /* color: rgba(206, 15, 160, 0.9); */
   color: #ffffff;
 }
 
 /* Light mode text color */
 [data-bs-theme="light"] .scroll-text {
-  /* color: rgba(15, 160, 206, 0.9); */
   color: #ffffff;
 }
 
@@ -119,27 +112,15 @@
 }
 
 [data-bs-theme="dark"] .scroll-indicator:hover .scroll-box span {
-  border-color: #ce0fa0; /* Full opacity on hover */
+  border-color: #ce0fa0;
 }
 
 [data-bs-theme="light"] .scroll-indicator:hover .scroll-box span {
-  border-color: #0fa0ce; /* Full opacity on hover */
+  border-color: #0fa0ce;
 }
 
 .scroll-indicator:hover .scroll-text {
   opacity: 1;
-}
-
-/* Fade in animation for initial appearance */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 /* Mobile adjustments */
@@ -147,7 +128,7 @@
   .scroll-indicator {
     bottom: 10%;
     right: 50%;
-    transform: translateX(50%); /* Center on mobile */
+    transform: translateX(50%);
   }
   
   .scroll-box {
@@ -174,5 +155,61 @@
     width: 16px;
     height: 16px;
     margin: -8px;
+  }
+}
+
+/* =================== SCROLL TO TOP INDICATOR =================== */
+/* Upward-pointing arrows for the last section */
+
+/* Position on the LEFT instead of right */
+.scroll-to-top {
+  right: auto !important;  /* Remove right positioning */
+  left: 7% !important;     /* Position on left at 5% */
+  bottom: 3% !important;
+}
+
+/* DON'T rotate the container - rotate the individual arrows instead */
+.scroll-to-top .scroll-box span {
+  /* Rotate each arrow 180 degrees to point upward */
+  transform: rotate(225deg); /* 45deg + 180deg = 225deg */
+  animation: animateArrowUp 3s infinite;
+}
+
+/* Upward arrow animation - reverse the translate direction */
+@keyframes animateArrowUp {
+  0% {
+    opacity: 0;
+    transform: rotate(225deg) translate(0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(225deg) translate(-10px, -10px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(225deg) translate(-20px, -20px);
+  }
+}
+
+/* Stagger animation delays - same as regular scroll indicator */
+.scroll-to-top .scroll-box span:nth-child(2) {
+  animation-delay: -0.2s;
+}
+
+.scroll-to-top .scroll-box span:nth-child(3) {
+  animation-delay: -0.4s;
+}
+
+/* Hover effect */
+.scroll-to-top:hover .scroll-box span {
+  animation-duration: 1.5s; /* Speed up on hover */
+}
+
+/* Mobile adjustments - center on mobile like regular scroll indicator */
+@media (max-width: 768px) {
+  .scroll-to-top {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%); /* Center on mobile */
   }
 }

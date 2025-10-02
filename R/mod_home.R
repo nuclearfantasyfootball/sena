@@ -542,7 +542,8 @@ community_section <- function(ns) {
                             )
                         )
                     ),
-                    create_scroll_indicator(ns, "4")
+                    # REPLACE the normal scroll indicator with scroll-to-top
+                    create_scroll_to_top_indicator(ns, "4")
                 )
             )
         )
@@ -565,6 +566,52 @@ create_scroll_indicator <- function(ns, id_suffix) {
         id = ns(paste0("scroll_indicator_", id_suffix)),
         text = "",
         onclick = "if(typeof currentIndex !== 'undefined') window.gotoSection(currentIndex + 1, 1); return false;"
+    )
+}
+
+#' Create Scroll to Top Indicator
+#'
+#' @title Scroll to Top Indicator Builder
+#' @description Creates a scroll indicator that points upward and returns to the
+#' hero section (section 0). Used on the final section of the home page.
+#'
+#' @param ns A namespace function created by [shiny::NS()].
+#' @param id_suffix Character. Unique suffix to namespace the indicator's ID.
+#'
+#' @return A `shiny.tag` representing the scroll-to-top indicator.
+create_scroll_to_top_indicator <- function(ns, id_suffix) {
+    scroll_to_top_indicator(
+        id = ns(paste0("scroll_top_indicator_", id_suffix)),
+        text = "",
+        onclick = "if(typeof window.gotoSection !== 'undefined') window.gotoSection(0, -1); return false;"
+    )
+}
+
+#' Scroll to Top Indicator Tag
+#'
+#' @title Scroll to Top Indicator Tag Builder
+#' @description The core tag generator for upward-pointing scroll indicators.
+#' Includes ARIA attributes for better screen reader support.
+#'
+#' @param id String. HTML element ID.
+#' @param text String. Visible label text. Defaults to "TOP".
+#' @param onclick String. JavaScript handler for click events.
+#'
+#' @return A `shiny.tag` representing the scroll-to-top indicator element.
+scroll_to_top_indicator <- function(
+    id,
+    text = "",
+    onclick = "window.gotoSection(0, -1); return false;") {
+    tags$div(
+        id = id,
+        class = "scroll-indicator scroll-to-top",
+        onclick = onclick,
+        role = "button",
+        tabindex = "0",
+        `aria-label` = "Scroll to top",
+        # Three spans inside a box - will be rotated via CSS
+        tags$div(class = "scroll-box", tags$span(), tags$span(), tags$span()),
+        tags$div(class = "scroll-text", text)
     )
 }
 
