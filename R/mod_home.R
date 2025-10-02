@@ -368,6 +368,35 @@ development_otis <- function() {
                                     "OTIS pulls from all Sleeper API endpoints and wrangles the data into easy to read information. "
                                 )
                             )
+                        ),
+                        # CREATED badge alone
+                        tags$div(
+                            style = "margin-top: 0.5rem;", # Space above badges
+                            HTML('<img src="https://img.shields.io/github/created-at/nuclearfantasyfootball/otis?style=for-the-badge&logo=github&color=%2300aeef&label=Created&labelColor=%23000&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis">')
+                        ),
+                        tags$br(),
+                        # Language badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/languages/count/nuclearfantasyfootball/otis?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis">',
+                                '<img src="https://img.shields.io/github/languages/top/nuclearfantasyfootball/otis?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Issues badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/issues/nuclearfantasyfootball/otis?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis%2Fissues">',
+                                '<img src="https://img.shields.io/github/issues-pr/nuclearfantasyfootball/otis?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis%2Fpulls">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Versioning badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/r-package/v/nuclearfantasyfootball/otis?style=for-the-badge&logo=r&label=Version&labelColor=%23276DC3&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis">',
+                                '<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=for-the-badge&label=Lifecycle&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fotis">'
+                            ))
                         )
                     )
                 )
@@ -412,9 +441,39 @@ development_gerald <- function() {
                                     "league data. "
                                 )
                             )
+                        ),
+                        # CREATED badge alone
+                        tags$div(
+                            style = "margin-top: 0.5rem;", # Space above badges
+                            HTML('<img src="https://img.shields.io/github/created-at/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&color=%2300aeef&label=Created&labelColor=%23000&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">')
+                        ),
+                        tags$br(),
+                        # Language badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/languages/count/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">',
+                                '<img src="https://img.shields.io/github/languages/top/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Issues badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/issues/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald%2Fissues">',
+                                '<img src="https://img.shields.io/github/issues-pr/nuclearfantasyfootball/gerald?style=for-the-badge&logo=github&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald%2Fpulls">'
+                            ))
+                        ),
+                        tags$br(),
+                        # Versioning badges
+                        tags$div(
+                            HTML(paste(
+                                '<img src="https://img.shields.io/github/r-package/v/nuclearfantasyfootball/gerald?style=for-the-badge&logo=r&label=Version&labelColor=%23276DC3&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">',
+                                '<img src="https://img.shields.io/badge/lifecycle-experimental-orange.svg?style=for-the-badge&label=Lifecycle&labelColor=%23181717&link=https%3A%2F%2Fgithub.com%2Fnuclearfantasyfootball%2Fgerald">'
+                            ))
                         )
                     )
                 ),
+
                 # RIGHT COLUMN: Logo only
                 tags$a(
                     href = "https://github.com/nuclearfantasyfootball/gerald",
