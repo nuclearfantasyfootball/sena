@@ -25,7 +25,7 @@ which is your Sleeper league ID.
 
 <blockquote>
 <span style="font-weight:bold; font-family:'Roboto Mono', monospace;">https://sleeper.com/leagues/</span>
-<span style="font-weight:bold; background-color:#ffde64; font-family:'Roboto Mono', monospace;">1190192546172342272</span>
+<span style="font-weight:bold; background-color:#ff8c00; font-family:'Roboto Mono', monospace;">1190192546172342272</span>
 </blockquote>
 
 ## Mobile App
