@@ -2,14 +2,83 @@
 title: "Different Types of Fantasy Leagues and Their Formats"
 subtitle: "Understand fantasy football different league types and alternative formats"
 tagline: "What Are the Common League Types and Formats?"
-author: "NuclearFF Team"
-created: "2024-02-05"
-updated: "2024-11-28"
+author: "Nolan MacDonald"
+created: "2025-09-24"
+updated: "2025-09-24"
 category: "general"
 author_avatar: "logos/nuclearff-logo.png"
 output: html_fragment
 ---
 
-## League Types
+# League Types
 
-This is a smoke test. If you can see this, the render path works.
+There are three main league types for fantasy football.
+The three types that are commonly referred to include redraft, dynasty, and keeper leagues.
+There are spin-offs for these 3 league types that allow for alternative formats.
+Common alternative formats are discussed further below, but note that they are all based one way or another on the three main league types of fantasy football.
+
+<blockquote>
+The main types of leagues that are commonly discussed include redraft leagues, dynasty leagues, and keeper leagues.
+Popular alternative formats are also discussed, but these formats are still built with the same foundation as the three main league types.
+</blockquote>
+
+Depending on your league type, this can impact the strategy for drafting, off-seasons, constructing a roster, and transactions.
+
+# Redraft Leagues
+
+Redraft leagues are the the most popular format in fantasy football, and one of the easiest league types to understand.
+Each year, a team will draft their entire roster prior to the NFL season kicking off.
+During the season the team will have weekly matchups against other teams in their league, where they will have to set their best starting lineup in an effort to score more points than the other team.
+As you stack up wins over the weeks, the teams with the best records will head to the fantasy football playoffs.
+In playoffs, teams will again compete by attempting to score more points than their opponent.
+The team that wins all of their matchups including the championship, is crowned league champion. 
+
+<blockquote>
+The key to redraft leagues is that you get to start fresh each off-season and construct your roster with a clean slate.
+</blockquote>
+
+Over the course of the season, a team will be able to add players via free agency or the waiver wire to improve their team.
+Teams are also allowed to trade players to try and improve their team, however, note that their is a trade deadline a few weeks before your league begins playoffs.
+
+There are many alternatives that follow the redraft league basic rules.
+Alternative formats such as chopped or guillotine leagues, vampire leagues, and joker leagues are draft a new roster each off-season but have their own twist to the redraft fantasy football format.
+
+## Chopped
+
+Chopped or guillotine is a variation of the fantasy football redraft leagues.
+Guillotine leagues were originally popularized by Paul Charchian, and implemented prior to the 2025 NFL season on Sleeper, termed "Chopped Leagues".
+Chopped leagues discard the week head-to-head matchup style of fantasy football by implementing a rule to eliminate the team with the most points scored, or points for (PF), each week.
+In addition, the team that is eliminated will drop all players on their roster to waivers, allowing for the surviving teams to continue to evolve their roster.
+Chopped leagues draft rosters yearly, analagous to redraft leagues, with 16-18 teams rather than the typical 10-12 teams.
+
+## Joker
+
+Joker leagues are a spin-off of redraft leagues by adding a significant point bonus to quarterbacks (QBs) that are awarded with a tackle during a game.
+QBs who make a tackle are typically awarded +100 points, winning your weekly matchup all in one play.
+Quarterbacks are typically penalized for throwing interceptions in a game, but this format allows for rooting for an interception as a QB tackle can win your weekly matchup.
+
+## Only One
+
+Only One leagues are another alternative to redraft leagues where instead of stacking your bench with handcuffs and potential breakout players, you are forced to have only 1 bench spot for the season.
+The Only One league format forces teams to hold onto their player they truly believe will break out or a key player that can be substituted into the starting lineup when needed.
+In addition, this format creates a lot more focus on using the waiver wire each week, and how you manage your FAAB budget when bidding on players.
+
+## 32-Man Chaos
+
+32-man chaos is exactly how it sounds, an alternative redraft league filled with 32 teams and pure chaos. 
+In this league format, teams will have much thinner rosters that likely lack depth in the case a player is hurt or on a bye week.
+Teams must evaluate players and predict breakouts or sleepers at a much higher rate to win this league.
+
+# Dynasty Leagues
+
+Dynasty leagues are long-term leagues that provide a general manager experience, as teams must retain their roster year-over-year and draft NFL rookies each off-season.
+Dynasty leagues draft every year after the NFL draft from the pool of rookies entering the NFL.
+Teams have a roster of players that do not recycle year-to-year and they must keep those players unless they are released or traded,
+Dynasty leagues provide a different experience for fantasy football advocates because it allows you to consider a number of new variables revolving around players that you want to keep or move each season.
+
+# Keeper Leagues
+
+Keeper leagues are a hybrid of redraft and dynasty league formats.
+Keeper leagues allow for teams to redraft their roster each off-season with the exception of a few players they chose to carry over from the previous season.
+Finding late round values or sleepers in keeper leagues is valuable for building your team the next season.
+Keeper leagues can be the traditional drafting format or use the auction format.
