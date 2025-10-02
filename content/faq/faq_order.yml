@@ -9,21 +9,27 @@ categories:
     icon: football
     # Articles are loaded by reference by tagline
     articles:
+      - "How Do I Sign-Up for a NuclearFF League?"
       - "What Are the Common League Types and Formats?"
+      - "How Do I Find My League ID?"
+      - "What is the League Dues Tracker?"
       
   - name: drafting # Internal reference to category
     title: DRAFTING # Display name on FAQ page
     icon: ranking-star
     # Articles are loaded by reference by tagline
     articles:
-      - "How do you Approach Drafting?"
+      - "What is 3rd Round Reversal (3RR)?"
+      - "What is a Derby Style Draft Order?"
+      - "What are Slow Drafts?"
+      - "How Do Dynasty League Drafts Work?"
       
   - name: rosters # Internal reference to category
     title: ROSTERS # Display name on FAQ page
     icon: users-rays
     # Articles are loaded by reference by tagline
     articles:
-      - "How Are Rosters Assembled?"
+      - "How Do Injury Status Designations and IR Work?"
       - "What is a Taxi Squad?"
 
   - name: scoring # Internal reference to category
@@ -31,7 +37,11 @@ categories:
     icon: magnifying-glass-chart
     # Articles are loaded by reference by tagline
     articles:
+      - "What is PF, PA, and Max PF?"
+      - "What are Standard, Half-PPR, and PPR Leagues?"
       - "What is Extra Game Against League Median?"
+      - "Why Did My Player Lose Points for a Special Teams Fumble?"
+      - "Why Were a Player's Stats Changed?"
 
   - name: trading # Internal reference to category
     title: TRADING # Display name on FAQ page
@@ -39,13 +49,17 @@ categories:
     # Articles are loaded by reference by tagline
     articles:
       - "How Do Trade Deadlines Work?"
-      - "How Does Draft Pick Trading Work?"
+      - "Is Draft Pick Trading Allowed?"
       - "What Happens to a Trade if it is on the Weekend?"
+      - "What are Exploding Trades and Why Should I Use Them?"
+      - "When Accepting a Trade, Can the Trade Be Vetoed?"
 
   - name: waivers # Internal reference to category
     title: WAIVER WIRE # Display name on FAQ page
     icon: user-plus
     # Articles are loaded by reference by tagline
     articles:
-      - "How Does the Waiver Wire Work?"
-      - "What is FAAB?"
+      - "What are the Different Types of Waivers?"
+      - "What is FAAB and How Does It Work?"
+      - "How Do Waivers Change in the Off-Season?"
+      - "What is the 24-Hour Rule for Free Agents?"
