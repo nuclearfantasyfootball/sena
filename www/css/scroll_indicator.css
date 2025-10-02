@@ -7,9 +7,9 @@
 /* TODO TRANSPARENT GLASS NAVBAR */
 /* TODO ADD QUOTE BLOCK FOR ARTICLES */
 .scroll-indicator {
-  position: fixed;
-  bottom: 5%;  /* Positioned below the electrified button */
-  right: 5%;   /* Aligned with electrified button */
+  position: fixed !important;
+  bottom: 5% !important;  /* Positioned below the electrified button */
+  right: 5% !important;   /* Aligned with electrified button */
   z-index: 100;
   cursor: pointer;
   display: flex;
@@ -17,22 +17,19 @@
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  animation: fadeInUp 1s ease-out 3s forwards; /* Delay to appear after button */
+  animation: fadeInScroll 1s ease-out 3s forwards; /* Use new animation */
 }
 
-/* For sections 2-4, use fixed positioning to keep indicator visible */
-.second .scroll-indicator,
-.third .scroll-indicator,
-.fourth .scroll-indicator {
-  position: fixed !important;
-  bottom: 11% !important;
-  right: 5% !important;
-  animation-delay: 0.5s; /* Faster appearance on these sections */
-}
-
-/* Special positioning for section 2 with card content */
-.second .scroll-indicator {
-  bottom: 11% !important; /* Slightly lower to avoid card overlap */
+/* New animation without vertical translation */
+@keyframes fadeInScroll {
+  from {
+    opacity: 0;
+    transform: scale(0.8); /* Scale instead of translate */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Arrow container */
