@@ -1,0 +1,21 @@
+# Render .Rmd Content to HTML
+name: Render Rmd Articles
+on:
+    push:
+      paths:
+        - 'content/**/*.Rmd'
+    pull_request:
+      paths:
+        - 'content/**/*.Rmd'
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-r@v2
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: rmarkdown
+      - name: Render Rmd files
+        run: Rscript -e 'rmarkdown::render_site("content")'
